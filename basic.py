@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 def get_input_code(variable_name):
-    return f'{variable_name} = input("Enter a value for {variable_name}: ")'
+    return f'{variable_name} = int(input("Enter a value for {variable_name}: "))'
 
 def print_variable_to_terminal(variable_name):
     return(f'print({variable_name})')
@@ -16,11 +16,13 @@ def replace_target_string(strings_list, target_string, new_string):
         return new_list
 
 
-action_type =   {
-                    "shape=parallelogram;html=1;strokeWidth=2;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=1;arcSize=12;size=0.23;" : "input",
-                    "rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" : "process",
-                    "rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;" : "decision",
-                    "shape=tape;whiteSpace=wrap;html=1;strokeWidth=2;size=0.19" : "print"
+action_type =   {   
+                    "strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" : "start",
+                    "strokeWidth=2;html=1;shape=mxgraph.flowchart.stored_data;whiteSpace=wrap;" : "input",
+                    "rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" : "process",
+                    "strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" : "decision",
+                    "strokeWidth=2;html=1;shape=mxgraph.flowchart.display;whiteSpace=wrap;" : "print",
+                    "strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" : "end"
                 }
 
 def handle_node(node,function_lines):
@@ -33,30 +35,45 @@ def handle_node(node,function_lines):
             command = get_input_code(var)
             function_lines.append(command)
         elif action == "decision" :
-            print("came here")
             lst = list(node.get("value").split(" "))
-            print(lst)
-            newlst = replace_target_string(lst,"&gt;","<")
-            print(newlst)
-            command = ' '.join(newlst)
+            newlst = replace_target_string(lst,"&gt;",">")
+            condition = ['if'] + newlst + [':']
+            command = ' '.join(condition)
             function_lines.append(command)
         elif action == "process":
             function_lines.append(node.get("value"))
         elif action == "print":
-            command = print_variable_to_terminal(str(node.get("value")))
+            toPrint = (list(node.get("value").split(":"))[1]).strip()
+            command = print_variable_to_terminal(str(toPrint))
             function_lines.append(command)
+        elif action == "start":
+            function_lines.append("# Start of the program")
+        elif action == "end":
+            function_lines.append("# End of the program")
     except:
         print("Not a node")
 
+def handle_next_node(start_node,root,commands):
 
-tree = ET.parse('version1.xml')
-root = tree.getroot()
+    current_node = start_node
+    edge_condition = ".//mxCell[@source='" + str(current_node.get("id")) + "']"
 
-function_data = []
+    out_edges = root.findall(".//mxCell[@edge='1']" and edge_condition) 
 
-for node in root.iter('mxCell'):
+    edge_count = len(out_edges)
 
-    handle_node(node,function_data)
+    while (edge_count>0):
+
+        vertex_condition = ".//mxCell[@id='" + str(out_edges[0].get("target")) + "']" 
+        edge_condition = ".//mxCell[@source='" + str(out_edges[0].get("target")) + "']"
+
+        current_node = root.findall(vertex_condition)
+
+        handle_node(current_node[0],commands)
+
+        out_edges = root.findall(".//mxCell[@edge='1']" and edge_condition) 
+
+        edge_count = len(out_edges)
 
 def save_python_commands_to_file(commands, file_name):
     # open the file for writing
@@ -66,6 +83,18 @@ def save_python_commands_to_file(commands, file_name):
             f.write(command + '\n')
     
     print(f'Saved {len(commands)} lines of Python code to file {file_name}')
+
+
+tree = ET.parse('sequential.xml')
+root = tree.getroot()
+
+function_data = []
+
+start_cell = root.findall(".//mxCell[@style='strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;']") 
+
+function_data.append("# Start of the program")
+
+handle_next_node(start_cell[0],root,function_data)
 
 save_python_commands_to_file(function_data, 'result.py')
 

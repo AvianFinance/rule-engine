@@ -1,5 +1,0 @@
-{
-    "shape=parallelogram;html=1;strokeWidth=2;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=1;arcSize=12;size=0.23;" : "Input",
-    "rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" : "process",
-    "strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" : "decision"
-}
