@@ -65,6 +65,22 @@ def write_events():
 
     return(commands)
 
+def write_modifiers():
+
+    commands = []
+
+    with open('./json-functions/sell-logic/modifiers.json') as f:
+        data = json.load(f)
+
+    for key, value in data.items():
+        command = "modifier " + str(key)
+        for param in value:
+            command = command + "\t"*2 + str(param) + "\n"
+        command = command + "\t}\n"
+        commands.append(command)
+
+    return(commands)
+
 
 def edit_string(strings, X):
     concatenated_string = ""
