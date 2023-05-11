@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4; 
+
+import @openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol;
+import @openzeppelin/contracts/security/ReentrancyGuard.sol;
+import @openzeppelin/contracts/utils/structs/EnumerableSet.sol;
+import @openzeppelin/contracts/interfaces/IERC721.sol;
+import @openzeppelin/contracts/utils/Counters.sol;
+
+error PriceNotMet(address nftAddress, uint256 tokenId, uint256 price);
+error ItemNotForSale(address nftAddress, uint256 tokenId);
+error NotListed(address nftAddress, uint256 tokenId);
+error AlreadyListed(address nftAddress, uint256 tokenId);
+error NoProceeds();
+error NotOwner();
+error NotApprovedForMarketplace();
+error PriceMustBeAboveZero();
+
+contract AvianSellExchange is ReentrancyGuard { 
+
+	using Counters for Counters.Counter;
+	using EnumerableSet for EnumerableSet.AddressSet;
+	using EnumerableSet for EnumerableSet.UintSet;
+
+	struct Listing_sell {address owner;address nftContract;uint256 tokenId;uint256 price;}
+
+	event ItemListed(address indexed seller,address indexed nftAddress,uint256 indexed tokenId,uint256 price);
+	event ItemCanceled(address indexed seller,address indexed nftAddress,uint256 indexed tokenId);
+	event ItemBought(address indexed buyer,address indexed nftAddress,uint256 indexed tokenId,uint256 price);
+
+} 
+
