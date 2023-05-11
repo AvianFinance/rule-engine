@@ -1,7 +1,7 @@
 from converters.sell import write_imports,write_errors,write_libraries,write_structs,write_events,write_modifiers
 from converters.sell import edit_string
 
-file_path = "sell-logic.txt"
+file_path = "sell-logic.sol"
 contract_name = "AvianSellExchange"
 
 to_convert = ["imports","errors","start","libraries","structs","events","modifiers","end"]

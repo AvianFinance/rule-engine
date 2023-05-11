@@ -89,6 +89,5 @@ def edit_string(strings, X):
         tabbed_string = "\t" * X + string
         concatenated_string += tabbed_string + "\n"
 
-    print(concatenated_string)
     return concatenated_string
 
