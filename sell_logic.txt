@@ -76,5 +76,18 @@ contract AvianSellExchange is ReentrancyGuard {
 	}
 
 
+	function listItem(address nftAddress, uint256 tokenID, uint256 tokenID) external
+		notSListed(nftAddress, tokenId)
+	returns(string memory){
+		require(isNFT(nftAddress),'Contract is not an ERC721');
+		require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
+		require(price > 0,'listing price should be greater than 0');
+	
+
+		emit ItemListed(msg.sender, nftAddress, tokenId, price);
+
+		returns('NFT Listed successfully for upright selling');
+}
+
 } 
 

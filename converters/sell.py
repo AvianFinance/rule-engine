@@ -1,4 +1,7 @@
 import json
+from converters.function import build_function
+
+function_names = ["list_item.json"]
 
 def write_imports(): 
 
@@ -100,6 +103,16 @@ def write_constructor():
         commands.append("\t" + str(value) + ";")
 
     commands.append("}\n")
+
+    return(commands)
+
+def write_body():
+
+    commands = []
+
+    for function_name in function_names:
+        for f_body in build_function("./json-functions/sell-logic/" + function_name):
+            commands.append(f_body)
 
     return(commands)
 

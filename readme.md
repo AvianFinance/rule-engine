@@ -1,4 +1,4 @@
-# Heart Disease Classification
+# Solidity Smart Contract Rule Engine
 
 ### Create the environment
 
@@ -17,17 +17,11 @@
 ### Install the requirements
 
 ```
-    pip3 install -r req.txt
+    pip3 install -r requirements.txt
 ```
 
 ### Run the pipeline for classification
 
 ```
-    python app.py
-```
-
-### Generate the data profile
-
-```
-    python data-profile.py
+    python compile-sell.py
 ```

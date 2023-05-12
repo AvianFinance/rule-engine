@@ -1,10 +1,10 @@
-from converters.sell import write_imports,write_errors,write_libraries,write_structs,write_events,write_modifiers,write_variables,write_constructor
+from converters.sell import write_imports,write_errors,write_libraries,write_structs,write_events,write_modifiers,write_variables,write_constructor,write_body
 from converters.sell import edit_string
 
 file_path = "sell_logic.txt"
 contract_name = "AvianSellExchange"
 
-to_convert = ["imports","errors","start","libraries","structs","events","modifiers","state_variables","constructor","end"]
+to_convert = ["imports","errors","start","libraries","structs","events","modifiers","state_variables","constructor","body","end"]
 function_str_list = ["// SPDX-License-Identifier: MIT","pragma solidity ^0.8.4; \n"]
 
 for section in to_convert:
@@ -30,6 +30,8 @@ for section in to_convert:
         function_str_list.append(edit_string(write_variables(),1))
     elif (section == "constructor"):
         function_str_list.append(edit_string(write_constructor(),1))
+    elif (section == "body"):
+        function_str_list.append(edit_string(write_body(),1))
 
 
     # Function body ends here 
