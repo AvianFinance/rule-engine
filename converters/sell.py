@@ -1,7 +1,6 @@
 import json
 from converters.function import build_function
-
-function_names = ["list_item.json","cancel_listing.json","buy_item.json","update_listing.json","withdraw.json","is_nft.json"]
+import os
 
 def write_imports(): 
 
@@ -108,16 +107,21 @@ def write_constructor():
 
 def write_body():
 
+    directory = "./json-functions/sell-logic/functions/"  # Replace with the actual directory path
+
+    file_paths = []
+    for filename in os.listdir(directory):
+        filepath = os.path.join(directory, filename)
+        if os.path.isfile(filepath):
+            file_paths.append(filepath)
+
     commands = []
 
-    for function_name in function_names:
-        for f_body in build_function("./json-functions/sell-logic/functions/" + function_name):
+    for function_name in file_paths:
+        for f_body in build_function(function_name):
             commands.append(f_body)
 
     return(commands)
-
-
-
 
 def edit_string(strings, X):
     concatenated_string = ""
