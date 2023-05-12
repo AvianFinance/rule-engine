@@ -1,0 +1,12 @@
+{
+    "function_name" : "withdrawProceeds",
+    "input_parameters" : "",
+    "visibility" : "external",
+    "state_mutability" : "payable",
+    "modifiers" : [],
+    "returns" : "string memory",
+    "requires" : [],
+    "body" : "none",
+    "events" : "",
+    "return_line" : "'Successfully transferred the proceeds'"
+}

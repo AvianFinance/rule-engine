@@ -1,7 +1,7 @@
 import json
 from converters.function import build_function
 
-function_names = ["list_item.json"]
+function_names = ["list_item.json","cancel_listing.json","buy_item.json","update_listing.json","withdraw.json","is_nft.json"]
 
 def write_imports(): 
 
@@ -111,7 +111,7 @@ def write_body():
     commands = []
 
     for function_name in function_names:
-        for f_body in build_function("./json-functions/sell-logic/" + function_name):
+        for f_body in build_function("./json-functions/sell-logic/functions/" + function_name):
             commands.append(f_body)
 
     return(commands)

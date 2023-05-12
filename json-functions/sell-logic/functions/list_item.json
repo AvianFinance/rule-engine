@@ -1,6 +1,6 @@
 {
     "function_name" : "listItem",
-    "input_parameters" : "address nftAddress, uint256 tokenID, uint256 tokenID",
+    "input_parameters" : "address nftAddress, uint256 tokenID, uint256 price",
     "visibility" : "external",
     "state_mutability" : "none",
     "modifiers" : ["notSListed(nftAddress, tokenId)"],
@@ -8,5 +8,5 @@
     "requires" : [["isNFT(nftAddress)", "Contract is not an ERC721"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"],["price > 0","listing price should be greater than 0"]],
     "body" : "none",
     "events" : "ItemListed(msg.sender, nftAddress, tokenId, price)",
-    "return_line" : "NFT Listed successfully for upright selling"
+    "return_line" : "'NFT Listed successfully for upright selling'"
 }

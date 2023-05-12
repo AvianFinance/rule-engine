@@ -1,0 +1,12 @@
+{
+    "function_name" : "updateListing",
+    "input_parameters" : "address nftAddress, uint256 tokenId, uint256 newPrice",
+    "visibility" : "external",
+    "state_mutability" : "payable",
+    "modifiers" : ["isSListed(nftAddress, tokenId)","nonReentrant","isOwner(nftAddress, tokenId, msg.sender)"],
+    "returns" : "string memory",
+    "requires" : [["newPrice > 0","listing price should be greater than 0"]],
+    "body" : "none",
+    "events" : "ItemListed(msg.sender, nftAddress, tokenId, newPrice)",
+    "return_line" : "'Successfully updated the listing'"
+}

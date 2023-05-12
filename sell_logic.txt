@@ -76,7 +76,7 @@ contract AvianSellExchange is ReentrancyGuard {
 	}
 
 
-	function listItem(address nftAddress, uint256 tokenID, uint256 tokenID) external
+	function listItem(address nftAddress, uint256 tokenID, uint256 price) external
 		notSListed(nftAddress, tokenId)
 	returns(string memory){
 		require(isNFT(nftAddress),'Contract is not an ERC721');
@@ -87,7 +87,59 @@ contract AvianSellExchange is ReentrancyGuard {
 		emit ItemListed(msg.sender, nftAddress, tokenId, price);
 
 		returns('NFT Listed successfully for upright selling');
-}
+	}
+
+	function cancelListing(address nftAddress, uint256 tokenID) external
+		isOwner(nftAddress, tokenId, msg.sender)
+		isSListed(nftAddress, tokenId)
+	returns(string memory){
+	
+
+		emit ItemCanceled(msg.sender, nftAddress, tokenId);
+
+		returns('NFT unlisted successfully');
+	}
+
+	function buyItem(address nftAddress, uint256 tokenId) external payable
+		isSListed(nftAddress, tokenId)
+		nonReentrant
+	returns(string memory){
+	
+
+		emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
+
+		returns('NFT successfully Bought');
+	}
+
+	function updateListing(address nftAddress, uint256 tokenId, uint256 newPrice) external payable
+		isSListed(nftAddress, tokenId)
+		nonReentrant
+		isOwner(nftAddress, tokenId, msg.sender)
+	returns(string memory){
+		require(newPrice > 0,'listing price should be greater than 0');
+	
+
+		emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
+
+		returns('Successfully updated the listing');
+	}
+
+	function withdrawProceeds() external payable
+	returns(string memory){
+	
+
+		returns('Successfully transferred the proceeds');
+	}
+
+	function isNFT(address nftContract) public view
+	returns(bool){
+	
+
+		emit ItemCanceled(msg.sender, nftAddress, tokenId);
+
+		returns(NFT unlisted successfully);
+	}
+
 
 } 
 

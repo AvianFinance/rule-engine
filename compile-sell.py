@@ -38,9 +38,6 @@ for section in to_convert:
     
     elif (section == "end"):
         function_str_list.append("} \n")
-    
-print(function_str_list)
-
 
 with open(file_path, 'w') as file:
     for section in function_str_list:

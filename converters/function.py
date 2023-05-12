@@ -14,15 +14,17 @@ def build_function(path):
 
     commands.append(command)
 
-    for modifier in data["modifiers"]:
-        command = "\t" + modifier
-        commands.append(command)
+    if (len(data["modifiers"])>0):
+        for modifier in data["modifiers"]:
+            command = "\t" + modifier
+            commands.append(command)
 
     commands.append("returns(" + data["returns"] + "){")
 
-    for req in data["requires"]:
-        command = "\trequire(" + req[0] + ",'" + req[1] + "');"
-        commands.append(command)
+    if (len(data["requires"])>0):
+        for req in data["requires"]:
+            command = "\trequire(" + req[0] + ",'" + req[1] + "');"
+            commands.append(command)
     
     commands.append("\n")
 
@@ -30,14 +32,12 @@ def build_function(path):
 
     # function body ends
 
-    commands.append("\temit " + data["events"] + ";\n")
+    if (len(data["events"])>0):
+        commands.append("\temit " + data["events"] + ";\n")
 
-    commands.append("\treturns('" + data["return_line"] + "');\n}")
+    commands.append("\treturns(" + data["return_line"] + ");\n\t}\n")
 
     return(commands)
-
-for cmd in build_function('./json-functions/sell-logic/list_item.json'):
-    print(cmd)
 
 
 

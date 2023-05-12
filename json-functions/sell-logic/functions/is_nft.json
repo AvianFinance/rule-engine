@@ -1,0 +1,12 @@
+{
+    "function_name" : "isNFT",
+    "input_parameters" : "address nftContract",
+    "visibility" : "public",
+    "state_mutability" : "view",
+    "modifiers" : [],
+    "returns" : "bool",
+    "requires" : [],
+    "body" : "none",
+    "events" : "ItemCanceled(msg.sender, nftAddress, tokenId)",
+    "return_line" : "NFT unlisted successfully"
+}
