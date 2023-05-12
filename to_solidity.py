@@ -26,4 +26,4 @@ def save_python_commands_to_file(command, file_name):
     with open(file_name, 'w') as f:
         f.write(command)
 
-save_python_commands_to_file(f_content, "try.txt")
+save_python_commands_to_file(f_content, "f_body.txt")

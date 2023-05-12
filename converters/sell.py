@@ -1,6 +1,6 @@
 import json
 
-def write_imports(): # Isuru
+def write_imports(): 
 
     commands = []
 
@@ -12,7 +12,7 @@ def write_imports(): # Isuru
 
     return(commands)
 
-def write_errors(): # Isuru
+def write_errors():
 
     commands = []
     with open('./json-functions/sell-logic/errors.json') as f:
@@ -73,13 +73,37 @@ def write_modifiers():
         data = json.load(f)
 
     for key, value in data.items():
-        command = "modifier " + str(key)
-        for param in value:
-            command = command + "\t"*2 + str(param) + "\n"
+        command = "modifier " + str(key) + value[0] + "\n"
+        for i in range(1,len(value)):
+            command = command + "\t"*2 + str(value[i]) + "\n"
         command = command + "\t}\n"
         commands.append(command)
 
     return(commands)
+
+def write_variables():
+
+    commands = ["// state variables to match as in the proxy context (order should be maintained)\n"]
+    with open('./json-functions/sell-logic/state_variables.json') as f:
+        data = json.load(f)
+    for key, value in data.items():
+        commands.append(str(value) + ";\n")
+
+    return(commands)
+
+def write_constructor():
+
+    commands = ["constructor() {"]
+    with open('./json-functions/sell-logic/constructor.json') as f:
+        data = json.load(f)
+    for key, value in data.items():
+        commands.append("\t" + str(value) + ";")
+
+    commands.append("}\n")
+
+    return(commands)
+
+
 
 
 def edit_string(strings, X):
