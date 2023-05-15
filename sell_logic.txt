@@ -83,6 +83,15 @@ contract AvianSellExchange is ReentrancyGuard {
 		require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
 		require(price > 0,'listing price should be greater than 0');
 	
+		IERC721 nft = IERC721(nftAddress);
+		if (nft.getApproved(tokenID) != address(this)) {
+		    revert NotApprovedForMarketplace();
+		}
+
+		s_listings[nftAddress][tokenID] = Listing_sell(msg.sender,nftAddress,tokenID,price);
+		s_listed.increment();
+		EnumerableSet.add(s_address_tokens[nftAddress],tokenID);
+		EnumerableSet.add(s_address,nftAddress);
 
 		emit ItemListed(msg.sender, nftAddress, tokenId, price);
 
@@ -96,7 +105,6 @@ contract AvianSellExchange is ReentrancyGuard {
 	returns(string memory){
 		require(newPrice > 0,'listing price should be greater than 0');
 	
-
 		emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
 
 		returns('Successfully updated the listing');
@@ -107,7 +115,6 @@ contract AvianSellExchange is ReentrancyGuard {
 		isSListed(nftAddress, tokenId)
 	returns(string memory){
 	
-
 		emit ItemCanceled(msg.sender, nftAddress, tokenId);
 
 		returns('NFT unlisted successfully');
@@ -118,7 +125,6 @@ contract AvianSellExchange is ReentrancyGuard {
 		nonReentrant
 	returns(string memory){
 	
-
 		emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
 
 		returns('NFT successfully Bought');
@@ -127,14 +133,12 @@ contract AvianSellExchange is ReentrancyGuard {
 	function withdrawProceeds() external payable
 	returns(string memory){
 	
-
 		returns('Successfully transferred the proceeds');
 	}
 
 	function isNFT(address nftContract) public view
 	returns(bool){
 	
-
 		emit ItemCanceled(msg.sender, nftAddress, tokenId);
 
 		returns(NFT unlisted successfully);

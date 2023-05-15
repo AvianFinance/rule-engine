@@ -1,4 +1,5 @@
 import json
+from converters.build_rule import build_rule
 
 def build_function(path): 
 
@@ -26,14 +27,15 @@ def build_function(path):
             command = "\trequire(" + req[0] + ",'" + req[1] + "');"
             commands.append(command)
     
-    commands.append("\n")
+    commands.append("")
 
     # function body
 
     if (len(data["body"])>0):
-        for modifier in data["body"]:
-            command = "\t" + modifier
-            commands.append(command)
+        for rule_data in data["body"]:
+            rule_strings = build_rule(rule_data[0],rule_data[1])
+            for command in rule_strings:
+                commands.append("\t"+command)
 
     # function body ends
 
