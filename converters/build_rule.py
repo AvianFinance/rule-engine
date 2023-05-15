@@ -41,6 +41,4 @@ def build_rule(rule_name,rule_params):
     else:
         print("Invalid Rule Name")
 
-build_rule("is_approved",["nftAddress","tokenID"])
-
 
