@@ -23,5 +23,5 @@
 ### Run the pipeline for classification
 
 ```
-    python compile-sell.py
+    python compile.py
 ```

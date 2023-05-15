@@ -1,5 +1,5 @@
 import json
-from converters.function import build_function
+from converters.build_function import build_function
 import os
 
 def write_imports(): 
