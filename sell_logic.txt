@@ -76,13 +76,30 @@ contract AvianSellExchange is ReentrancyGuard {
 	}
 
 
-	function isNFT(address nftContract) public view
-	returns(bool){
+	function listItem(address nftAddress, uint256 tokenID, uint256 price) external
+		notSListed(nftAddress, tokenId)
+	returns(string memory){
+		require(isNFT(nftAddress),'Contract is not an ERC721');
+		require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
+		require(price > 0,'listing price should be greater than 0');
 	
 
-		emit ItemCanceled(msg.sender, nftAddress, tokenId);
+		emit ItemListed(msg.sender, nftAddress, tokenId, price);
 
-		returns(NFT unlisted successfully);
+		returns('NFT Listed successfully for upright selling');
+	}
+
+	function updateListing(address nftAddress, uint256 tokenId, uint256 newPrice) external payable
+		isSListed(nftAddress, tokenId)
+		nonReentrant
+		isOwner(nftAddress, tokenId, msg.sender)
+	returns(string memory){
+		require(newPrice > 0,'listing price should be greater than 0');
+	
+
+		emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
+
+		returns('Successfully updated the listing');
 	}
 
 	function cancelListing(address nftAddress, uint256 tokenID) external
@@ -107,19 +124,6 @@ contract AvianSellExchange is ReentrancyGuard {
 		returns('NFT successfully Bought');
 	}
 
-	function updateListing(address nftAddress, uint256 tokenId, uint256 newPrice) external payable
-		isSListed(nftAddress, tokenId)
-		nonReentrant
-		isOwner(nftAddress, tokenId, msg.sender)
-	returns(string memory){
-		require(newPrice > 0,'listing price should be greater than 0');
-	
-
-		emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
-
-		returns('Successfully updated the listing');
-	}
-
 	function withdrawProceeds() external payable
 	returns(string memory){
 	
@@ -127,17 +131,13 @@ contract AvianSellExchange is ReentrancyGuard {
 		returns('Successfully transferred the proceeds');
 	}
 
-	function listItem(address nftAddress, uint256 tokenID, uint256 price) external
-		notSListed(nftAddress, tokenId)
-	returns(string memory){
-		require(isNFT(nftAddress),'Contract is not an ERC721');
-		require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
-		require(price > 0,'listing price should be greater than 0');
+	function isNFT(address nftContract) public view
+	returns(bool){
 	
 
-		emit ItemListed(msg.sender, nftAddress, tokenId, price);
+		emit ItemCanceled(msg.sender, nftAddress, tokenId);
 
-		returns('NFT Listed successfully for upright selling');
+		returns(NFT unlisted successfully);
 	}
 
 

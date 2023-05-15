@@ -30,6 +30,11 @@ def build_function(path):
 
     # function body
 
+    if (len(data["body"])>0):
+        for modifier in data["body"]:
+            command = "\t" + modifier
+            commands.append(command)
+
     # function body ends
 
     if (len(data["events"])>0):

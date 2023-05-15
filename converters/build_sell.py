@@ -115,6 +115,8 @@ def write_body():
         if os.path.isfile(filepath):
             file_paths.append(filepath)
 
+    file_paths = sorted(file_paths)
+
     commands = []
 
     for function_name in file_paths:

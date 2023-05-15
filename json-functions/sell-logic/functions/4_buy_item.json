@@ -6,7 +6,7 @@
     "modifiers" : ["isSListed(nftAddress, tokenId)","nonReentrant"],
     "returns" : "string memory",
     "requires" : [],
-    "body" : "none",
+    "body" : [],
     "events" : "ItemBought(msg.sender, nftAddress, tokenId, listedItem.price)",
     "return_line" : "'NFT successfully Bought'"
 }

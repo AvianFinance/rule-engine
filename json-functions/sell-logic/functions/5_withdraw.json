@@ -6,7 +6,7 @@
     "modifiers" : [],
     "returns" : "string memory",
     "requires" : [],
-    "body" : "none",
+    "body" : [],
     "events" : "",
     "return_line" : "'Successfully transferred the proceeds'"
 }

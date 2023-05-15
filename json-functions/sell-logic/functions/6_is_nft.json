@@ -6,7 +6,7 @@
     "modifiers" : [],
     "returns" : "bool",
     "requires" : [],
-    "body" : "none",
+    "body" : [],
     "events" : "ItemCanceled(msg.sender, nftAddress, tokenId)",
     "return_line" : "NFT unlisted successfully"
 }
