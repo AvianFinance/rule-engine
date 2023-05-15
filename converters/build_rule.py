@@ -18,10 +18,16 @@ def write_listing(params):
 
     return(commands)
 
+def update_listing(params):
+            
+    commands = [str("s_listings["+params[0]+"]["+params[1]+"].price = " + params[2] + ";\n")]
+
+    return(commands)
+
 function_map = {
     "is_approved" : is_approved,
     "write_listing" : write_listing,
-    "update_listing" : "update_listing",
+    "update_listing" : update_listing,
     "delete_listing" : "function3",
     "load_listing" : "function4",
     "is_price_sufficient" : "function5",

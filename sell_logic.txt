@@ -105,6 +105,8 @@ contract AvianSellExchange is ReentrancyGuard {
 	returns(string memory){
 		require(newPrice > 0,'listing price should be greater than 0');
 	
+		s_listings[nftAddress][tokenID].price = price;
+
 		emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
 
 		returns('Successfully updated the listing');
