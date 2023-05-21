@@ -1,0 +1,13 @@
+{
+    "function_name" : "updateRentNFT",
+    "input_parameters" : "address nftAddress, uint256 tokenID, uint256 pricePerDay",
+    "visibility" : "external",
+    "state_mutability" : "none",
+    "modifiers" : ["nonReentrant","isSListed(nftAddress, tokenId)"],
+    "returns" : "string memory",
+    "requires" : [["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"], ["pricePerDay > 0", "Rental price should be greater than 0"]],
+    "body" : [["updateRentalList",["nftAddress","tokenID"]]],
+    "events" : "NFTListed(listing.owner, listing.user, nftAddress, tokenId, pricePerDay, listing.expires)",
+    "return_line" : "'NFT Successfully listed'"
+}
+

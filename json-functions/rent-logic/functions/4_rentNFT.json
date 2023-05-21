@@ -1,0 +1,14 @@
+{
+    "function_name" : "rentNFT",
+    "input_parameters" : "address nftAddress, uint256 tokenId, uint64 numDays",
+    "visibility" : "external",
+    "state_mutability" : "payable",
+    "modifiers" : ["nonReentrant"],
+    "returns" : "string memory",
+    "requires" : [["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"], ["listing.user == address(0) || block.timestamp > listing.expires", "NFT already rented"]],
+    "body" : [],
+    "events" : "NFTRented(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, rentalFee)",
+    "return_line" : "'NFT successfully rented'"
+}
+
+
