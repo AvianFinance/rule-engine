@@ -1,0 +1,12 @@
+{
+    "function_name" : "payNFTIns",
+    "input_parameters" : "address nftContract, uint256 tokenId",
+    "visibility" : "public",
+    "state_mutability" : "payable",
+    "modifiers" : ["nonReentrant"],
+    "returns" : "string memory",
+    "requires" : [],
+    "body" : [],
+    "events" : "NFTINSPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, listing.installmentCount, nextIndex, nextIns, totalPaid);",
+    "return_line" : "'Successfully paid the installment'"
+}

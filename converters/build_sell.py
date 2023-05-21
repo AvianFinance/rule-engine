@@ -2,6 +2,10 @@ import json
 from converters.build_function import build_function
 import os
 
+type = "ins-logic"
+# type = "rent-logic"
+# type = "sell-logic"
+
 def write_imports(): 
 
     commands = []

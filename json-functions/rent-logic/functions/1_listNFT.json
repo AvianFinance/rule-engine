@@ -1,0 +1,12 @@
+{
+    "function_name" : "listItem",
+    "input_parameters" : "address nftAddress, uint256 tokenID, uint256 pricePerDay",
+    "visibility" : "external",
+    "state_mutability" : "payable",
+    "modifiers" : ["nonReentrant", "notRListed(nftAddress, tokenId)"],
+    "returns" : "string memory",
+    "requires" : [["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"], ["msg.value == _listingFee", "Not enough ether for listing fee"], ["pricePerDay > 0", "Rental price should be greater than 0"]],
+    "body" : [["is_approved",["nftAddress","tokenID"]],["write_listing_rental",["nftAddress","tokenID","pricePerDay"]]],
+    "events" : "NFTListed(IERC721(nftAddress).ownerOf(tokenId), address(0), nftAddress, tokenId, pricePerDay, 0)" ,
+    "return_line" : "'NFT Successfully listed'"
+}
