@@ -125,12 +125,57 @@ def delete_listing(params):
 
     return(commands)
 
+def load_listing(params):
+
+    if params[0] == "sell":
+        command = "Listing_sell memory listedItem = s_listings"
+    elif params[1] == "rent":
+        command = "Listing_rent memory listedItem = r_listings"
+    elif params[1] == "ins":
+        command = "Listing_installment memory listedItem = i_listings"
+
+    command = command + "["+params[1]+"]["+params[2]+"];\n"
+
+    return([command])
+
+def is_price_met(params):
+            
+    commands = [str("if (msg.value < listedItem.price) {")]
+    commands.append(str("revert PriceNotMet(nftAddress, tokenId, listedItem.price);"))
+    commands.append("}\n")
+
+    return(commands)
+
+def add_proceeds(params):
+
+    command = "s_proceeds"
+
+    if params[0] == "sell":
+        command = "s_proceeds"
+    elif params[1] == "rent":
+        command = "r_proceeds"
+    elif params[1] == "ins":
+        command = "i_proceeds"
+
+    command = command + "[listedItem.owner] += msg.value;\n"
+
+    return([command])
+
+
+
+def owner_transfer(params):
+
+    command = "IERC721("+ params[0] + ").safeTransferFrom(listedItem.owner, msg.sender, " + params[1] + ");\n"
+
+    return([command])
+
+
 function_map = {
     "is_approved" : is_approved,
     "write_listing" : write_listing,
     "update_listing" : update_listing,
     "delete_listing" : delete_listing,
-    "load_listing" : "function4",
+    "load_listing" : load_listing,
     "is_price_sufficient" : "function5",
     "add_proceeds" : "function6",
     "transfer_owner" : "function7",
@@ -142,7 +187,10 @@ function_map = {
     "isNFT" : isNFT,
     "write_listing_installment" : write_listing_installment,
     "unlistInsNFT" : unlistInsNFT,
-    "calculateInstallmentNFT" : calculateInstallmentNFT
+    "calculateInstallmentNFT" : calculateInstallmentNFT,
+    "is_price_met" : is_price_met,
+    "add_proceeds" : add_proceeds,
+    "owner_transfer" : owner_transfer
 }
 
 def build_rule(rule_name,rule_params):
