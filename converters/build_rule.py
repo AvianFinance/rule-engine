@@ -198,8 +198,6 @@ def build_rule(rule_name,rule_params):
     if rule_name in function_map:
         selected_function = function_map[rule_name]
         result = selected_function(rule_params)
-        for command in result:
-            print(command)
         return(result)
     else:
         print("Invalid Rule Name")
