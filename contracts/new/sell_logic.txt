@@ -44,7 +44,7 @@ contract AvianSellExchange is ReentrancyGuard {
 		_;
 	}
 
-	modifier isOwner(address nftAddress,uint256 tokenId,address spender) {
+	modifier isOwner(address nftAddress, uint256 tokenId, address spender) {
 		IERC721 nft = IERC721(nftAddress);
 		address owner = nft.ownerOf(tokenId);
 		if (spender != owner) {
