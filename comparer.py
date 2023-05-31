@@ -6,8 +6,10 @@ def compare_files(file1_path, file2_path):
     
     return "Looks great! Files are similar."
 
-file1_path = 'contracts/main/sell_logic.txt'
-file2_path = 'contracts/new/sell_logic.txt'
+contract_type = "ins"
+
+file1_path = 'contracts/main/' + contract_type + '_logic.txt'
+file2_path = 'contracts/new/' + contract_type + '_logic.txt'
 
 result = compare_files(file1_path, file2_path)
 print(result)

@@ -2,15 +2,11 @@ import json
 from converters.build_function import build_function
 import os
 
-type = "ins-logic"
-# type = "rent-logic"
-# type = "sell-logic"
-
-def write_imports(): 
+def write_imports(c_type): 
 
     commands = []
 
-    with open('./json-functions/sell-logic/imports.json') as f:
+    with open('./json-functions/' + c_type + '/imports.json') as f:
         data = json.load(f)
 
     for key, value in data.items():
@@ -18,32 +14,32 @@ def write_imports():
 
     return(commands)
 
-def write_errors():
+def write_errors(c_type):
 
     commands = []
-    with open('./json-functions/sell-logic/errors.json') as f:
+    with open('./json-functions/' + c_type + '/errors.json') as f:
         data = json.load(f)
     for key, value in data.items():
         commands.append("error " + str(value) + ";")
 
     return(commands)
 
-def write_libraries(): # Isuru
+def write_libraries(c_type): # Isuru
 
     commands = []
     
-    with open('./json-functions/sell-logic/libraries.json') as f:
+    with open('./json-functions/' + c_type + '/libraries.json') as f:
         data = json.load(f)
     for key, value in data.items():
         commands.append("using " + str(value) + ";")
 
     return(commands)
 
-def write_structs():
+def write_structs(c_type):
 
     commands = []
 
-    with open('./json-functions/sell-logic/structs.json') as f:
+    with open('./json-functions/' + c_type + '/structs.json') as f:
         data = json.load(f)
 
     for key, value in data.items():
@@ -55,11 +51,11 @@ def write_structs():
 
     return(commands)
 
-def write_events():
+def write_events(c_type):
 
     commands = []
 
-    with open('./json-functions/sell-logic/events.json') as f:
+    with open('./json-functions/' + c_type + '/events.json') as f:
         data = json.load(f)
 
     for key, value in data.items():
@@ -71,11 +67,11 @@ def write_events():
 
     return(commands)
 
-def write_modifiers():
+def write_modifiers(c_type):
 
     commands = []
 
-    with open('./json-functions/sell-logic/modifiers.json') as f:
+    with open('./json-functions/' + c_type + '/modifiers.json') as f:
         data = json.load(f)
 
     for key, value in data.items():
@@ -87,20 +83,22 @@ def write_modifiers():
 
     return(commands)
 
-def write_variables():
+def write_variables(c_type):
 
     commands = ["// state variables to match as in the proxy context (order should be maintained)\n"]
-    with open('./json-functions/sell-logic/state_variables.json') as f:
+
+    with open('./json-functions/' + c_type + '/state_variables.json') as f:
         data = json.load(f)
     for key, value in data.items():
         commands.append(str(value) + ";\n")
 
     return(commands)
 
-def write_constructor():
+def write_constructor(c_type):
 
     commands = ["constructor() {"]
-    with open('./json-functions/sell-logic/constructor.json') as f:
+
+    with open('./json-functions/' + c_type + '/constructor.json') as f:
         data = json.load(f)
     for key, value in data.items():
         commands.append("\t" + str(value) + ";")
@@ -109,9 +107,9 @@ def write_constructor():
 
     return(commands)
 
-def write_body():
+def write_body(c_type):
 
-    directory = "./json-functions/sell-logic/functions/"  # Replace with the actual directory path
+    directory = './json-functions/' + c_type + '/functions/'  # Replace with the actual directory path
 
     file_paths = []
     for filename in os.listdir(directory):
