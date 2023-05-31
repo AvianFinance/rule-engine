@@ -17,7 +17,6 @@ def write_listing(params):
 
     return(commands)
 
-# rental
 def write_listing_rental(params):
     commands = [str("payable(_marketOwner).transfer(_listingFee);\n")]      
     commands.append(str("s_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender, address(0)," + params[0] + "," + params[1] + "," + params[2] + "0);"))
@@ -27,17 +26,21 @@ def write_listing_rental(params):
 
     return(commands)
 
-#installment 
+def pay_listing_fee(params): 
+
+    commands = ["payable(_marketOwner).transfer(_listingFee);\n"]      
+
+    return(commands)
+
 def write_listing_installment(params):  
-    commands = [str("payable(_marketOwner).transfer(_listingFee);\n")]      
-    commands.append(str("i_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender , address(0)," + params[0] + "," + params[1] + "," + params[2] + "0);"))
+    commands = []      
+    commands.append(str("i_listings["+params[0]+"]["+params[1]+"] = Listing_installment(msg.sender,address(0)," + params[0] + "," + params[1] + "," + params[2] + ",0,0,0,0);"))
     commands.append("i_listed.increment();")
     commands.append(str("EnumerableSet.add(i_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(i_address," + params[0] + ");\n"))
 
     return(commands)
 
-# rental
 def unlistNFT(params):
     commands = [str("EnumerableSet.remove(r_address_tokens[" + params[0] + "],"+ params[1] + ");\n")]      
     commands.append(str("delete r_listings["+params[0]+"]["+params[1]+"];"))
@@ -48,9 +51,8 @@ def unlistNFT(params):
 
     return(commands)
 
-#installment
 def unlistInsNFT(params):
-    commands = [str("EnumerableSet.remove(i_address_tokens[" + params[0] + "],"+ params[1] + ");\n")]      
+    commands = [str("EnumerableSet.remove(i_address_tokens[" + params[0] + "],"+ params[1] + ");")]      
     commands.append(str("delete i_listings["+params[0]+"]["+params[1]+"];"))
     commands.append(str("if (EnumerableSet.length(i_address_tokens[" + params[0] + "]) == 0) {"))
     commands.append(str("    EnumerableSet.remove(i_address," + params[0] + ");"))
@@ -220,7 +222,8 @@ function_map = {
     "is_price_met" : is_price_met,
     "add_proceeds" : add_proceeds,
     "owner_transfer" : owner_transfer,
-    "withdraw_proceeds" : withdraw_proceeds
+    "withdraw_proceeds" : withdraw_proceeds,
+    "pay_listing_fee" : pay_listing_fee
 }
 
 def build_rule(rule_name,rule_params):

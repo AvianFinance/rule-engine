@@ -1,12 +1,12 @@
 {
-    "function_name" : "unlistNFT",
+    "function_name" : "unlistINSNFT",
     "input_parameters" : "address nftAddress, uint256 tokenId",
     "visibility" : "public",
     "state_mutability" : "none",
-    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)", "isSListed(nftAddress, tokenId)"],
+    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)", "isIListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [],
-    "body" : [["unlistInsNFT",["nftAddress","tokenID"]]],
-    "events" : "NFTUnlisted(msg.sender, nftAddress, tokenId);",
+    "body" : [["unlistInsNFT",["nftAddress","tokenId"]]],
+    "events" : "NFTUnlisted(msg.sender, nftAddress, tokenId)",
     "return_line" : "'Successfully removed the listing'"
 }
