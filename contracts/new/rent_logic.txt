@@ -129,8 +129,9 @@ contract AvianRentExchange is ReentrancyGuard {
 		require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
 		require(pricePerDay > 0,'Rental price should be greater than 0');
 	
-		Listing_rent storage listing = r_listings[nftAddress][tokenID];
+		Listing_rent storage listing = r_listings[nftAddress][tokenId];
 		listing.pricePerDay = pricePerDay;
+
 		emit NFTListed(listing.owner, listing.user, nftAddress, tokenId, pricePerDay, listing.expires);
 
 		return('NFT Successfully listed');
@@ -140,8 +141,16 @@ contract AvianRentExchange is ReentrancyGuard {
 		nonReentrant
 	returns(string memory){
 		require(numDays <= _maxInstallments,'Maximum of 10 rental days are allowed');
-		require(listing.user == address(0) || block.timestamp > listing.expires,'NFT already rented');
 	
+		Listing_rent memory listedItem = r_listings[nftAddress][tokenId];
+
+		require(listing.user == address(0) || block.timestamp > listing.expires,'NFT already rented');
+
+		IERC721 nft = IERC721(nftAddress);
+		if (nft.getApproved(tokenId) != address(this)) {
+		    revert NotApprovedForMarketplace();
+		}
+
 		emit NFTRented(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, rentalFee);
 
 		return('NFT successfully rented');
