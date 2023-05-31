@@ -160,6 +160,35 @@ def add_proceeds(params):
     command = command + "[listedItem.owner] += msg.value;\n"
 
     return([command])
+    
+def withdraw_proceeds(params):
+
+    commands = []
+
+    if params[0] == "sell":
+        commands.append("uint256 proceeds = s_proceeds[msg.sender];")
+    elif params[1] == "rent":
+        commands.append("uint256 proceeds = r_proceeds[msg.sender];")
+    elif params[1] == "ins":
+        commands.append("uint256 proceeds = i_proceeds[msg.sender];")
+
+    commands.append("if (proceeds <= 0) {")
+    commands.append("   revert NoProceeds();")
+    commands.append("}")
+
+    commands.append('(bool success, ) = payable(msg.sender).call{value: proceeds}("");')
+    commands.append('require(success,"Transfer failed");')
+
+    if params[0] == "sell":
+        commands.append("s_proceeds[msg.sender] = 0;\n")
+    elif params[1] == "rent":
+        commands.append("r_proceeds[msg.sender] = 0;\n")
+    elif params[1] == "ins":
+        commands.append("i_proceeds[msg.sender] = 0;\n")
+
+    # commands.append("\n")
+
+    return(commands)
 
 
 
@@ -190,7 +219,8 @@ function_map = {
     "calculateInstallmentNFT" : calculateInstallmentNFT,
     "is_price_met" : is_price_met,
     "add_proceeds" : add_proceeds,
-    "owner_transfer" : owner_transfer
+    "owner_transfer" : owner_transfer,
+    "withdraw_proceeds" : withdraw_proceeds
 }
 
 def build_rule(rule_name,rule_params):

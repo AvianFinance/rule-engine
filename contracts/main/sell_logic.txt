@@ -161,30 +161,31 @@ contract AvianSellExchange is ReentrancyGuard {
         return('NFT successfully Bought');
     }
 
-    // Withdraw Proceeds in the pull pattern. Used when multiple transactions are made within a single function
+    function withdrawProceeds() external 
+    returns(string memory){
 
-    function withdrawProceeds() external returns(string memory){
         uint256 proceeds = s_proceeds[msg.sender];
         if (proceeds <= 0) {
             revert NoProceeds();
         }
-        s_proceeds[msg.sender] = 0;
         (bool success, ) = payable(msg.sender).call{value: proceeds}("");
-        require(success, "Transfer failed");
+        require(success,"Transfer failed");
+        s_proceeds[msg.sender] = 0;
 
-        return("Successfully transferred the proceeds");
+        return('Successfully transferred the proceeds');
     }
 
-    // function to check whether a given address, token id pair represent a valid nft
+    function isNFT(address nftContract) public view 
+    returns(bool){
 
-    function isNFT(address nftContract) public view returns (bool) {
         bool _isNFT = false;
-
         try IERC165(nftContract).supportsInterface(type(IERC721).interfaceId) returns (bool nft) {
             _isNFT = nft;
         } catch {
             return false;
         }
-        return _isNFT;
+        return(_isNFT);
     }
+
+    
 }
