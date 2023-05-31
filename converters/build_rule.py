@@ -18,8 +18,8 @@ def write_listing(params):
     return(commands)
 
 def write_listing_rental(params):
-    commands = [str("payable(_marketOwner).transfer(_listingFee);\n")]      
-    commands.append(str("s_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender, address(0)," + params[0] + "," + params[1] + "," + params[2] + "0);"))
+    commands = []      
+    commands.append(str("r_listings["+params[0]+"]["+params[1]+"] = Listing_rent(msg.sender,address(0)," + params[0] + "," + params[1] + "," + params[2] + ",0);"))
     commands.append("r_listed.increment();")
     commands.append(str("EnumerableSet.add(r_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(r_address," + params[0] + ");\n"))
@@ -42,7 +42,7 @@ def write_listing_installment(params):
     return(commands)
 
 def unlistNFT(params):
-    commands = [str("EnumerableSet.remove(r_address_tokens[" + params[0] + "],"+ params[1] + ");\n")]      
+    commands = [str("EnumerableSet.remove(r_address_tokens[" + params[0] + "],"+ params[1] + ");")]      
     commands.append(str("delete r_listings["+params[0]+"]["+params[1]+"];"))
     commands.append(str("if (EnumerableSet.length(r_address_tokens[" + params[0] + "]) == 0) {"))
     commands.append(str("    EnumerableSet.remove(r_address," + params[0] + ");"))
