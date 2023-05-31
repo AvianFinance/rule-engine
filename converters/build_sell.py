@@ -14,7 +14,7 @@ def write_imports():
         data = json.load(f)
 
     for key, value in data.items():
-        commands.append("import " + str(value)+ ";")
+        commands.append('import "' + value + '";')
 
     return(commands)
 

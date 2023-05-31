@@ -1,7 +1,7 @@
 from converters.build_sell import write_imports,write_errors,write_libraries,write_structs,write_events,write_modifiers,write_variables,write_constructor,write_body
 from converters.build_sell import edit_string
 
-file_path = "ins_logic.txt"
+file_path = "contracts/new/ins_logic.txt"
 contract_name = "AvianInsExchange"
 
 to_convert = ["imports","errors","start","libraries","structs","events","modifiers","state_variables","constructor","body","end"]
