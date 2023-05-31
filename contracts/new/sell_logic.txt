@@ -76,7 +76,7 @@ contract AvianSellExchange is ReentrancyGuard {
 	}
 
 
-	function listItem(address nftAddress, uint256 tokenID, uint256 price) external
+	function listItem(address nftAddress, uint256 tokenId, uint256 price) external
 		notSListed(nftAddress, tokenId)
 	returns(string memory){
 		require(isNFT(nftAddress),'Contract is not an ERC721');
@@ -84,41 +84,41 @@ contract AvianSellExchange is ReentrancyGuard {
 		require(price > 0,'listing price should be greater than 0');
 	
 		IERC721 nft = IERC721(nftAddress);
-		if (nft.getApproved(tokenID) != address(this)) {
+		if (nft.getApproved(tokenId) != address(this)) {
 		    revert NotApprovedForMarketplace();
 		}
 
-		s_listings[nftAddress][tokenID] = Listing_sell(msg.sendernftAddress,tokenID,price);
+		s_listings[nftAddress][tokenId] = Listing_sell(msg.sender,nftAddress,tokenId,price);
 		s_listed.increment();
-		EnumerableSet.add(s_address_tokens[nftAddress],tokenID);
+		EnumerableSet.add(s_address_tokens[nftAddress],tokenId);
 		EnumerableSet.add(s_address,nftAddress);
 
 		emit ItemListed(msg.sender, nftAddress, tokenId, price);
 
-		returns('NFT Listed successfully for upright selling');
+		return('NFT Listed successfully for upright selling');
 	}
 
-	function updateListing(address nftAddress, uint256 tokenId, uint256 newPrice) external payable
+	function updateListing(address nftAddress, uint256 tokenId, uint256 newPrice) external 
 		isSListed(nftAddress, tokenId)
 		nonReentrant
 		isOwner(nftAddress, tokenId, msg.sender)
 	returns(string memory){
 		require(newPrice > 0,'listing price should be greater than 0');
 	
-		s_listings[nftAddress][tokenID].price = price;
+		s_listings[nftAddress][tokenId].price = newPrice;
 
 		emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
 
-		returns('Successfully updated the listing');
+		return('Successfully updated the listing');
 	}
 
-	function cancelListing(address nftAddress, uint256 tokenID) external
+	function cancelListing(address nftAddress, uint256 tokenId) external
 		isOwner(nftAddress, tokenId, msg.sender)
 		isSListed(nftAddress, tokenId)
 	returns(string memory){
 	
-		delete s_listings[nftAddress][tokenID];
-		EnumerableSet.remove(s_address_tokens[nftAddress],tokenID);
+		delete s_listings[nftAddress][tokenId];
+		EnumerableSet.remove(s_address_tokens[nftAddress],tokenId);
 		if (EnumerableSet.length(s_address_tokens[nftAddress]) == 0) {
 		    EnumerableSet.remove(s_address,nftAddress);
 		}
@@ -126,7 +126,7 @@ contract AvianSellExchange is ReentrancyGuard {
 
 		emit ItemCanceled(msg.sender, nftAddress, tokenId);
 
-		returns('NFT unlisted successfully');
+		return('NFT unlisted successfully');
 	}
 
 	function buyItem(address nftAddress, uint256 tokenId) external payable
@@ -135,11 +135,11 @@ contract AvianSellExchange is ReentrancyGuard {
 	returns(string memory){
 	
 		IERC721 nft = IERC721(nftAddress);
-		if (nft.getApproved(tokenID) != address(this)) {
+		if (nft.getApproved(tokenId) != address(this)) {
 		    revert NotApprovedForMarketplace();
 		}
 
-		Listing_sell memory listedItem = s_listings[nftAddress][tokenID];
+		Listing_sell memory listedItem = s_listings[nftAddress][tokenId];
 
 		if (msg.value < listedItem.price) {
 		revert PriceNotMet(nftAddress, tokenId, listedItem.price);
@@ -147,24 +147,24 @@ contract AvianSellExchange is ReentrancyGuard {
 
 		s_proceeds[listedItem.owner] += msg.value;
 
-		delete s_listings[nftAddress][tokenID];
-		EnumerableSet.remove(s_address_tokens[nftAddress],tokenID);
+		delete s_listings[nftAddress][tokenId];
+		EnumerableSet.remove(s_address_tokens[nftAddress],tokenId);
 		if (EnumerableSet.length(s_address_tokens[nftAddress]) == 0) {
 		    EnumerableSet.remove(s_address,nftAddress);
 		}
 		s_listed.decrement();
 
-		IERC721(nftAddress).safeTransferFrom(listedItem.owner, msg.sender, tokenID);
+		IERC721(nftAddress).safeTransferFrom(listedItem.owner, msg.sender, tokenId);
 
 		emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
 
-		returns('NFT successfully Bought');
+		return('NFT successfully Bought');
 	}
 
 	function withdrawProceeds() external payable
 	returns(string memory){
 	
-		returns('Successfully transferred the proceeds');
+		return('Successfully transferred the proceeds');
 	}
 
 	function isNFT(address nftContract) public view
@@ -176,7 +176,7 @@ contract AvianSellExchange is ReentrancyGuard {
 		} catch {
 		   return false;
 		}
-		returns(_isNFT);
+		return(_isNFT);
 	}
 
 

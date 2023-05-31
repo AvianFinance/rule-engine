@@ -10,7 +10,7 @@ def is_approved(params):
 
 def write_listing(params):
             
-    commands = [str("s_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender" + params[0] + "," + params[1] + "," + params[2] + ");")]
+    commands = [str("s_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender," + params[0] + "," + params[1] + "," + params[2] + ");")]
     commands.append("s_listed.increment();")
     commands.append(str("EnumerableSet.add(s_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(s_address," + params[0] + ");\n"))

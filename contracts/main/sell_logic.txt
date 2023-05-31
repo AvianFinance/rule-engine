@@ -76,12 +76,12 @@ contract AvianSellExchange is ReentrancyGuard {
     }
 
 
-    function listItem(address nftAddress, uint256 tokenID, uint256 price) external
+    function listItem(address nftAddress, uint256 tokenId, uint256 price) external
         notSListed(nftAddress, tokenId)
     returns(string memory){
         require(isNFT(nftAddress),'Contract is not an ERC721');
-        require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender, "Not owner of nft");
-        require(price > 0, "listing price should be greater than 0");
+        require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
+        require(price > 0,'listing price should be greater than 0');
 
         IERC721 nft = IERC721(nftAddress);
         if (nft.getApproved(tokenId) != address(this)) {
@@ -89,45 +89,47 @@ contract AvianSellExchange is ReentrancyGuard {
         }
 
         s_listings[nftAddress][tokenId] = Listing_sell(msg.sender,nftAddress,tokenId,price);
-
         s_listed.increment();
-        EnumerableSet.add(s_address_tokens[nftAddress], tokenId);
-        EnumerableSet.add(s_address, nftAddress);
+        EnumerableSet.add(s_address_tokens[nftAddress],tokenId);
+        EnumerableSet.add(s_address,nftAddress);
 
         emit ItemListed(msg.sender, nftAddress, tokenId, price);
 
-        return("NFT Listed successfully for upright selling");
+        return('NFT Listed successfully for upright selling');
     }
 
-    // Unlisting functionality
+    function updateListing(address nftAddress, uint256 tokenId, uint256 newPrice) external
+        isSListed(nftAddress, tokenId)
+        nonReentrant
+        isOwner(nftAddress, tokenId, msg.sender)
+    returns(string memory){
+        require(newPrice > 0,'listing price should be greater than 0');
 
-    function cancelListing(                           
-        address nftAddress, 
-        uint256 tokenId
-    ) external
+        s_listings[nftAddress][tokenId].price = newPrice;
+
+        emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
+
+        return('Successfully updated the listing');
+    }
+
+    function cancelListing(address nftAddress, uint256 tokenId) external
         isOwner(nftAddress, tokenId, msg.sender)
         isSListed(nftAddress, tokenId)
     returns(string memory){
+
         delete s_listings[nftAddress][tokenId];
-
-        EnumerableSet.remove(s_address_tokens[nftAddress], tokenId);
-
+        EnumerableSet.remove(s_address_tokens[nftAddress],tokenId);
         if (EnumerableSet.length(s_address_tokens[nftAddress]) == 0) {
-            EnumerableSet.remove(s_address, nftAddress);
+            EnumerableSet.remove(s_address,nftAddress);
         }
         s_listed.decrement();
 
         emit ItemCanceled(msg.sender, nftAddress, tokenId);
-        return("NFT unlisted successfully");
+
+        return('NFT unlisted successfully');
     }
 
-
-    // Buying and selling functionality
-
-    function buyItem(
-        address nftAddress, 
-        uint256 tokenId
-    ) external payable
+    function buyItem(address nftAddress, uint256 tokenId) external payable
         isSListed(nftAddress, tokenId)
         nonReentrant
     returns(string memory){
@@ -138,43 +140,25 @@ contract AvianSellExchange is ReentrancyGuard {
         }
 
         Listing_sell memory listedItem = s_listings[nftAddress][tokenId];
+
         if (msg.value < listedItem.price) {
             revert PriceNotMet(nftAddress, tokenId, listedItem.price);
         }
+
         s_proceeds[listedItem.owner] += msg.value;
 
         delete s_listings[nftAddress][tokenId];
-
-        EnumerableSet.remove(s_address_tokens[nftAddress], tokenId);
-
+        EnumerableSet.remove(s_address_tokens[nftAddress],tokenId);
         if (EnumerableSet.length(s_address_tokens[nftAddress]) == 0) {
-            EnumerableSet.remove(s_address, nftAddress);
+            EnumerableSet.remove(s_address,nftAddress);
         }
         s_listed.decrement();
 
         IERC721(nftAddress).safeTransferFrom(listedItem.owner, msg.sender, tokenId);
+
         emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
-        return("NFT successfully Bought");
-    }
 
-    // Update already listed listings
-
-    function updateListing(
-        address nftAddress,
-        uint256 tokenId,
-        uint256 newPrice
-    ) external
-        isSListed(nftAddress, tokenId)
-        nonReentrant
-        isOwner(nftAddress, tokenId, msg.sender)
-    returns(string memory){
-        require(newPrice > 0, "listing price should be greater than 0");
-
-        s_listings[nftAddress][tokenId].price = newPrice;
-
-        emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
-
-        return("Successfully updated the listing");
+        return('NFT successfully Bought');
     }
 
     // Withdraw Proceeds in the pull pattern. Used when multiple transactions are made within a single function
