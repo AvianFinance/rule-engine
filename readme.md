@@ -23,5 +23,5 @@
 ### Run the pipeline for classification
 
 ```
-    python compile.py
+    python <compiler-required.py>
 ```

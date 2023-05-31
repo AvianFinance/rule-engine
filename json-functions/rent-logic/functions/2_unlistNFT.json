@@ -1,0 +1,12 @@
+{
+    "function_name" : "unlistNFT",
+    "input_parameters" : "address nftAddress, uint256 tokenId",
+    "visibility" : "external",
+    "state_mutability" : "none",
+    "modifiers" : ["nonReentrant", "isOwner(nftAddress, tokenId, msg.sender)", "isSListed(nftAddress, tokenId)"],
+    "returns" : "string memory",
+    "requires" : [],
+    "body" : [["unlistNFT",["nftAddress","tokenID"]]],
+    "events" : "NFTUnlisted(msg.sender,nftAddress,tokenId)",
+    "return_line" : "'NFT Successfully unlisted'"
+}

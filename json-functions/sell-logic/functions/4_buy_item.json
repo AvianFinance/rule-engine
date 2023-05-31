@@ -6,7 +6,7 @@
     "modifiers" : ["isSListed(nftAddress, tokenId)","nonReentrant"],
     "returns" : "string memory",
     "requires" : [],
-    "body" : [],
+    "body" : [["is_approved",["nftAddress","tokenId"]],["load_listing",["sell","nftAddress","tokenId"]],["is_price_met",[]],["add_proceeds",["sell"]],["delete_listing",["nftAddress","tokenId"]],["owner_transfer",["nftAddress","tokenId"]]],
     "events" : "ItemBought(msg.sender, nftAddress, tokenId, listedItem.price)",
     "return_line" : "'NFT successfully Bought'"
 }

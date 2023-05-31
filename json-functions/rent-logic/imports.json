@@ -1,0 +1,8 @@
+{
+    "1" : "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+    "2" : "@openzeppelin/contracts/security/ReentrancyGuard.sol",
+    "3" : "@openzeppelin/contracts/utils/structs/EnumerableSet.sol",
+    "4" : "@openzeppelin/contracts/interfaces/IERC721.sol",
+    "5" : "./IERC4907.sol",
+    "6" : "@openzeppelin/contracts/utils/Counters.sol"
+}

@@ -42,7 +42,7 @@ def build_function(path):
     if (len(data["events"])>0):
         commands.append("\temit " + data["events"] + ";\n")
 
-    commands.append("\treturns(" + data["return_line"] + ");\n\t}\n")
+    commands.append("\treturn(" + data["return_line"] + ");\n\t}\n")
 
     return(commands)
 

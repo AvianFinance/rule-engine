@@ -2,11 +2,11 @@
     "function_name" : "withdrawProceeds",
     "input_parameters" : "",
     "visibility" : "external",
-    "state_mutability" : "payable",
+    "state_mutability" : "",
     "modifiers" : [],
     "returns" : "string memory",
     "requires" : [],
-    "body" : [],
+    "body" : [["withdraw_proceeds",["sell"]]],
     "events" : "",
     "return_line" : "'Successfully transferred the proceeds'"
 }

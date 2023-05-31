@@ -1,0 +1,5 @@
+{
+    "NFTListed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay", "uint256 expires"],
+    "NFTRented" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint256 rentalFee"],
+    "NFTUnlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"]
+}
