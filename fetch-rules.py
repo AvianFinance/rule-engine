@@ -22,5 +22,11 @@ def load_json_file(file_path):
         data = json.load(file)
     return data
 
+def fetch_rules(contract_name,rule_type):
 
-print(compare_json_files("rules/events.json","json-functions/sell-logic/events.json"))
+    all_rules_path = "rules/" + rule_type + ".json"
+    cuurent_rules_paths = "json-functions/" + str(contract_name) + "-logic/" + str(rule_type) + ".json"
+
+    return(compare_json_files(all_rules_path,cuurent_rules_paths))
+
+# print(fetch_rules("sell","events"))
