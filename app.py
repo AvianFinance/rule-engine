@@ -3,8 +3,11 @@ from compiler import contract_compile
 from services.upload_contract import upload_contract
 from fetch_rules import fetch_rules
 import asyncio
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app)
 
 async def async_upload_contract(contract_name):
     return upload_contract(contract_name)
