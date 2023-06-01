@@ -25,9 +25,9 @@ contract AvianRentExchange is ReentrancyGuard {
 
     struct Listing_rent {address owner;address user;address nftContract;uint256 tokenId;uint256 pricePerDay;uint256 expires;}
 
-    event NFTListed(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint256 pricePerDay,uint256 expires);
-    event NFTRented(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint64 expires,uint256 rentalFee);
-    event NFTUnlisted(address indexed unlistSender,address indexed nftContract,uint256 indexed tokenId);
+    event RentNftListed(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint256 pricePerDay,uint256 expires);
+    event RentNftRented(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint64 expires,uint256 rentalFee);
+    event RentNftUnlisted(address indexed unlistSender,address indexed nftContract,uint256 indexed tokenId);
 
     modifier notRListed(address nftAddress, uint256 tokenId) {
         Listing_rent memory listing = r_listings[nftAddress][tokenId];
