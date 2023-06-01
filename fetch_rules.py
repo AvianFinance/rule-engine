@@ -7,10 +7,10 @@ def compare_json_files(larger_file_path, smaller_file_path):
     comparison_result = []
 
     for key, value in larger_json.items():
-        if key in smaller_json and smaller_json[key] == value:
-            comparison_result.append([key, True])
+        if key in smaller_json:
+            comparison_result.append([key, value[0], 1])
         else:
-            comparison_result.append([key, False])
+            comparison_result.append([key, value[0], 0])
 
     return comparison_result
 
