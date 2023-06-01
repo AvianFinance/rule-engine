@@ -16,3 +16,6 @@ def say_hello():
 @app.route('/fetch/<contract_type>/<rule_type>')
 def get_contract_level_rules(contract_type,rule_type):
   return jsonify(data=fetch_rules(contract_type,rule_type))
+
+if __name__ == '__main__':
+    app.run(debug=True)
