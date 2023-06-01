@@ -1,10 +1,10 @@
 {
-    "1" : "PriceNotMet(address nftAddress, uint256 tokenId, uint256 price)",
-    "2" : "ItemNotForSale(address nftAddress, uint256 tokenId)",
-    "3" : "NotListed(address nftAddress, uint256 tokenId)",
-    "4" : "AlreadyListed(address nftAddress, uint256 tokenId)",
-    "5" : "NoProceeds()",
-    "6" : "NotOwner()",
-    "7" : "NotApprovedForMarketplace()",
-    "8" : "PriceMustBeAboveZero()"
+    "price-not-met" : "PriceNotMet(address nftAddress, uint256 tokenId, uint256 price)",
+    "nft-not-for-sale" : "ItemNotForSale(address nftAddress, uint256 tokenId)",
+    "nft-not-listed" : "NotListed(address nftAddress, uint256 tokenId)",
+    "nft-already-listed" : "AlreadyListed(address nftAddress, uint256 tokenId)",
+    "no-proceeds" : "NoProceeds()",
+    "not-owner" : "NotOwner()",
+    "not-approved" : "NotApprovedForMarketplace()",
+    "price-above-zero" : "PriceMustBeAboveZero()"
 }

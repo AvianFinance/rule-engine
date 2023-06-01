@@ -29,4 +29,4 @@ def fetch_rules(contract_name,rule_type):
 
     return(compare_json_files(all_rules_path,cuurent_rules_paths))
 
-# print(fetch_rules("sell","events"))
+print(fetch_rules("sell","errors"))
