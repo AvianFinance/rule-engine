@@ -1,0 +1,17 @@
+{
+    "visibility" : ["public","external","internal","private"],
+    "state_mutability" : ["pure","payable","view","non-payable"],
+    "requires" : {
+        
+        "nft-rentable" : ["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],
+        "sender-is-owner" : ["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"], 
+        "listing-fee-provided" : ["msg.value == _listingFee", "Not enough ether for listing fee"], 
+        "price-above-zero" : ["pricePerDay > 0", "Rental price should be greater than 0"],
+        "installments-below-max-amount" : ["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"],
+        "still-paying" : ["installmentIndex <= installmentCount", "Installment Index should be lesser than the installment count"],
+        "first-installment-paid" : ["installmentIndex > 0", "Installment Index should be greater than 0"]
+
+    }
+
+}
+

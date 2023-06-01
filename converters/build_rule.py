@@ -18,8 +18,8 @@ def write_listing(params):
     return(commands)
 
 def write_listing_rental(params):
-    commands = [str("payable(_marketOwner).transfer(_listingFee);\n")]      
-    commands.append(str("s_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender, address(0)," + params[0] + "," + params[1] + "," + params[2] + "0);"))
+    commands = []      
+    commands.append(str("r_listings["+params[0]+"]["+params[1]+"] = Listing_rent(msg.sender,address(0)," + params[0] + "," + params[1] + "," + params[2] + ",0);"))
     commands.append("r_listed.increment();")
     commands.append(str("EnumerableSet.add(r_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(r_address," + params[0] + ");\n"))
@@ -42,7 +42,7 @@ def write_listing_installment(params):
     return(commands)
 
 def unlistNFT(params):
-    commands = [str("EnumerableSet.remove(r_address_tokens[" + params[0] + "],"+ params[1] + ");\n")]      
+    commands = [str("EnumerableSet.remove(r_address_tokens[" + params[0] + "],"+ params[1] + ");")]      
     commands.append(str("delete r_listings["+params[0]+"]["+params[1]+"];"))
     commands.append(str("if (EnumerableSet.length(r_address_tokens[" + params[0] + "]) == 0) {"))
     commands.append(str("    EnumerableSet.remove(r_address," + params[0] + ");"))
@@ -61,14 +61,12 @@ def unlistInsNFT(params):
 
     return(commands)
 
-#rental
 def updateRentalList(params):
     commands = [str("Listing_rent storage listing = r_listings[" + params[0] + "][" + params[1] + "];")]
-    commands.append(str("listing.pricePerDay = pricePerDay;"))
+    commands.append(str("listing.pricePerDay = pricePerDay;\n"))
 
     return (commands)
 
-#rental
 def isRentableNFT(params):
     commands = [str("bool _isRentable = false;")]
     commands.append(str("bool _isNFT = false;"))
@@ -85,7 +83,6 @@ def isRentableNFT(params):
 
     return(commands)
 
-#rental
 def isNFT(params):
     commands = [str("bool _isNFT = false;")]
     commands.append(str("try IERC165(nftContract).supportsInterface(type(IERC721).interfaceId) returns (bool nft) {"))
@@ -96,7 +93,6 @@ def isNFT(params):
 
     return(commands)
 
-# Installment
 def calculateInstallmentNFT(params):
     commands = [str("uint256 rentalFee =" + params[2] + "*" + params[1] + ";")]
     commands.append(str("uint256 installment_amount;"))
@@ -131,9 +127,9 @@ def load_listing(params):
 
     if params[0] == "sell":
         command = "Listing_sell memory listedItem = s_listings"
-    elif params[1] == "rent":
+    elif params[0] == "rent":
         command = "Listing_rent memory listedItem = r_listings"
-    elif params[1] == "ins":
+    elif params[0] == "ins":
         command = "Listing_installment memory listedItem = i_listings"
 
     command = command + "["+params[1]+"]["+params[2]+"];\n"
@@ -192,11 +188,15 @@ def withdraw_proceeds(params):
 
     return(commands)
 
-
-
 def owner_transfer(params):
 
     command = "IERC721("+ params[0] + ").safeTransferFrom(listedItem.owner, msg.sender, " + params[1] + ");\n"
+
+    return([command])
+
+def is_nft_listing_rented(params):
+
+    command = "require(listing.user == address(0) || block.timestamp > listing.expires,'NFT already rented');\n"
 
     return([command])
 
@@ -207,10 +207,6 @@ function_map = {
     "update_listing" : update_listing,
     "delete_listing" : delete_listing,
     "load_listing" : load_listing,
-    "is_price_sufficient" : "function5",
-    "add_proceeds" : "function6",
-    "transfer_owner" : "function7",
-    "withdraw_proceeds" : "function8",
     "write_listing_rental" : write_listing_rental,
     "unlistNFT" : unlistNFT,
     "updateRentalList" : updateRentalList,
@@ -223,7 +219,8 @@ function_map = {
     "add_proceeds" : add_proceeds,
     "owner_transfer" : owner_transfer,
     "withdraw_proceeds" : withdraw_proceeds,
-    "pay_listing_fee" : pay_listing_fee
+    "pay_listing_fee" : pay_listing_fee,
+    "is_nft_listing_rented" : is_nft_listing_rented,
 }
 
 def build_rule(rule_name,rule_params):

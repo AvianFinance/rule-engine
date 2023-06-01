@@ -24,9 +24,9 @@ contract AvianSellExchange is ReentrancyGuard {
 
     struct Listing_sell {address owner;address nftContract;uint256 tokenId;uint256 price;}
 
-    event ItemListed(address indexed seller,address indexed nftAddress,uint256 indexed tokenId,uint256 price);
-    event ItemCanceled(address indexed seller,address indexed nftAddress,uint256 indexed tokenId);
-    event ItemBought(address indexed buyer,address indexed nftAddress,uint256 indexed tokenId,uint256 price);
+    event SellNftListed(address indexed seller,address indexed nftAddress,uint256 indexed tokenId,uint256 price);
+    event SellNftUnlisted(address indexed seller,address indexed nftAddress,uint256 indexed tokenId);
+    event SellNftBought(address indexed buyer,address indexed nftAddress,uint256 indexed tokenId,uint256 price);
 
     modifier notSListed(address nftAddress, uint256 tokenId) {
         Listing_sell memory listing = s_listings[nftAddress][tokenId];
@@ -93,7 +93,7 @@ contract AvianSellExchange is ReentrancyGuard {
         EnumerableSet.add(s_address_tokens[nftAddress],tokenId);
         EnumerableSet.add(s_address,nftAddress);
 
-        emit ItemListed(msg.sender, nftAddress, tokenId, price);
+        emit SellNftListed(msg.sender, nftAddress, tokenId, price);
 
         return('NFT Listed successfully for upright selling');
     }
@@ -107,7 +107,7 @@ contract AvianSellExchange is ReentrancyGuard {
 
         s_listings[nftAddress][tokenId].price = newPrice;
 
-        emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
+        emit SellNftListed(msg.sender, nftAddress, tokenId, newPrice);
 
         return('Successfully updated the listing');
     }
@@ -124,7 +124,7 @@ contract AvianSellExchange is ReentrancyGuard {
         }
         s_listed.decrement();
 
-        emit ItemCanceled(msg.sender, nftAddress, tokenId);
+        emit SellNftUnlisted(msg.sender, nftAddress, tokenId);
 
         return('NFT unlisted successfully');
     }
@@ -156,7 +156,7 @@ contract AvianSellExchange is ReentrancyGuard {
 
         IERC721(nftAddress).safeTransferFrom(listedItem.owner, msg.sender, tokenId);
 
-        emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
+        emit SellNftBought(msg.sender, nftAddress, tokenId, listedItem.price);
 
         return('NFT successfully Bought');
     }
