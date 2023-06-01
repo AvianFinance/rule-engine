@@ -26,5 +26,3 @@ def fetch_rules(contract_name,rule_type):
     cuurent_rules_paths = "json-functions/" + str(contract_name) + "-logic/" + str(rule_type) + ".json"
 
     return(compare_json_files(all_rules_path,cuurent_rules_paths))
-
-# print(fetch_rules("sell","modifiers"))

@@ -25,3 +25,9 @@
 ```
     python <compiler-required.py>
 ```
+
+### Run the Flask Server
+
+```
+    python app.py
+```
