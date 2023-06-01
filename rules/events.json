@@ -1,11 +1,11 @@
 {
-    "Sell-NFT-Listed" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
-    "Sell-NFT-Unlisted" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId"],
-    "Sell-NFT-Bought" : ["address indexed buyer","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
-    "Rent-NFT-Listed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay", "uint256 expires"],
-    "Rent-NFT-Rented" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint256 rentalFee"],
-    "Rent-NFT-Unlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"],
-    "INST-NFT-Listed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay"],
-    "INST-NFT-INSPaid" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint64 insCount", "uint64 insIndex","uint256 insAmount", "uint256 totalPaid"],
-    "INST-NFT-Unlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"]
+    "ItemListed" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
+    "ItemCanceled" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId"],
+    "ItemBought" : ["address indexed buyer","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
+    "RentNftListed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay", "uint256 expires"],
+    "RentNftRented" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint256 rentalFee"],
+    "RentNftUnlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"],
+    "InstNftListed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay"],
+    "InstNftInsPaid" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint64 insCount", "uint64 insIndex","uint256 insAmount", "uint256 totalPaid"],
+    "InstNftUnlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"]
 }
