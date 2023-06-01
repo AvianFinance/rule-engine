@@ -16,7 +16,7 @@ async def async_upload_contract(contract_name):
 def index():
   return 'Server Works!'
   
-@app.route('/compile/<contract_type>')
+@app.route('/compile/<contract_type>', methods = ['POST'])
 def compile_upload_contract(contract_type):
   compile_status = contract_compile(contract_type)
   if (compile_status=="Compiling Successful"):
@@ -24,7 +24,8 @@ def compile_upload_contract(contract_type):
     asyncio.set_event_loop(loop)
     result = loop.run_until_complete(async_upload_contract(contract_type))
     loop.close()
-    return('https://gateway.pinata.cloud/ipfs/' + str(result))
+    print("result--------------"+ str(result))
+    return jsonify('https://gateway.pinata.cloud/ipfs/' + str(result))
   else:
     return("compiling failed")
     
