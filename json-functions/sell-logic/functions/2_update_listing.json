@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [["newPrice > 0","listing price should be greater than 0"]],
     "body" : [["update_listing",["nftAddress","tokenId","newPrice"]]],
-    "events" : "ItemListed(msg.sender, nftAddress, tokenId, newPrice)",
+    "events" : "SellNftListed(msg.sender, nftAddress, tokenId, newPrice)",
     "return_line" : "'Successfully updated the listing'"
 }

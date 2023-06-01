@@ -1,7 +1,7 @@
 {
-    "ItemListed" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
-    "ItemCanceled" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId"],
-    "ItemBought" : ["address indexed buyer","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
+    "SellNftListed" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
+    "SellNftUnlisted" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId"],
+    "SellNftBought" : ["address indexed buyer","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
     "RentNftListed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay", "uint256 expires"],
     "RentNftRented" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint256 rentalFee"],
     "RentNftUnlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"],

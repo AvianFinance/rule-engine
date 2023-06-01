@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [],
     "body" : [["delete_listing",["nftAddress","tokenId"]]],
-    "events" : "ItemCanceled(msg.sender, nftAddress, tokenId)",
+    "events" : "SellNftUnlisted(msg.sender, nftAddress, tokenId)",
     "return_line" : "'NFT unlisted successfully'"
 }
