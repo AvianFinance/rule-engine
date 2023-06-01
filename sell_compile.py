@@ -1,13 +1,14 @@
 from converters.json_solidity import json_to_solidity
 
-file_path = "contracts/new/sell_logic.txt"
+def compile():
+    file_path = "contracts/new/sell_logic.txt"
 
-contract_name = "AvianSellExchange"
+    contract_name = "AvianSellExchange"
 
-function_str_list = json_to_solidity(contract_name,"sell-logic")
+    function_str_list = json_to_solidity(contract_name,"sell-logic")
 
-with open(file_path, 'w') as file:
-    for section in function_str_list:
-        file.write(section + "\n")
+    with open(file_path, 'w') as file:
+        for section in function_str_list:
+            file.write(section + "\n")
 
 
