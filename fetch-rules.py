@@ -5,14 +5,12 @@ def compare_json_files(larger_file_path, smaller_file_path):
     smaller_json = load_json_file(smaller_file_path)
 
     comparison_result = []
-    is_subset = True
 
     for key, value in larger_json.items():
         if key in smaller_json and smaller_json[key] == value:
             comparison_result.append([key, True])
         else:
             comparison_result.append([key, False])
-            is_subset = False
 
     return comparison_result
 
@@ -29,4 +27,4 @@ def fetch_rules(contract_name,rule_type):
 
     return(compare_json_files(all_rules_path,cuurent_rules_paths))
 
-print(fetch_rules("sell","errors"))
+# print(fetch_rules("sell","modifiers"))
