@@ -16,7 +16,7 @@ error NotOwner();
 error NotApprovedForMarketplace();
 error PriceMustBeAboveZero();
 
-contract AvianSellExchange is ReentrancyGuard { 
+contract AviansellExchange is ReentrancyGuard { 
 
 	using Counters for Counters.Counter;
 	using EnumerableSet for EnumerableSet.AddressSet;

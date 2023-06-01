@@ -1,17 +1,30 @@
 from flask import Flask, jsonify
-from sell_compile import compile
+from compiler import contract_compile
+from services.upload_contract import upload_contract
 from fetch_rules import fetch_rules
+import asyncio
 
 app = Flask(__name__)
+
+async def async_upload_contract(contract_name):
+    return upload_contract(contract_name)
 
 @app.route('/')
 def index():
   return 'Server Works!'
   
-@app.route('/compile')
-def say_hello():
-  compile()
-  return 'Hello from Server'
+@app.route('/compile/<contract_type>')
+def compile_upload_contract(contract_type):
+  compile_status = contract_compile(contract_type)
+  if (compile_status=="Compiling Successful"):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    result = loop.run_until_complete(async_upload_contract(contract_type))
+    loop.close()
+    return('https://gateway.pinata.cloud/ipfs/' + str(result))
+  else:
+    return("compiling failed")
+    
 
 @app.route('/fetch/<contract_type>/<rule_type>')
 def get_contract_level_rules(contract_type,rule_type):
