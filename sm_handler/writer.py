@@ -1,6 +1,6 @@
 from converters.json_solidity import json_to_solidity
 
-def contract_compile(contract_type):
+def write_contract(contract_type):
 
     try:
 
