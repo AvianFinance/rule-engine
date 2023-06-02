@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [],
     "body" : [],
-    "events" : "NFTINSPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, numDays, 1, firstIns, firstIns);",
+    "events" : "InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, numDays, 1, firstIns, firstIns);",
     "return_line" : "'Successfully rented the nft by paying the first installment'"
 }

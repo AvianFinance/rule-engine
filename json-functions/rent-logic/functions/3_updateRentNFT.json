@@ -7,7 +7,7 @@
     "returns" : "string memory",
     "requires" : [["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"], ["pricePerDay > 0", "Rental price should be greater than 0"]],
     "body" : [["updateRentalList",["nftAddress","tokenId"]]],
-    "events" : "NFTListed(listing.owner, listing.user, nftAddress, tokenId, pricePerDay, listing.expires)",
+    "events" : "RentNftListed(listing.owner, listing.user, nftAddress, tokenId, pricePerDay, listing.expires)",
     "return_line" : "'NFT Successfully listed'"
 }
 

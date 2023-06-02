@@ -7,7 +7,7 @@ def write_contract(contract_type):
         txt_path = "contracts/new/" + contract_type + "_logic.txt"
         sol_path = "contracts/new/" + contract_type + "_logic.sol"
 
-        contract_name = "Avian" + contract_type + "Exchange"
+        contract_name = "Avian" + contract_type.capitalize() + "Exchange"
 
         rules = contract_type + "-logic"
 

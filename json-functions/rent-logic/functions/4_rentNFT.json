@@ -7,7 +7,7 @@
     "returns" : "string memory",
     "requires" : [["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"]],
     "body" : [["load_listing",["rent","nftAddress","tokenId"]],["is_nft_listing_rented",[]],["is_approved",["nftAddress","tokenId"]]],
-    "events" : "NFTRented(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, rentalFee)",
+    "events" : "RentNftRented(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, rentalFee)",
     "return_line" : "'NFT successfully rented'"
 }
 

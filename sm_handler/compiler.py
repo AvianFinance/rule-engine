@@ -8,7 +8,7 @@ def compile_export_contract(c_type):
 
         contract_path = 'contracts/new/' + c_type + '_logic.sol'
         output_folder = 'abis'
-        contract_name = 'Avian' + c_type + 'Exchange'
+        contract_name = 'Avian' + c_type.capitalize() + 'Exchange'
 
         with open(contract_path, 'r') as f: # Read the contract file
             contract_source_code = f.read()
