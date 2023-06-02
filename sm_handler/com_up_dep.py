@@ -2,6 +2,7 @@ from sm_handler.writer import write_contract
 from sm_handler.deployer import deploy_compiled_contract
 from services.upload_contract import upload_contract
 from sm_handler.compiler import compile_export_contract
+from services.db import get_collections, insert_collection, get_collections_length
 
 
 async def async_upload_contract(contract_name):
@@ -12,6 +13,22 @@ async def async_compile_export_contract(contract_name):
 
 async def async_deploy_compiled_contract(contract_name):
     return deploy_compiled_contract(contract_name)
+
+async def update_pending_contract_db(id,contract_type,contract_address,ipfs_hash):
+    try:
+        new_contract = {
+            "id": id,
+            "contract_name": contract_type,
+            "contract_address": contract_address,
+            "address": ipfs_hash,
+            "status" : "active"
+        }
+
+        insert_collection(new_contract)
+        return("Success")
+    except Exception as e:
+        print(e)
+        return("Failed")
 
 async def full_flow(contract_type):
 
@@ -34,6 +51,7 @@ async def full_flow(contract_type):
                     if deploy_status == False:
                         return("Deploying Failed")
                     else:
+                        update_pending_contract_db(5,contract_type,deploy_status,ipfs_hash)
                         packet.append(deploy_status)
                         return(packet)
         else:
@@ -43,19 +61,3 @@ async def full_flow(contract_type):
         return("Full flow failed")
 
 
-    # body = request.data
-    # data = json.loads(body)
-    # id = get_collections_length()
-
-    # new_contract = {
-    #   "id": id,
-    #   "contract_name": contract_type,
-    #   "contract_address": result,
-    #   "address": "url",
-    #   "events": data["eventsList"],
-    #   "modifiers": data["modifiersList"],
-    #   "errors": data["errorsList"],
-    #   "status" : "active"
-    # }
-    # insert_collection(new_contract)
-    # return jsonify({result, "url"})
