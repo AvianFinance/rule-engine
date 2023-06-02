@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
-from compiler import contract_compile
+from sm_handler.compiler import contract_compile
 from services.upload_contract import upload_contract
-from fetch_rules import fetch_rules
+from sm_handler.fetch_rules import fetch_rules
 import asyncio
 from flask_cors import CORS
 from sm_handler.deploy import compile_export_contract
