@@ -2,8 +2,7 @@ from sm_handler.writer import write_contract
 from sm_handler.deployer import deploy_compiled_contract
 from services.upload_contract import upload_contract
 from sm_handler.compiler import compile_export_contract
-from services.db import get_collections, insert_collection, get_collections_length
-
+from services.db import insert_collection
 
 async def async_upload_contract(contract_name):
     return upload_contract(contract_name)
@@ -42,8 +41,8 @@ async def full_flow(contract_type):
             if ipfs_hash == 'File upload failed ! with error':
                 return("Uploading Failed")
             else:
-                packet.append(str('https://gateway.pinata.cloud/ipfs/' + str(ipfs_hash)))
                 print("Uploading Done")
+                packet.append(str('https://gateway.pinata.cloud/ipfs/' + str(ipfs_hash)))
                 compile_status = await async_compile_export_contract(contract_type)
                 if compile_status == "Succesful":
                     print("Compiling Done")
@@ -51,9 +50,14 @@ async def full_flow(contract_type):
                     if deploy_status == False:
                         return("Deploying Failed")
                     else:
-                        update_pending_contract_db(5,contract_type,deploy_status,ipfs_hash)
+                        print("Deploying Done")
                         packet.append(deploy_status)
+                        db_status = await update_pending_contract_db(5,contract_type,deploy_status,ipfs_hash)
+                        if(db_status=="Success"):
+                            print("DB Update Done")
                         return(packet)
+                else:
+                    return("Compiling Failed")
         else:
             return("Writing Failed")
     except Exception as e:
