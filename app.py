@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-from compiler import contract_compile
 from services.upload_contract import upload_contract
 from db import get_collections, insert_collection, get_collections_length
 import asyncio
@@ -39,9 +38,6 @@ def write_upload_contract(contract_type):
 @app.route('/deploy/<contract_type>', methods = ['POST'])
 def deploy_contract(contract_type):
 
-  compile_status = contract_compile(contract_type)
-  print("hiii")
-  if (compile_status=="Compiling Successful"):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     result = loop.run_until_complete(async_deploy_contract(contract_type.capitalize()))
@@ -57,7 +53,7 @@ def deploy_contract(contract_type):
     new_contract = {
       "id": id,
       "contract_name": contract_type,
-      "contract_address": "",
+      "contract_address": result,
       "address": url,
       "events": data["eventsList"],
       "modifiers": data["modifiersList"],
@@ -67,9 +63,7 @@ def deploy_contract(contract_type):
     insert_collection(new_contract)
 
     # return jsonify('https://gateway.pinata.cloud/ipfs/' + str(result))
-    return jsonify("url")
-  else:
-    return("compiling failed")
+    return jsonify({result, url})
     
 
 @app.route('/fetch/<contract_type>/<rule_type>')
