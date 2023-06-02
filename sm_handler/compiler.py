@@ -1,25 +1,48 @@
-from converters.json_solidity import json_to_solidity
+import os
+from solcx import compile_standard, set_solc_version, install_solc
+import json
 
-def contract_compile(contract_type):
+def compile_export_contract(c_type):
 
-    try:
+    contract_path = 'contracts/new/' + c_type + '_logic.sol'
+    output_folder = 'abis'
+    contract_name = 'Avian' + c_type + 'Exchange'
 
-        file_path = "contracts/new/" + contract_type + "_logic.txt"
+    with open(contract_path, 'r') as f: # Read the contract file
+        contract_source_code = f.read()
 
-        contract_name = "Avian" + contract_type + "Exchange"
+    install_solc('0.8.9')
+    set_solc_version('0.8.9')
 
-        rules = contract_type + "-logic"
+    compiled_sol = compile_standard( # Compile the contract
+        {
+            "language": "Solidity",
+            "sources": {
+                os.path.basename(contract_path): {
+                    "content": contract_source_code
+                }
+            },
+            "settings": {
+                "outputSelection": {
+                    "*": {
+                        "*": ["abi", "evm.bytecode.object"]
+                    }
+                }
+            }
+        },
+    )
 
-        function_str_list = json_to_solidity(contract_name,rules)
+    contract_abi = compiled_sol['contracts'][os.path.basename(contract_path)][contract_name]['abi']
 
-        with open(file_path, 'w') as file:
-            for section in function_str_list:
-                file.write(section + "\n")
+    contract_bcode = compiled_sol['contracts'][os.path.basename(contract_path)][contract_name]["evm"]["bytecode"]["object"]
 
-        return("Compiling Successful")
-    
-    except:
+    result = {
+        "abi" : contract_abi,
+        "bytecode" : contract_bcode
+    }
 
-        return("Compiling Failed")
+    abi_file_path = os.path.join(output_folder, str(contract_name + '.json'))
+    with open(abi_file_path, 'w') as f:
+        json.dump(result, f, indent=4)
 
-
+    return(f"ABI file generated at: {abi_file_path}")

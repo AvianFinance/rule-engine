@@ -1,10 +1,10 @@
 from flask import Flask, jsonify
-from sm_handler.compiler import contract_compile
+from sm_handler.writer import write_contract
 from services.upload_contract import upload_contract
 from sm_handler.fetch_rules import fetch_rules
 import asyncio
 from flask_cors import CORS
-from sm_handler.deploy import compile_export_contract
+from sm_handler.compiler import compile_export_contract
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ def index():
   
 @app.route('/check/<contract_type>', methods = ['POST'])
 def write_upload_contract(contract_type):
-  compile_status = contract_compile(contract_type)
+  compile_status = write_contract(contract_type)
   if (compile_status=="Compiling Successful"):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
