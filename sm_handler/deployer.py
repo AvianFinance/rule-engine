@@ -3,36 +3,42 @@ import json
 
 def deploy_compiled_contract(contract_name):
 
-    contract_name = 'abis/Avian' + contract_name.capitalize() + 'Exchange.json'
+    try:
 
-    private_key = "7e0dd21cba3952c769b9a90376893a351d4ac356aeacd0e537f5022e08593528"
+        contract_name = 'abis/Avian' + contract_name.capitalize() + 'Exchange.json'
 
-    w3 = Web3(Web3.HTTPProvider('https://api.avax-test.network/ext/bc/C/rpc'))
+        private_key = "7e0dd21cba3952c769b9a90376893a351d4ac356aeacd0e537f5022e08593528"
 
-    acct = w3.eth.account.privateKeyToAccount(private_key)
+        w3 = Web3(Web3.HTTPProvider('https://api.avax-test.network/ext/bc/C/rpc'))
 
-    with open(contract_name) as json_file:
-        contract_abi = json.load(json_file)
+        acct = w3.eth.account.privateKeyToAccount(private_key)
 
-    contract_ = w3.eth.contract(abi=contract_abi['abi'],bytecode=contract_abi['bytecode']).constructor()
+        with open(contract_name) as json_file:
+            contract_abi = json.load(json_file)
 
-    gas_estimate = 2*contract_.estimate_gas()
+        contract_ = w3.eth.contract(abi=contract_abi['abi'],bytecode=contract_abi['bytecode']).constructor()
 
-    construct_txn = contract_.build_transaction({
-        'from': acct.address,
-        'nonce': w3.eth.get_transaction_count(acct.address),
-        'gas': gas_estimate,
-        'gasPrice': w3.toWei('25', 'gwei')})
+        gas_estimate = 2*contract_.estimate_gas()
 
-    signed = acct.sign_transaction(construct_txn)
+        construct_txn = contract_.build_transaction({
+            'from': acct.address,
+            'nonce': w3.eth.get_transaction_count(acct.address),
+            'gas': gas_estimate,
+            'gasPrice': w3.toWei('25', 'gwei')})
 
-    transaction_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
+        signed = acct.sign_transaction(construct_txn)
 
-    transaction_receipt = w3.eth.wait_for_transaction_receipt(transaction_hash)
+        transaction_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
 
-    contract_address = transaction_receipt['contractAddress']
+        transaction_receipt = w3.eth.wait_for_transaction_receipt(transaction_hash)
 
-    return(contract_address)
+        contract_address = transaction_receipt['contractAddress']
+
+        return(contract_address)
+    
+    except:
+
+        return(False)
 
 
 

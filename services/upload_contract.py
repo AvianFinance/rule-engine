@@ -6,7 +6,6 @@ access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOns
 
 pinata = Pinata(api_key, api_secret, access_token)
 
-
 def upload_contract(contract_name):
 
     file_path = "contracts/new/" + contract_name +"_logic.txt"

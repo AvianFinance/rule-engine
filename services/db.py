@@ -6,7 +6,6 @@ from dotenv import dotenv_values
 env_vars = dotenv_values()
 
 uri = "mongodb+srv://avfx_root:irmiot4462281@avianfinance.qc7bqtj.mongodb.net/?retryWrites=true&w=majority"
-# uri = env_vars["MONGODB_CONNECTION_STRING"]
 
 def get_collections_length():
     try:

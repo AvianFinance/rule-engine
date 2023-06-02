@@ -4,7 +4,8 @@ def write_contract(contract_type):
 
     try:
 
-        file_path = "contracts/new/" + contract_type + "_logic.txt"
+        txt_path = "contracts/new/" + contract_type + "_logic.txt"
+        sol_path = "contracts/new/" + contract_type + "_logic.sol"
 
         contract_name = "Avian" + contract_type + "Exchange"
 
@@ -12,14 +13,17 @@ def write_contract(contract_type):
 
         function_str_list = json_to_solidity(contract_name,rules)
 
-        with open(file_path, 'w') as file:
+        with open(txt_path, 'w') as file:
+            for section in function_str_list:
+                file.write(section + "\n")
+        with open(sol_path, 'w') as file:
             for section in function_str_list:
                 file.write(section + "\n")
 
-        return("Compiling Successful")
+        return("Writing Successful")
     
-    except:
-
-        return("Compiling Failed")
+    except Exception as e:
+        print(e)
+        return("Writing Failed")
 
 
