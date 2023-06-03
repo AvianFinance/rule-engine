@@ -40,7 +40,8 @@ def build_function(path):
     # function body ends
 
     if (len(data["events"])>0):
-        commands.append("\temit " + data["events"] + ";\n")
+        for event in data['events']:
+            commands.append("\temit " + event + ";\n")
 
     commands.append("\treturn(" + data["return_line"] + ");\n\t}\n")
 

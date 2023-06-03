@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [],
     "body" : [["unlistNFT",["nftAddress","tokenId"]]],
-    "events" : "RentNftUnlisted(msg.sender,nftAddress,tokenId)",
+    "events" : ["RentNftUnlisted(msg.sender,nftAddress,tokenId)"],
     "return_line" : "'NFT Successfully unlisted'"
 }

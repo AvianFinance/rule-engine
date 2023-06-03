@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [["isNFT(nftAddress)", "Contract is not an ERC721"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"],["price > 0","listing price should be greater than 0"]],
     "body" : [["is_approved",["nftAddress","tokenId"]],["write_listing",["nftAddress","tokenId","price"]]],
-    "events" : "SellNftListed(msg.sender, nftAddress, tokenId, price)",
+    "events" : ["SellNftListed(msg.sender, nftAddress, tokenId, price)"],
     "return_line" : "'NFT Listed successfully for upright selling'"
 }

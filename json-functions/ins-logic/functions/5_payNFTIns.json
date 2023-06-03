@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [],
     "body" : [],
-    "events" : "InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, listing.installmentCount, nextIndex, nextIns, totalPaid);",
+    "events" : ["InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, listing.installmentCount, nextIndex, nextIns, totalPaid);"],
     "return_line" : "'Successfully paid the installment'"
 }

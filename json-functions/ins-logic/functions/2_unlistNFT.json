@@ -7,6 +7,6 @@
     "returns" : "string memory",
     "requires" : [],
     "body" : [["unlistInsNFT",["nftAddress","tokenId"]]],
-    "events" : "InstNftUnlisted(msg.sender, nftAddress, tokenId)",
+    "events" : ["InstNftUnlisted(msg.sender, nftAddress, tokenId)"],
     "return_line" : "'Successfully removed the listing'"
 }

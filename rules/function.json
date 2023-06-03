@@ -3,13 +3,14 @@
     "state_mutability" : ["pure","payable","view","non-payable"],
     "requires" : {
         
-        "nft-rentable" : ["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],
-        "sender-is-owner" : ["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"], 
-        "listing-fee-provided" : ["msg.value == _listingFee", "Not enough ether for listing fee"], 
-        "price-above-zero" : ["pricePerDay > 0", "Rental price should be greater than 0"],
-        "installments-below-max-amount" : ["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"],
-        "still-paying" : ["installmentIndex <= installmentCount", "Installment Index should be lesser than the installment count"],
-        "first-installment-paid" : ["installmentIndex > 0", "Installment Index should be greater than 0"]
+        "is-NFT" : ["Token must be a NFT",["isNFT(nftAddress)", "Contract is not an ERC721"]],
+        "nft-rentable" : ["NFT must be an ERC4907",["isRentableNFT(nftAddress)", "Contract is not an ERC4907"]],
+        "sender-is-owner" : ["Only allowed for owner",["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"]], 
+        "listing-fee-provided" : ["Must pay the listing fee",["msg.value == _listingFee", "Not enough ether for listing fee"]], 
+        "price-above-zero" : ["Price should be greater than zero",["price > 0", "Rental price should be greater than 0"]],
+        "installments-below-max-amount" : ["Number of Installment should be below 10",["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"]],
+        "still-paying" : ["Payment Period",["installmentIndex <= installmentCount", "Installment Index should be lesser than the installment count"]],
+        "first-installment-paid" : ["Agreements not made",["installmentIndex > 0", "Installment Index should be greater than 0"]]
 
     }
 
