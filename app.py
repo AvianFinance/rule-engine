@@ -45,8 +45,12 @@ def deploy_contract(contract_type):
     return jsonify(ipfs=contract_info[0],contract_addr=contract_info[1])
     
 @app.route('/fetch/<contract_type>/<rule_type>') # fetch contract level data
-def get_contract_level_rules(contract_type,rule_type):
+def get_contract_level_rules_individually(contract_type,rule_type):
     return jsonify(data=fetch_rules(contract_type,rule_type))
+
+@app.route('/fetch_contract/<contract_type>') # fetch contract level data
+def get_contract_level_rules(contract_type):
+    return jsonify(errors=fetch_rules(contract_type,"errors"),events=fetch_rules(contract_type,"events"),modifiers=fetch_rules(contract_type,"modifiers"))
 
 @app.route('/fetch_function/<contract_type>/<function_name>') # fetch function level data
 def get_function_level_rules(contract_type,function_name):
