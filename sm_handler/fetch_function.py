@@ -62,7 +62,7 @@ def load_function(function_path):
     function_data["modifiers"] = compare_data_one(modifiers_all,modifiers_used)
     function_data["requires"] = compare_data_two(requires_all,requires_used)
     function_data["events"] = compare_data_one(events_all,events_used)
-    function_data["body"] = extract_process_data(process_used)
+    function_data["body"] = [extract_process_data(process_used),get_available_processes()]
 
     with open("testing.json", 'w') as f:
         json.dump(function_data, f, indent=3)
@@ -73,7 +73,11 @@ def get_available_functions(c_type):
     return(get_file_names("json-functions/" + c_type + "-logic/functions/"))
 
 def get_available_processes():
-    return(load_json_file('rules/process.json'))
+    full_processes = load_json_file('rules/process.json')
+    packet =[]
+    for key, value in full_processes.items():
+        packet.append([value[0],value[1]])
+    return(packet)
 
 
 
