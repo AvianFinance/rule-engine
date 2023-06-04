@@ -15,6 +15,7 @@ async def async_deploy_compiled_contract(contract_name):
 
 async def update_pending_contract_db(id,contract_type,contract_address,ipfs_hash):
     try:
+        ipfs_hash = 'https://gateway.pinata.cloud/ipfs/' + ipfs_hash
         new_contract = {
             "id": id,
             "contract_name": contract_type,
