@@ -8,7 +8,7 @@ from sm_handler.writer import write_contract
 from sm_handler.fetch_rules import fetch_rules
 from sm_handler.compiler import compile_export_contract
 from sm_handler.com_up_dep import full_flow
-from sm_handler.fetch_function import load_function, get_available_functions
+from sm_handler.fetch_function import load_function, get_available_functions, get_available_processes
 
 app = Flask(__name__)
 
@@ -36,7 +36,7 @@ def write_upload_contract(contract_type):
     else:
         return("compiling failed")
 
-@app.route('/deploy/<contract_type>')
+@app.route('/deploy/<contract_type>', methods = ['POST']) # compiles the specified contract in the  "contracts/new/" folder
 def deploy_contract(contract_type):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
@@ -44,18 +44,22 @@ def deploy_contract(contract_type):
     loop.close()
     return jsonify(ipfs=contract_info[0],contract_addr=contract_info[1])
     
-@app.route('/fetch/<contract_type>/<rule_type>')
+@app.route('/fetch/<contract_type>/<rule_type>') # fetch contract level data
 def get_contract_level_rules(contract_type,rule_type):
     return jsonify(data=fetch_rules(contract_type,rule_type))
 
-@app.route('/fetch_function/<contract_type>/<function_name>')
+@app.route('/fetch_function/<contract_type>/<function_name>') # fetch function level data
 def get_function_level_rules(contract_type,function_name):
     path = "json-functions/" + str(contract_type) + "-logic/functions/" + str(function_name) + ".json"
     return jsonify(data=load_function(path))
 
-@app.route('/available_function/<contract_type>')
+@app.route('/available_function/<contract_type>') # fetch available functions for a given contract
 def get_contract_functions(contract_type):
     return jsonify(data=get_available_functions(contract_type))
+
+@app.route('/available_process') # fetch available processes
+def get_processes():
+    return jsonify(data=get_available_processes())
 
 @app.route('/upgraded_contracts')
 def get_upgraded_contracts():

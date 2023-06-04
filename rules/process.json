@@ -1,0 +1,21 @@
+{
+    "a" : "is_approved",
+    "b" : "write_listing",
+    "c" : "update_listing",
+    "d" : "delete_listing",
+    "e" : "load_listing",
+    "f" : "write_listing_rental",
+    "g" : "unlistNFT",
+    "h" : "updateRentalList",
+    "i" : "isRentableNFT",
+    "j" : "isNFT",
+    "k" : "write_listing_installment",
+    "l" : "unlistInsNFT",
+    "m" : "calculateInstallmentNFT",
+    "n" : "is_price_met",
+    "o" : "add_proceeds",
+    "p" : "owner_transfer",
+    "q" : "withdraw_proceeds",
+    "r" : "pay_listing_fee",
+    "s" : "is_nft_listing_rented"
+}

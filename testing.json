@@ -1,0 +1,149 @@
+{
+   "function_name": "listItem",
+   "input_parameters": "address nftAddress, uint256 tokenId, uint256 price",
+   "visibility": "external",
+   "state_mutability": "none",
+   "modifiers": [
+      [
+         "notSListed",
+         "NFT cannot already be listed for selling",
+         1
+      ],
+      [
+         "isSListed",
+         "NFT needs to be listed for selling",
+         0
+      ],
+      [
+         "notIListed",
+         "NFT cannot already be listed for Ins Renting",
+         0
+      ],
+      [
+         "isIListed",
+         "NFT needs to be listed for Ins renting",
+         0
+      ],
+      [
+         "notRListed",
+         "NFT cannot already be listed for Renting",
+         0
+      ],
+      [
+         "isRListed",
+         "NFT needs to be listed for renting",
+         0
+      ],
+      [
+         "isOwner",
+         "Transaction should be from the NFT Owner",
+         0
+      ],
+      [
+         "non-reentrant",
+         "Prevent parallel occurences",
+         0
+      ]
+   ],
+   "returns": "string memory",
+   "requires": [
+      [
+         "is-NFT",
+         "Token must be a NFT",
+         1
+      ],
+      [
+         "nft-rentable",
+         "NFT must be an ERC4907",
+         0
+      ],
+      [
+         "sender-is-owner",
+         "Only allowed for owner",
+         1
+      ],
+      [
+         "listing-fee-provided",
+         "Must pay the listing fee",
+         0
+      ],
+      [
+         "price-above-zero",
+         "Price should be greater than zero",
+         1
+      ],
+      [
+         "installments-below-max-amount",
+         "Number of Installment should be below 10",
+         0
+      ],
+      [
+         "still-paying",
+         "Payment Period",
+         0
+      ],
+      [
+         "first-installment-paid",
+         "Agreements not made",
+         0
+      ]
+   ],
+   "body": [
+      [
+         0,
+         "is_approved"
+      ],
+      [
+         1,
+         "write_listing"
+      ]
+   ],
+   "events": [
+      [
+         "SellNftListed",
+         "NFT listed for selling",
+         1
+      ],
+      [
+         "SellNftUnlisted",
+         "NFT sell order cancelled",
+         0
+      ],
+      [
+         "SellNftBought",
+         "NFT bought",
+         0
+      ],
+      [
+         "RentNftListed",
+         "NFT listed for renting",
+         0
+      ],
+      [
+         "RentNftRented",
+         "NFT rented",
+         0
+      ],
+      [
+         "RentNftUnlisted",
+         "NFT rent order cancelled",
+         0
+      ],
+      [
+         "InstNftListed",
+         "NFT listed for installment based renting",
+         0
+      ],
+      [
+         "InstNftInsPaid",
+         "NFT installment paid",
+         0
+      ],
+      [
+         "InstNftUnlisted",
+         "NFT installment rent order cancelled",
+         0
+      ]
+   ],
+   "return_line": "'NFT Listed successfully for upright selling'"
+}

@@ -41,11 +41,18 @@ def compare_data_two(full,used):
 
     return(packet)
 
+def extract_process_data(used):
+    packet = []
+    for i in range(len(used)):
+        packet.append([i,used[i][0]])
+
+    return(packet)
+
 def load_function(function_path):
     function_data = load_json_file(function_path)
     modifiers_used = function_data['modifiers']
     requires_used = function_data['requires']
-    rules_used = function_data['body']
+    process_used = function_data['body']
     events_used = function_data['events']
 
     modifiers_all = load_json_file('rules/modifiers.json')
@@ -54,8 +61,8 @@ def load_function(function_path):
 
     function_data["modifiers"] = compare_data_one(modifiers_all,modifiers_used)
     function_data["requires"] = compare_data_two(requires_all,requires_used)
-    function_data["body"] = "Not Done"#compare_function_data(rules_used,modifiers_used)
     function_data["events"] = compare_data_one(events_all,events_used)
+    function_data["body"] = extract_process_data(process_used)
 
     with open("testing.json", 'w') as f:
         json.dump(function_data, f, indent=3)
@@ -64,6 +71,9 @@ def load_function(function_path):
 
 def get_available_functions(c_type):
     return(get_file_names("json-functions/" + c_type + "-logic/functions/"))
+
+def get_available_processes():
+    return(load_json_file('rules/process.json'))
 
 
 
