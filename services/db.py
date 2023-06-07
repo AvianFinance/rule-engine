@@ -26,6 +26,7 @@ def insert_collection(new_contract):
         db = client["AVFX"]
         collection = db["upgraded-contracts"]
         print(new_contract)
+        collection.update_many({ "status": { "$in": ["pending", "deployed"] } }, {"$set": {"status": "overwritten"}})
         collection.insert_one(new_contract)
         print("inserted")
     except Exception as e:
@@ -36,10 +37,24 @@ def get_collections():
         client = MongoClient("mongodb+srv://avfx_root:irmiot4462281@avianfinance.qc7bqtj.mongodb.net/?retryWrites=true&w=majority")
         db = client["AVFX"]
         collection = db["upgraded-contracts"]
-        upgraded_contracts = collection.find()
-        upgraded_smartcontracts_list =[]
+        print('--------------------')
+        upgraded_contracts = collection.find({}, {"_id": 0})
+        upgraded_smartcontracts_list = []
         for contract in upgraded_contracts:
+            print(contract)
             upgraded_smartcontracts_list.append(contract)
-        return (upgraded_smartcontracts_list)
+        return (["Success",upgraded_smartcontracts_list])
+    except Exception as e:
+        return(["Error",e])
+    
+def update_collections(contract_address):
+    try:
+        client = MongoClient("mongodb+srv://avfx_root:irmiot4462281@avianfinance.qc7bqtj.mongodb.net/?retryWrites=true&w=majority")
+        db = client["AVFX"]
+        collection = db["upgraded-contracts"]
+        print(contract_address)
+        collection.update_one({"contract_address": contract_address}, {"$set": {"status": "pending"}})
+        print("updated")
+        return("Success")
     except Exception as e:
         return(e)

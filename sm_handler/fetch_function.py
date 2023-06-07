@@ -70,14 +70,20 @@ def load_function(function_path):
     return(function_data)
 
 def get_available_functions(c_type):
-    return(get_file_names("json-functions/" + c_type + "-logic/functions/"))
+    try:
+        return(["Success", get_file_names("json-functions/" + c_type + "-logic/functions/")])
+    except Exception as e:
+        return (["Error", e])
 
 def get_available_processes():
-    full_processes = load_json_file('rules/process.json')
-    packet =[]
-    for key, value in full_processes.items():
-        packet.append([value[0],value[1]])
-    return(packet)
+    try:
+        full_processes = load_json_file('rules/process.json')
+        packet = []
+        for key, value in full_processes.items():
+            packet.append([key, value[0]])
+        return (["Success",packet])
+    except Exception as e:
+        return (["Error", e])
 
 
 

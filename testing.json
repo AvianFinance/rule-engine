@@ -1,18 +1,18 @@
 {
-   "function_name": "updateListing",
-   "input_parameters": "address nftAddress, uint256 tokenId, uint256 newPrice",
+   "function_name": "listItem",
+   "input_parameters": "address nftAddress, uint256 tokenId, uint256 price",
    "visibility": "external",
-   "state_mutability": "",
+   "state_mutability": "none",
    "modifiers": [
       [
          "notSListed",
          "NFT cannot already be listed for selling",
-         0
+         1
       ],
       [
          "isSListed",
          "NFT needs to be listed for selling",
-         1
+         0
       ],
       [
          "notIListed",
@@ -37,7 +37,7 @@
       [
          "isOwner",
          "Transaction should be from the NFT Owner",
-         1
+         0
       ],
       [
          "non-reentrant",
@@ -50,7 +50,7 @@
       [
          "is-NFT",
          "Token must be a NFT",
-         0
+         1
       ],
       [
          "nft-rentable",
@@ -60,7 +60,7 @@
       [
          "sender-is-owner",
          "Only allowed for owner",
-         0
+         1
       ],
       [
          "listing-fee-provided",
@@ -70,7 +70,7 @@
       [
          "price-above-zero",
          "Price should be greater than zero",
-         0
+         1
       ],
       [
          "installments-below-max-amount",
@@ -92,85 +92,92 @@
       [
          [
             0,
-            "update_listing"
+            "is_approved"
+         ],
+         [
+            1,
+            "write_listing"
          ]
       ],
       [
+         "Success",
          [
-            "is_approved",
-            "description"
-         ],
-         [
-            "write_listing",
-            "description"
-         ],
-         [
-            "update_listing",
-            "description"
-         ],
-         [
-            "delete_listing",
-            "description"
-         ],
-         [
-            "load_listing",
-            "description"
-         ],
-         [
-            "write_listing_rental",
-            "description"
-         ],
-         [
-            "unlistNFT",
-            "description"
-         ],
-         [
-            "updateRentalList",
-            "description"
-         ],
-         [
-            "isRentableNFT",
-            "description"
-         ],
-         [
-            "isNFT",
-            "description"
-         ],
-         [
-            "write_listing_installment",
-            "description"
-         ],
-         [
-            "unlistInsNFT",
-            "description"
-         ],
-         [
-            "calculateInstallmentNFT",
-            "description"
-         ],
-         [
-            "is_price_met",
-            "description"
-         ],
-         [
-            "add_proceeds",
-            "description"
-         ],
-         [
-            "owner_transfer",
-            "description"
-         ],
-         [
-            "withdraw_proceeds",
-            "description"
-         ],
-         [
-            "pay_listing_fee",
-            "description"
-         ],
-         [
-            "is_nft_listing_rented",
-            "description"
+            [
+               "a",
+               "is_approved"
+            ],
+            [
+               "b",
+               "write_listing"
+            ],
+            [
+               "c",
+               "update_listing"
+            ],
+            [
+               "d",
+               "delete_listing"
+            ],
+            [
+               "e",
+               "load_listing"
+            ],
+            [
+               "f",
+               "write_listing_rental"
+            ],
+            [
+               "g",
+               "unlistNFT"
+            ],
+            [
+               "h",
+               "updateRentalList"
+            ],
+            [
+               "i",
+               "isRentableNFT"
+            ],
+            [
+               "j",
+               "isNFT"
+            ],
+            [
+               "k",
+               "write_listing_installment"
+            ],
+            [
+               "l",
+               "unlistInsNFT"
+            ],
+            [
+               "m",
+               "calculateInstallmentNFT"
+            ],
+            [
+               "n",
+               "is_price_met"
+            ],
+            [
+               "o",
+               "add_proceeds"
+            ],
+            [
+               "p",
+               "owner_transfer"
+            ],
+            [
+               "q",
+               "withdraw_proceeds"
+            ],
+            [
+               "r",
+               "pay_listing_fee"
+            ],
+            [
+               "s",
+               "is_nft_listing_rented"
+            ]
          ]
       ]
    ],
@@ -221,5 +228,5 @@
          0
       ]
    ],
-   "return_line": "'Successfully updated the listing'"
+   "return_line": "'NFT Listed successfully for upright selling'"
 }

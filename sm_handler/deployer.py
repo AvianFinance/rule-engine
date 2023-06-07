@@ -7,7 +7,7 @@ def deploy_compiled_contract(contract_name):
 
         contract_name = 'abis/Avian' + contract_name.capitalize() + 'Exchange.json'
 
-        private_key = "7e0dd21cba3952c769b9a90376893a351d4ac356aeacd0e537f5022e08593528"
+        private_key = "986815db062b75efa84cd38ea93e08e9e13a42ee9493f756c1bc661d06201e68"
 
         w3 = Web3(Web3.HTTPProvider('https://api.avax-test.network/ext/bc/C/rpc'))
 
