@@ -21,7 +21,7 @@ async def update_pending_contract_db(id,contract_type,contract_address,ipfs_hash
             "contract_name": contract_type,
             "contract_address": contract_address,
             "address": ipfs_hash,
-            "status" : "active"
+            "status" : "deployed"
         }
 
         insert_collection(new_contract)
