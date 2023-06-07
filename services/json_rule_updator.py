@@ -50,11 +50,11 @@ def read_json(filename, updated_list):
         data = json.load(file)
 
     # Create the new JSON object
-    new_data = {key: data[key] for key in updated_list}
+    new_data = {key: data[key][1] for key in updated_list}
     return new_data
 
 def write_to_json(filename, content):
-    filepath = "sell-logic/" + filename
+    filepath = "json-functions/sell-logic/" + filename
     # Write the new JSON object to a JSON file
     with open(filepath, 'w') as file:
         json.dump(content, file, indent=4)
