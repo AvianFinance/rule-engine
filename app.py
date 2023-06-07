@@ -1,9 +1,10 @@
 import asyncio
 from flask_cors import CORS
-from flask import Flask, jsonify, make_response
+from flask import Flask, request, jsonify, make_response
 
 
 from services.upload_contract import upload_contract
+from services.json_rule_updator import json_rule_updator
 from services.db import get_collections, update_collections
 from sm_handler.writer import write_contract
 from sm_handler.fetch_rules import fetch_rules
@@ -27,6 +28,8 @@ def index():
 
 @app.route('/check/<contract_type>', methods = ['POST']) # Use this route for the check button usecase
 def write_upload_contract(contract_type):
+    data = request.get_json()
+    json_rule_updator(data)
     compile_status = write_contract(contract_type)
     if (compile_status=="Writing Successful"):
         loop = asyncio.new_event_loop()
