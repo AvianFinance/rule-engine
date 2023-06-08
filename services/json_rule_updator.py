@@ -49,7 +49,7 @@ def processErrorList(rules) :
 def processFunctionList(rules) :
     function_name = rules['function_name']
 
-    desired_keys = ['function_name', 'input_parameters', 'body', 'return_line', 'returns', 'state_mutability', 'visibility']
+    desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns','body', 'return_line']
     unchange_data = {key: rules[key] for key in desired_keys}
 
     if (function_name == 'listItem'):
@@ -70,7 +70,6 @@ def processFunctionList(rules) :
 def processAFunction(rules, unchanged_data, filename) :
 
     keys = ['events','modifiers', 'requires']
-    print(unchanged_data)
 
     for item in keys:
         if (item == 'body'):
@@ -107,8 +106,8 @@ def processAFunction(rules, unchanged_data, filename) :
         else:
             print("Unidentified type")
 
-        print(unchanged_data)
-        write_to_json(filename, unchanged_data)
+    print(unchanged_data)
+    write_to_json(filename, unchanged_data)
     
 def read_json(filename, updated_list, method):
     filepath = "rules/" + filename
