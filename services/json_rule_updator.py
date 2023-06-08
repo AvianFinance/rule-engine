@@ -72,16 +72,9 @@ def processAFunction(rules, unchanged_data, filename) :
     keys = ['events','modifiers', 'requires']
 
     for item in keys:
-        if (item == 'body'):
-            print("Processing body List")
-            print("-----------------------------------")
-            # body_l = rules['body']
-            # print(body_l)
-            # updated_rules = [sublist[0] for sublist in a if sublist[2] == 1]
-            # print(updated_rules)
         
-        elif(item =='requires'):
-            print("Processing requires List")
+        if(item =='requires'):
+            print("Fucntional requires List")
             print("-----------------------------------")
             require_l = rules['requires']
             updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
@@ -89,7 +82,7 @@ def processAFunction(rules, unchanged_data, filename) :
             unchanged_data["requires"] = requires_json
 
         elif(item =='modifiers'):
-            print("Processing modifiers List")
+            print("Fucntional modifiers List")
             print("-----------------------------------")
             modifiers_l = rules['modifiers']
             updated_requires = [sublist[0] for sublist in modifiers_l if sublist[2] == 1]
@@ -97,7 +90,7 @@ def processAFunction(rules, unchanged_data, filename) :
             unchanged_data["modifiers"] = modifier_json
 
         elif(item =='events'):
-            print("Processing events list")
+            print("Functional events list")
             print("-----------------------------------")
             events_l = rules['events']
             updated_events = [sublist[0] for sublist in events_l if sublist[2] == 1]
@@ -106,7 +99,7 @@ def processAFunction(rules, unchanged_data, filename) :
         else:
             print("Unidentified type")
 
-    print(unchanged_data)
+    # print(unchanged_data)
     write_to_json(filename, unchanged_data)
     
 def read_json(filename, updated_list, method):
@@ -129,6 +122,6 @@ def write_to_json(filename, content):
     filepath = "json-functions/sell-logic/" + filename
     # Write the new JSON object to a JSON file
     with open(filepath, 'w') as file:
-        json.dump(content, file, indent=4)
+        json.dump(content, file, indent=1)
 
     print(filepath + " : Json file updated")
