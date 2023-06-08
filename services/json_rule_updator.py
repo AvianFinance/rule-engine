@@ -49,20 +49,26 @@ def processErrorList(rules) :
 def processFunctionList(rules) :
     function_name = rules['function_name']
 
-    desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns','body', 'return_line']
+    desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns', 'return_line']
     unchange_data = {key: rules[key] for key in desired_keys}
 
     if (function_name == 'listItem'):
+        unchange_data['body'] = [["is_approved",["nftAddress","tokenId"]],["write_listing",["nftAddress","tokenId","price"]]]
         processAFunction(rules, unchange_data, "functions/1_list_item.json")
     elif (function_name == 'updateListing'):
+        unchange_data['body'] = [["update_listing",["nftAddress","tokenId","newPrice"]]]
         processAFunction(rules, unchange_data, "functions/2_update_listing.json")
     elif (function_name == 'cancelListing'):
+        unchange_data['body'] = [["delete_listing",["nftAddress","tokenId"]]]
         processAFunction(rules, unchange_data, "functions/3_cancel_listing.json")
     elif (function_name == 'buyItem'):
+        unchange_data['body'] = [["is_approved",["nftAddress","tokenId"]],["load_listing",["sell","nftAddress","tokenId"]],["is_price_met",[]],["add_proceeds",["sell"]],["delete_listing",["nftAddress","tokenId"]],["owner_transfer",["nftAddress","tokenId"]]]
         processAFunction(rules, unchange_data, "functions/4_buy_item.json")
     elif (function_name == 'withdrawProceeds'):
+        unchange_data['body'] = [["withdraw_proceeds",["sell"]]]
         processAFunction(rules, unchange_data, "functions/5_withdraw.json")
     elif (function_name == 'isNFT'):
+        unchange_data['body'] = [["isNFT", ["nftContract", "tokenId"]]]
         processAFunction(rules, unchange_data, "functions/6_is_nft.json")
     else:
         print("Unidentified function")
