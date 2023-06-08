@@ -1,5 +1,5 @@
 {
- "notSListed": [
+ "notSellListed": [
   "(address nftAddress, uint256 tokenId) {",
   "Listing_sell memory listing = s_listings[nftAddress][tokenId];",
   "if (listing.price > 0) {",
@@ -7,7 +7,7 @@
   "}",
   "_;"
  ],
- "isSListed": [
+ "isSellListed": [
   "(address nftAddress, uint256 tokenId) {",
   "Listing_sell memory listing = s_listings[nftAddress][tokenId];",
   "if (listing.price <= 0) {",

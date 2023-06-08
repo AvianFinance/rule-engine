@@ -3,7 +3,7 @@
     "input_parameters" : "address nftAddress, uint256 tokenId",
     "visibility" : "public",
     "state_mutability" : "none",
-    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)", "isIListed(nftAddress, tokenId)"],
+    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)", "isInsListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [],
     "body" : [["unlistInsNFT",["nftAddress","tokenId"]]],

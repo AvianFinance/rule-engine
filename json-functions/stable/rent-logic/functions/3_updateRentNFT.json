@@ -3,7 +3,7 @@
     "input_parameters" : "address nftAddress, uint256 tokenId, uint256 pricePerDay",
     "visibility" : "external",
     "state_mutability" : "none",
-    "modifiers" : ["nonReentrant","isRListed(nftAddress, tokenId)"],
+    "modifiers" : ["nonReentrant","isRentListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"], ["pricePerDay > 0", "Rental price should be greater than 0"]],
     "body" : [["updateRentalList",["nftAddress","tokenId"]]],

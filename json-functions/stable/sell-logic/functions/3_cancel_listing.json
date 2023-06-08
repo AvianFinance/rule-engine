@@ -3,7 +3,7 @@
     "input_parameters" : "address nftAddress, uint256 tokenId",
     "visibility" : "external",
     "state_mutability" : "none",
-    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)","isSListed(nftAddress, tokenId)"],
+    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)","isSellListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [],
     "body" : [["delete_listing",["nftAddress","tokenId"]]],

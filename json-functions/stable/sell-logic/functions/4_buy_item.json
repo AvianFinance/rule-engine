@@ -3,7 +3,7 @@
     "input_parameters" : "address nftAddress, uint256 tokenId",
     "visibility" : "external",
     "state_mutability" : "payable",
-    "modifiers" : ["isSListed(nftAddress, tokenId)","nonReentrant"],
+    "modifiers" : ["isSellListed(nftAddress, tokenId)","nonReentrant"],
     "returns" : "string memory",
     "requires" : [],
     "body" : [["is_approved",["nftAddress","tokenId"]],["load_listing",["sell","nftAddress","tokenId"]],["is_price_met",[]],["add_proceeds",["sell"]],["delete_listing",["nftAddress","tokenId"]],["owner_transfer",["nftAddress","tokenId"]]],
