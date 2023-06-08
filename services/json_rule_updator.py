@@ -54,6 +54,16 @@ def processFunctionList(rules) :
 
     if (function_name == 'listItem'):
         processAFunction(rules, unchange_data, "functions/1_list_item.json")
+    elif (function_name == 'updateListing'):
+        processAFunction(rules, unchange_data, "functions/2_update_listing.json")
+    elif (function_name == 'cancelListing'):
+        processAFunction(rules, unchange_data, "functions/3_cancel_listing.json")
+    elif (function_name == 'buyItem'):
+        processAFunction(rules, unchange_data, "functions/4_buy_item.json")
+    elif (function_name == 'withdrawProceeds'):
+        processAFunction(rules, unchange_data, "functions/5_withdraw.json")
+    elif (function_name == 'isNFT'):
+        processAFunction(rules, unchange_data, "functions/6_is_nft.json")
     else:
         print("Unidentified function")
 
