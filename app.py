@@ -47,6 +47,8 @@ def write_upload_contract(contract_type):
 @app.route('/deploy/<contract_type>', methods = ['POST']) # compiles the specified contract in the  "contracts/new/" folder
 def deploy_contract(contract_type):
     try:
+        data = request.get_json()
+        json_rule_updator(data)
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         print('contract_type',contract_type)
