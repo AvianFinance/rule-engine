@@ -6,7 +6,7 @@ def compile_export_contract(c_type):
 
     try:
 
-        contract_path = 'contracts/new/' + c_type + '_logic.sol'
+        contract_path = 'contracts/pending/' + c_type + '_logic.sol'
         output_folder = 'abis'
         contract_name = 'Avian' + c_type.capitalize() + 'Exchange'
 

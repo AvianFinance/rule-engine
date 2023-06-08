@@ -11,15 +11,13 @@ def write_contract(contract_type,check_type):
 
         rules = "/" + check_type + "/" + contract_type + "-logic"
 
-        print("came here")
-
         function_str_list = json_to_solidity(contract_name,rules)
 
         with open(txt_path, 'w') as file:
             for section in function_str_list:
                 file.write(section + "\n")
                 
-        if (check_type == "deploy"):
+        if (check_type == "pending"):
             with open(sol_path, 'w') as file:
                 for section in function_str_list:
                     file.write(section + "\n")

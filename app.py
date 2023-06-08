@@ -8,7 +8,6 @@ from services.json_rule_updator import json_rule_updator
 from services.db import get_collections, update_collections, getlattest
 from sm_handler.writer import write_contract
 from sm_handler.fetch_rules import fetch_rules
-from sm_handler.compiler import compile_export_contract
 from sm_handler.com_up_dep import full_flow
 from sm_handler.fetch_function import load_function, get_available_functions, get_available_processes
 
@@ -19,9 +18,6 @@ CORS(app)
 async def async_upload_contract(contract_name,check_type):
     return upload_contract(contract_name,check_type)
 
-async def async_deploy_contract(contract_name):
-    return compile_export_contract(contract_name)
-
 @app.route('/')
 def index():
     return 'Welcome to the Avian Finance Rule Engine !!!'
@@ -29,7 +25,7 @@ def index():
 @app.route('/check/<contract_type>', methods = ['POST']) # Use this route for the check button usecase
 def write_upload_contract(contract_type):
     data = request.get_json()
-    json_rule_updator(data,contract_type)
+    json_rule_updator(data,contract_type, "check")
     write_status = write_contract(contract_type,"check")
     if (write_status=="Writing Successful"):
         loop = asyncio.new_event_loop()
@@ -48,7 +44,7 @@ def write_upload_contract(contract_type):
 def deploy_contract(contract_type):
     try:
         data = request.get_json()
-        json_rule_updator(data)
+        json_rule_updator(data,contract_type,"pending")
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         print('contract_type',contract_type)

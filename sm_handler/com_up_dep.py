@@ -4,8 +4,8 @@ from services.upload_contract import upload_contract
 from sm_handler.compiler import compile_export_contract
 from services.db import insert_collection
 
-async def async_upload_contract(contract_name):
-    return upload_contract(contract_name)
+async def async_upload_contract(contract_name,c_p_type):
+    return upload_contract(contract_name,c_p_type)
 
 async def async_compile_export_contract(contract_name):
     return compile_export_contract(contract_name)
@@ -35,10 +35,10 @@ async def full_flow(contract_type):
     packet = []
 
     try:
-        write_status = write_contract(contract_type)
+        write_status = write_contract(contract_type,"pending")
         if write_status == "Writing Successful":
             print("Writing Done")
-            ipfs_hash = await async_upload_contract(contract_type)
+            ipfs_hash = await async_upload_contract(contract_type,"pending")
             if ipfs_hash == 'File upload failed ! with error':
                 return("Uploading Failed")
             else:

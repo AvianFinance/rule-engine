@@ -1,0 +1,9 @@
+{
+    "1" : "address private _marketOwner",
+    "2" : "uint256 private _listingFee = .01 ether",
+    "3" : "mapping(address => mapping(uint256 => Listing_sell)) private s_listings",
+    "4" : "mapping(address => uint256) private s_proceeds",
+    "5" : "mapping(address => EnumerableSet.UintSet) private s_address_tokens",
+    "6" : "EnumerableSet.AddressSet private s_address",
+    "7" : "Counters.Counter private s_listed"
+}
