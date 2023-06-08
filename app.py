@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, make_response
 
 from services.upload_contract import upload_contract
 from services.json_rule_updator import json_rule_updator
-from services.db import get_collections, update_collections
+from services.db import get_collections, update_collections, getlattest
 from sm_handler.writer import write_contract
 from sm_handler.fetch_rules import fetch_rules
 from sm_handler.compiler import compile_export_contract
@@ -127,6 +127,20 @@ def get_upgraded_contracts():
         response = make_response(jsonify("Error Occured"))
         response.status_code = 400  # Set the desired status code
         return response
+
+@app.route('/lattestcontract/<contract_type>') # fetch available functions for a given contract
+def get_lattest_contract(contract_type):
+    data=getlattest(contract_type)
+    print('data-----------------------',data)
+    if(data[0]=="Success"):
+        response = make_response(jsonify(data=data[1]))
+        response.status_code = 200  # Set the desired status code
+        return response
+    else:
+        response = make_response(jsonify("Error Occured"))
+        response.status_code = 400  # Set the desired status code
+        return response
+
 
 @app.route('/created_proposal/<address>')
 def created_proposal(address):
