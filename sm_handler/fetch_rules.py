@@ -23,6 +23,6 @@ def load_json_file(file_path):
 def fetch_rules(contract_name,rule_type):
 
     all_rules_path = "rules/" + rule_type + ".json"
-    cuurent_rules_paths = "json-functions/" + str(contract_name) + "-logic/" + str(rule_type) + ".json"
+    cuurent_rules_paths = "json-functions/stable/" + str(contract_name) + "-logic/" + str(rule_type) + ".json"
 
     return(compare_json_files(all_rules_path,cuurent_rules_paths))

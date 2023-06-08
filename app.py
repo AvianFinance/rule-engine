@@ -29,7 +29,7 @@ def index():
 @app.route('/check/<contract_type>', methods = ['POST']) # Use this route for the check button usecase
 def write_upload_contract(contract_type):
     data = request.get_json()
-    json_rule_updator(data,"sell")
+    json_rule_updator(data,contract_type)
     write_status = write_contract(contract_type,"check")
     if (write_status=="Writing Successful"):
         loop = asyncio.new_event_loop()
