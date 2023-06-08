@@ -22,6 +22,9 @@ def json_rule_updator(data):
 
         elif(item =='functionlist'):
             print("Processing function list")
+            rules = data['functionlist']
+            if bool(rules):
+                processFunctionList(rules)
         
         else:
             print("Unidentified type")
@@ -43,6 +46,50 @@ def processErrorList(rules) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("errors.json", updated_rules)
     write_to_json("errors.json", rule_json)
+    
+def processFunctionList(rules) :
+    print(rules)
+    function_name = rules['function_name']
+    print(function_name)
+
+    if (function_name == 'listItem'):
+        print("Go to the function")
+    else:
+        print("Unidentified function")
+
+def processAFunction(rules) :
+    print(rules)
+    keys = list(rules)
+    print("Keysss")
+    print(keys)
+
+    for item in keys:
+        if (item == 'body'):
+            print("Processing body List")
+            print("-----------------------------------")
+            a = rules['body']
+            print(a)
+        
+        elif(item =='requires'):
+            print("Processing Event List")
+            print("-----------------------------------")
+            a = rules['requires']
+            print(a)
+
+        elif(item =='modifiers'):
+            print("Processing errors List")
+            print("-----------------------------------")
+            a = rules['modifiers']
+            processErrorList(a)
+
+        elif(item =='events'):
+            print("Processing function list")
+            print("-----------------------------------")
+            a = rules['functionlist']
+            processFunctionList(a)
+        
+        else:
+            print("Unidentified type")
     
 def read_json(filename, updated_list):
     filepath = "rules/" + filename
