@@ -31,7 +31,6 @@ def json_rule_updator(data):
          
     return 1
 
-
 def processEventList(rules) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("events.json", updated_rules, "A")
@@ -50,7 +49,7 @@ def processErrorList(rules) :
 def processFunctionList(rules) :
     function_name = rules['function_name']
 
-    desired_keys = ['function_name', 'input_parameters', 'return_line', 'returns', 'state_mutability', 'visibility']
+    desired_keys = ['function_name', 'input_parameters', 'body', 'return_line', 'returns', 'state_mutability', 'visibility']
     unchange_data = {key: rules[key] for key in desired_keys}
 
     if (function_name == 'listItem'):
@@ -59,9 +58,8 @@ def processFunctionList(rules) :
         print("Unidentified function")
 
 def processAFunction(rules, unchanged_data, filename) :
-    # print(rules)
 
-    keys = ['body', 'events','modifiers', 'requires']
+    keys = ['events','modifiers', 'requires']
     print(unchanged_data)
 
     for item in keys:
@@ -79,7 +77,6 @@ def processAFunction(rules, unchanged_data, filename) :
             require_l = rules['requires']
             updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
             requires_json = read_json("function.json", updated_requires, "C")
-            print(requires_json)
             unchanged_data["requires"] = requires_json
 
         elif(item =='modifiers'):
