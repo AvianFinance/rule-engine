@@ -31,73 +31,98 @@ def json_rule_updator(data):
          
     return 1
 
-
 def processEventList(rules) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
-    rule_json = read_json("events.json", updated_rules)
+    rule_json = read_json("events.json", updated_rules, "A")
     write_to_json("events.json", rule_json)
 
 def processModifierList(rules) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
-    rule_json = read_json("modifiers.json", updated_rules)
+    rule_json = read_json("modifiers.json", updated_rules, "A")
     write_to_json("modifiers.json", rule_json)
 
 def processErrorList(rules) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
-    rule_json = read_json("errors.json", updated_rules)
+    rule_json = read_json("errors.json", updated_rules, "A")
     write_to_json("errors.json", rule_json)
     
 def processFunctionList(rules) :
-    print(rules)
     function_name = rules['function_name']
-    print(function_name)
+
+    desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns','body', 'return_line']
+    unchange_data = {key: rules[key] for key in desired_keys}
 
     if (function_name == 'listItem'):
-        print("Go to the function")
+        processAFunction(rules, unchange_data, "functions/1_list_item.json")
+    elif (function_name == 'updateListing'):
+        processAFunction(rules, unchange_data, "functions/2_update_listing.json")
+    elif (function_name == 'cancelListing'):
+        processAFunction(rules, unchange_data, "functions/3_cancel_listing.json")
+    elif (function_name == 'buyItem'):
+        processAFunction(rules, unchange_data, "functions/4_buy_item.json")
+    elif (function_name == 'withdrawProceeds'):
+        processAFunction(rules, unchange_data, "functions/5_withdraw.json")
+    elif (function_name == 'isNFT'):
+        processAFunction(rules, unchange_data, "functions/6_is_nft.json")
     else:
         print("Unidentified function")
 
-def processAFunction(rules) :
-    print(rules)
-    keys = list(rules)
-    print("Keysss")
-    print(keys)
+def processAFunction(rules, unchanged_data, filename) :
+
+    keys = ['events','modifiers', 'requires']
 
     for item in keys:
         if (item == 'body'):
             print("Processing body List")
             print("-----------------------------------")
-            a = rules['body']
-            print(a)
+            # body_l = rules['body']
+            # print(body_l)
+            # updated_rules = [sublist[0] for sublist in a if sublist[2] == 1]
+            # print(updated_rules)
         
         elif(item =='requires'):
-            print("Processing Event List")
+            print("Processing requires List")
             print("-----------------------------------")
-            a = rules['requires']
-            print(a)
+            require_l = rules['requires']
+            updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
+            requires_json = read_json("function.json", updated_requires, "C")
+            unchanged_data["requires"] = requires_json
 
         elif(item =='modifiers'):
-            print("Processing errors List")
+            print("Processing modifiers List")
             print("-----------------------------------")
-            a = rules['modifiers']
-            processErrorList(a)
+            modifiers_l = rules['modifiers']
+            updated_requires = [sublist[0] for sublist in modifiers_l if sublist[2] == 1]
+            modifier_json = read_json("modifiers.json", updated_requires, "B")
+            unchanged_data["modifiers"] = modifier_json
 
         elif(item =='events'):
-            print("Processing function list")
+            print("Processing events list")
             print("-----------------------------------")
-            a = rules['functionlist']
-            processFunctionList(a)
-        
+            events_l = rules['events']
+            updated_events = [sublist[0] for sublist in events_l if sublist[2] == 1]
+            events_json = read_json("events.json", updated_events, "B")
+            unchanged_data["events"] = events_json
         else:
             print("Unidentified type")
+
+    print(unchanged_data)
+    write_to_json(filename, unchanged_data)
     
-def read_json(filename, updated_list):
+def read_json(filename, updated_list, method):
     filepath = "rules/" + filename
     with open(filepath) as file:
         data = json.load(file)
 
     # Create the new JSON object
-    new_data = {key: data[key][1] for key in updated_list}
+    if(method == "A") :
+        new_data = {key: data[key][1] for key in updated_list}
+    if(method == "B"):
+        dictionary_data = {data[key][2] for key in updated_list}
+        new_data = list(dictionary_data)
+    if(method == "C"):
+        r_list = data['requires']
+        new_data = [r_list[key][1] for key in updated_list]
     return new_data
 
 def write_to_json(filename, content):
