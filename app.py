@@ -16,8 +16,8 @@ app = Flask(__name__)
 
 CORS(app)
 
-async def async_upload_contract(contract_name):
-    return upload_contract(contract_name)
+async def async_upload_contract(contract_name,check_type):
+    return upload_contract(contract_name,check_type)
 
 async def async_deploy_contract(contract_name):
     return compile_export_contract(contract_name)
@@ -29,18 +29,18 @@ def index():
 @app.route('/check/<contract_type>', methods = ['POST']) # Use this route for the check button usecase
 def write_upload_contract(contract_type):
     data = request.get_json()
-    json_rule_updator(data)
-    compile_status = write_contract(contract_type)
-    if (compile_status=="Writing Successful"):
+    json_rule_updator(data,"sell")
+    write_status = write_contract(contract_type,"check")
+    if (write_status=="Writing Successful"):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        contract_info = loop.run_until_complete(async_upload_contract(contract_type))
+        contract_info = loop.run_until_complete(async_upload_contract(contract_type,"check"))
         loop.close()
         response = make_response(jsonify('https://gateway.pinata.cloud/ipfs/' + str(contract_info)))
         response.status_code = 200  # Set the desired status code
         return response
     else:
-        response = make_response("compiling failed")
+        response = make_response("Writing failed")
         response.status_code = 400  # Set the desired status code
         return response
 
@@ -60,7 +60,7 @@ def deploy_contract(contract_type):
             response.status_code = 200  # Set the desired status code
             return response
         else:
-            response = make_response("Error Occured")
+            response = make_response("Error occured")
             response.status_code = 400  # Set the desired status code
             return response
     except:

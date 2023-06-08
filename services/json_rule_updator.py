@@ -1,7 +1,11 @@
 import json
+import shutil
+import os
 
-def json_rule_updator(data):
-    # print(data)
+def json_rule_updator(data,contract_type):
+
+    copy_stable(contract_type)
+
     keys = list(data)
 
     for item in keys:
@@ -9,7 +13,7 @@ def json_rule_updator(data):
             print("Processing Event List")
             rules = data['eventsList']
             processEventList(rules)
-               
+
         elif(item =='modifiersList'):
             print("Processing modifiers List")
             rules = data['modifiersList']
@@ -125,9 +129,30 @@ def read_json(filename, updated_list, method):
     return new_data
 
 def write_to_json(filename, content):
-    filepath = "json-functions/sell-logic/" + filename
-    # Write the new JSON object to a JSON file
+    filepath = "json-functions/check/sell-logic/" + filename
     with open(filepath, 'w') as file:
         json.dump(content, file, indent=1)
 
     print(filepath + " : Json file updated")
+
+
+def copy_stable(contract_type):
+    
+    source_folder = 'json-functions/stable/' + contract_type + "-logic"
+    destination_folder = 'json-functions/check/' + contract_type + "-logic"
+
+    if os.path.exists(destination_folder):
+        try:
+            shutil.rmtree(destination_folder)
+            print("Destination folder deleted successfully.")
+        except Exception as e:
+            print(f"An error occurred while deleting the destination folder: {str(e)}")
+
+    try:
+        shutil.copytree(source_folder, destination_folder)
+        print("Folder copied successfully.")
+    except FileExistsError:
+        print("Destination folder already exists.")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+

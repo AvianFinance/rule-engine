@@ -1,5 +1,0 @@
-{
-    "SellNftListed" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId","uint256 price"],
-    "SellNftUnlisted" : ["address indexed seller","address indexed nftAddress","uint256 indexed tokenId"],
-    "SellNftBought" : ["address indexed buyer","address indexed nftAddress","uint256 indexed tokenId","uint256 price"]
-}

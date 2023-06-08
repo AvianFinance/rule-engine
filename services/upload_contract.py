@@ -1,4 +1,5 @@
 from pinata import Pinata
+from services.remove_file import remove
 
 api_key = '27de8ecd448d490b75a8'
 api_secret = '4d80dee97df83b16f31b72629d3b98f806db005a6c642b8ce65a7e3c45f50548'
@@ -6,15 +7,16 @@ access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOns
 
 pinata = Pinata(api_key, api_secret, access_token)
 
-def upload_contract(contract_name):
+def upload_contract(contract_name,check_type):
 
-    file_path = "contracts/new/" + contract_name +"_logic.txt"
+    file_path = "contracts/" + check_type + "/" + contract_name + "_logic.txt"
 
     upload_response = pinata.pin_file(file_path)
 
     print(upload_response)
 
     if upload_response['status'] == "success":
+        remove(file_path)
         return(upload_response['data']['IpfsHash'])
     else:
         return('File upload failed ! with error')

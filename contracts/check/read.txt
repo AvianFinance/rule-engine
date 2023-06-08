@@ -1,0 +1,3 @@
+Keep this file and the folder at all cost.
+
+In check scenario temporary contracts are saved here and they are removed.
