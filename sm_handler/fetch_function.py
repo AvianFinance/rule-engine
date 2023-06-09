@@ -71,7 +71,7 @@ def load_function(function_path):
 
 def get_available_functions(c_type):
     try:
-        return(["Success", get_file_names("json-functions/" + c_type + "-logic/functions/")])
+        return(["Success", get_file_names("json-functions/stable/" + c_type + "-logic/functions/")])
     except Exception as e:
         return (["Error", e])
 
