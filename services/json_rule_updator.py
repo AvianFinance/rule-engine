@@ -80,6 +80,7 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
         if(item =='requires'):
             print("Fucntional requires List--------------------")
             require_l = rules['requires']
+            # print(require_l)
             updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
             requires_json = read_json("function.json", updated_requires, "C")
             unchanged_data["requires"] = requires_json
@@ -87,6 +88,7 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
         elif(item =='modifiers'):
             print("Fucntional modifiers List-----------------------")
             modifiers_l = rules['modifiers']
+            # print(modifiers_l)
             updated_requires = [sublist[0] for sublist in modifiers_l if sublist[2] == 1]
             modifier_json = read_json("modifiers.json", updated_requires, "B")
             unchanged_data["modifiers"] = modifier_json
@@ -94,6 +96,7 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
         elif(item =='events'):
             print("Functional events list------------------")
             events_l = rules['events']
+            # print(events_l)
             updated_events = [sublist[0] for sublist in events_l if sublist[2] == 1]
             events_json = read_json("events.json", updated_events, "B")
             unchanged_data["events"] = events_json
@@ -101,7 +104,8 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
         elif(item =='body'):
             print("Functional body list----------------")
             available_fn = rules['body'][0]
-            values = [item['value'] for item in available_fn]
+            print(available_fn)
+            values = [item[1] for item in available_fn]
             print(values)
             body_json = read_json("process.json", values, "D")
             print(body_json)
