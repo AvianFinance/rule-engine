@@ -2,7 +2,6 @@ import asyncio
 from flask_cors import CORS
 from flask import Flask, request, jsonify, make_response
 
-
 from services.upload_contract import upload_contract
 from services.json_rule_updator import json_rule_updator
 from services.db import get_collections, update_collections, getlattest
@@ -85,7 +84,7 @@ def get_contract_level_rules(contract_type):
 
 @app.route('/fetch_function/<contract_type>/<function_name>') # fetch function level data
 def get_function_level_rules(contract_type,function_name):
-    path = "json-functions/" + str(contract_type) + "-logic/functions/" + str(function_name) + ".json"
+    path = "json-functions/stable/" + str(contract_type) + "-logic/functions/" + str(function_name) + ".json"
     return jsonify(data=load_function(path))
 
 @app.route('/available_function/<contract_type>') # fetch available functions for a given contract
