@@ -11,7 +11,6 @@ def is_approved(params):
 def write_listing(params):
             
     commands = [str("s_listings["+params[0]+"]["+params[1]+"] = Listing_sell(msg.sender," + params[0] + "," + params[1] + "," + params[2] + ");")]
-    commands.append("s_listed.increment();")
     commands.append(str("EnumerableSet.add(s_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(s_address," + params[0] + ");\n"))
 
@@ -20,7 +19,6 @@ def write_listing(params):
 def write_listing_rental(params):
     commands = []      
     commands.append(str("r_listings["+params[0]+"]["+params[1]+"] = Listing_rent(msg.sender,address(0)," + params[0] + "," + params[1] + "," + params[2] + ",0);"))
-    commands.append("r_listed.increment();")
     commands.append(str("EnumerableSet.add(r_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(r_address," + params[0] + ");\n"))
 
@@ -35,7 +33,6 @@ def pay_listing_fee(params):
 def write_listing_installment(params):  
     commands = []      
     commands.append(str("i_listings["+params[0]+"]["+params[1]+"] = Listing_installment(msg.sender,address(0)," + params[0] + "," + params[1] + "," + params[2] + ",0,0,0,0);"))
-    commands.append("i_listed.increment();")
     commands.append(str("EnumerableSet.add(i_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("EnumerableSet.add(i_address," + params[0] + ");\n"))
 
@@ -46,8 +43,7 @@ def unlistNFT(params):
     commands.append(str("delete r_listings["+params[0]+"]["+params[1]+"];"))
     commands.append(str("if (EnumerableSet.length(r_address_tokens[" + params[0] + "]) == 0) {"))
     commands.append(str("    EnumerableSet.remove(r_address," + params[0] + ");"))
-    commands.append(str("}"))
-    commands.append(str("r_listed.decrement();\n"))
+    commands.append(str("}\n"))
 
     return(commands)
 
@@ -56,8 +52,7 @@ def unlistInsNFT(params):
     commands.append(str("delete i_listings["+params[0]+"]["+params[1]+"];"))
     commands.append(str("if (EnumerableSet.length(i_address_tokens[" + params[0] + "]) == 0) {"))
     commands.append(str("    EnumerableSet.remove(i_address," + params[0] + ");"))
-    commands.append(str("}"))
-    commands.append(str("i_listed.decrement();\n"))
+    commands.append(str("}\n"))
 
     return(commands)
 
@@ -118,8 +113,7 @@ def delete_listing(params):
     commands.append(str("EnumerableSet.remove(s_address_tokens[" + params[0] + "]," + params[1] + ");"))
     commands.append(str("if (EnumerableSet.length(s_address_tokens[" + params[0] + "]) == 0) {"))
     commands.append(str("    EnumerableSet.remove(s_address," + params[0] + ");"))
-    commands.append(str("}"))
-    commands.append("s_listed.decrement();\n")
+    commands.append(str("}\n"))
 
     return(commands)
 

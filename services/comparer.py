@@ -10,8 +10,8 @@ def compare_files(file1_path, file2_path):
 
 def compare_contract(contract_type):
 
-    file1_path = 'contracts/main/' + contract_type + '_logic.txt'
-    file2_path = 'contracts/new/' + contract_type + '_logic.txt'
+    file1_path = 'contracts/stable/' + contract_type + '_logic.txt'
+    file2_path = 'contracts/check/' + contract_type + '_logic.txt' # delete the file created in this path after testing
 
     result = compare_files(file1_path, file2_path)
     print(result)
