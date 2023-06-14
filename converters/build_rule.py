@@ -3,7 +3,9 @@ def is_approved(params):
     commands = []
     commands.append(str("IERC721 nft = IERC721(" + str(params[0]) + ");"))
     commands.append(str("if (nft.getApproved(" + str(params[1]) + ") != address(this)) {"))
-    commands.append("    revert NotApprovedForMarketplace();")
+    commands.append("    return false;")
+    commands.append("} else {")
+    commands.append("    return true;")
     commands.append("}\n")
 
     return(commands)

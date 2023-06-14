@@ -173,7 +173,9 @@ contract AvianSellExchange is ReentrancyGuard {
         return(_isNFT);
     }
 
-    function isRentableNFT(address nftContract) public view returns (bool) {
+    function isRentableNFT(address nftContract) public view 
+    returns(bool){
+
         bool _isRentable = false;
         bool _isNFT = false;
         try IERC165(nftContract).supportsInterface(type(IERC4907).interfaceId) returns (bool rentable) {
@@ -186,19 +188,24 @@ contract AvianSellExchange is ReentrancyGuard {
         } catch {
             return false;
         }
-        return _isRentable && _isNFT;
+        return(_isRentable && _isNFT);
     }
 
-    function MarketplaceIsApproved(address nftAddress, uint256 tokenId) internal view returns (bool) {
+    function MarketplaceIsApproved(address nftAddress, uint256 tokenId) internal view 
+    returns(bool){
+
         IERC721 nft = IERC721(nftAddress);
         if (nft.getApproved(tokenId) != address(this)) {
             return false;
         } else {
             return true;
         }
+
     }
 
-    function isNotRented(address nftAddress, uint256 tokenId) internal view returns (bool) {
+    function isNotRented(address nftAddress, uint256 tokenId) internal view 
+    returns(bool){
+        
         if (isRentableNFT(nftAddress)){
             IERC4907 nft = IERC4907(nftAddress);
             uint256 expiry = nft.userExpires(tokenId);
