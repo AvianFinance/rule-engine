@@ -206,11 +206,16 @@ contract AvianSellExchange is ReentrancyGuard {
 	function isNotRented(address nftAddress, uint256 tokenId) internal view
 	returns(bool){
 	
-		IERC721 nft = IERC721(nftAddress);
-		if (nft.getApproved(tokenId) != address(this)) {
-		    return false;
+		if (isRentableNFT(nftAddress)){
+		   IERC4907 nft = IERC4907(nftAddress);
+		   uint256 expiry = nft.userExpires(tokenId);
+		   if (block.timestamp < expiry){
+		       return false;
+		   } else {
+		       return true;
+		   }
 		} else {
-		    return true;
+		   return true;
 		}
 
 	}

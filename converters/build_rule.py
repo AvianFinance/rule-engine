@@ -196,6 +196,21 @@ def is_nft_listing_rented(params):
 
     return([command])
 
+def is_expiry_in_future(params):
+        
+    commands = [str("if (isRentableNFT(" + str(params[0]) + ")){")]
+    commands.append(str("   IERC4907 nft = IERC4907(" + str(params[0]) + ");"))
+    commands.append(str("   uint256 expiry = nft.userExpires(" + str(params[1]) + ");"))
+    commands.append(str("   if (block.timestamp < expiry){"))
+    commands.append(str("       return false;"))
+    commands.append(str("   } else {"))
+    commands.append(str("       return true;"))
+    commands.append(str("   }"))
+    commands.append(str("} else {"))
+    commands.append(str("   return true;"))
+    commands.append("}\n")
+
+    return(commands)
 
 function_map = {
     "is_approved" : is_approved,
@@ -217,6 +232,7 @@ function_map = {
     "withdraw_proceeds" : withdraw_proceeds,
     "pay_listing_fee" : pay_listing_fee,
     "is_nft_listing_rented" : is_nft_listing_rented,
+    "is_expiry_in_future" : is_expiry_in_future
 }
 
 def build_rule(rule_name,rule_params):

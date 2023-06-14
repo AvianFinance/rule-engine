@@ -6,7 +6,7 @@
     "modifiers" : [],
     "returns" : "bool",
     "requires" : [],
-    "body" : [["is_approved",["nftAddress","tokenId"]]],
+    "body" : [["is_expiry_in_future",["nftAddress","tokenId"]]],
     "events" : "",
     "return_line" : ""
 }
