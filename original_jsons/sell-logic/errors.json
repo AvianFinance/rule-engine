@@ -1,0 +1,10 @@
+{
+ "price-not-met": "PriceNotMet(address nftAddress, uint256 tokenId, uint256 price)",
+ "nft-not-for-sale": "ItemNotForSale(address nftAddress, uint256 tokenId)",
+ "nft-not-listed": "NotListed(address nftAddress, uint256 tokenId)",
+ "nft-already-listed": "AlreadyListed(address nftAddress, uint256 tokenId)",
+ "no-proceeds": "NoProceeds()",
+ "not-owner": "NotOwner()",
+ "not-approved": "NotApprovedForMarketplace()",
+ "price-above-zero": "PriceMustBeAboveZero()"
+}
