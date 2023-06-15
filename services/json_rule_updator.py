@@ -51,16 +51,44 @@ def processErrorList(rules,check_or_deploy, contract_type) :
 def processFunctionList(rules, check_or_deploy, contract_type) :
     print(rules)
 
-    function_file_mapping = {'listItem': "1_list_item.json",
+    sell_function_file_mapping = {'listItem': "1_list_item.json",
                               'updateListing': "2_update_listing.json",
                               'cancelListing': "3_cancel_listing.json",
                               'buyItem': "4_buy_item.json",
                               'withdrawProceeds': "5_withdraw.json",
-                              'isNFT':"6_is_nft.json"
+                              'isNFT':"6_is_nft.json",
+                              'isRentableNFT':"7_is_rentable_nft.json",
+                              'isNotRented':"8_marketplace_approved.json",
+                              'isNotRented':"9_is_not_rented.json"
+                              }
+    
+    rent_function_file_mapping = {'listNFT': "1_listNFT.json",
+                              'unlistNFT': "2_unlistNFT.json",
+                              'updateRentNFT': "3_updateRentNFT.json",
+                              'rentNFT': "4_rentNFT.json",
+                              'isRentableNFT': "5_isRentableNFT.json",
+                              'isNFT':"6_isNFT.json",
+                              'MarketplaceIsApproved': "7_marketplace_approved.json",
+                              'isNotRented' : "8_is_not_rented.json"
+                              }
+    
+    ins_function_file_mapping = {'listInsBasedNFT': "1_listInsBasedNFT.json",
+                              'unlistINSNFT': "2_unlistNFT.json",
+                              'rentINSNFT': "3_rentINSNFT.json",
+                              'calculateInstallment': "4_calculateInstallment.json",
+                              'payNFTIns': "5_payNFTIns.json",
+                              'isRentableNFT':"6_isRentableNFT.json",
+                              'isNFT': "7_isNFT.json",
+                              'MarketplaceIsApproved' : "8_marketplace_approved.json"
                               }
     
     function_name = rules['function_name']
-    file_name =  function_file_mapping[function_name]
+    if (contract_type == "sell"):
+        file_name =  sell_function_file_mapping[function_name]
+    if (contract_type == "rent"):
+        file_name =  rent_function_file_mapping[function_name]
+    if (contract_type == "ins"):
+        file_name =  ins_function_file_mapping[function_name]
 
     if not file_name:
         print("Function is not defined or Invalid function name. Check function_file_mapping!!")
