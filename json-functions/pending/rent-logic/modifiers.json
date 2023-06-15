@@ -1,5 +1,0 @@
-{
-    "notRentListed" : ["(address nftAddress, uint256 tokenId) {","Listing_rent memory listing = r_listings[nftAddress][tokenId];","if (listing.pricePerDay > 0) {","   revert AlreadyListed(nftAddress, tokenId);","}","_;"],
-    "isRentListed" : ["(address nftAddress, uint256 tokenId) {","Listing_rent memory listing = r_listings[nftAddress][tokenId];","if (listing.pricePerDay <= 0) {","   revert NotListed(nftAddress, tokenId);","}","_;"],
-    "isOwner" : ["(address nftAddress, uint256 tokenId, address spender) {","IERC721 nft = IERC721(nftAddress);","address owner = nft.ownerOf(tokenId);","if (spender != owner) {","  revert NotOwner();","}","_;"]
-}

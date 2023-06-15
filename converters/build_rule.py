@@ -214,7 +214,7 @@ def is_expiry_in_future(params):
     return(commands)
 
 def rent_nft(params):
-    commands = [str("uint256 rentalFee = listing.price * numDays;")]
+    commands = [str("uint256 rentalFee = listing.pricePerDay * numDays;")]
     commands.append(str("uint64 expires = uint64(block.timestamp) + (numDays*86400);"))
     commands.append(str("IERC4907(" + params[0] + ").setUser(" + params[1] + ", msg.sender, expires);"))
     commands.append(str("listing.user = msg.sender;"))
@@ -226,7 +226,7 @@ def get_ins(params):
     if params[0] == "first":
         command = ["uint256 Ins = calculateInstallment(0,numDays,listing.pricePerDay,1);\n"]
     elif params[0] == "next":
-        command = ["uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);\n"]
+        command = ["uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);"]
 
     return(command)
 
@@ -244,6 +244,7 @@ def add_to_ins_listing(params):
         commands.append("uint64 currIndex = listing.installmentIndex;")
         commands.append("uint64 nextIndex = currIndex + 1;")
         commands.append("listing.expires = expires;")
+        commands.append("uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);")
         commands.append("uint256 totalPaid = listing.paidIns + Ins;")
         commands.append("listing.installmentIndex = nextIndex;")
         commands.append("listing.paidIns = totalPaid;\n")
@@ -266,7 +267,7 @@ def conds_pay_ins(params):
 def finalise_ins_pay(params):
     commands = []
 
-    commands.append("emit NFTINSPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, Ins, totalPaid);")
+    commands.append("emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, Ins, totalPaid);")
     commands.append("if (listing.installmentIndex == listing.installmentCount){")
     commands.append("   delete i_listings[nftAddress][tokenId];")
     commands.append("}\n")

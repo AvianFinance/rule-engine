@@ -1,6 +1,0 @@
-{
-    "InstNftListed" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint256 pricePerDay"],
-    "InstNftInsPaid" : ["address indexed owner", "address indexed user", "address indexed nftContract", "uint256 tokenId", "uint64 expires", "uint64 insCount", "uint64 insIndex","uint256 insAmount", "uint256 totalPaid"],
-    "InstNftUnlisted" : ["address indexed unlistSender", "address indexed nftContract", "uint256 indexed tokenId"]
-}
-
