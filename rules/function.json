@@ -12,7 +12,7 @@
         "still-paying" : ["Payment Period",["installmentIndex <= installmentCount", "Installment Index should be lesser than the installment count"]],
         "first-installment-paid" : ["Agreements not made",["installmentIndex > 0", "Installment Index should be greater than 0"]],
         "is-marketplace-approved" : ["Marketplace nneds to be approved", ["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"]],
-        "is-nft-rented" : ["Is the NFT Already rented", ["isNotRented(nftAddress, tokenId)", "NFT Already rented"]],
+        "nft-not-rented" : ["Is the NFT Already rented", ["isNotRented(nftAddress, tokenId)", "NFT Already rented"]],
         "num-days-above-one" : ["Number of days must be > 1", ["numDays > 1","Number of installments must be greater than 1"]]
 
     }

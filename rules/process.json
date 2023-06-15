@@ -22,7 +22,7 @@
     "rent_nft" : ["description",["rent_nft",["nftAddress","tokenId"]]],
     "get_ins" : ["description",["get_ins",["first or next"]]],
     "add_to_ins_listing" : ["description",["add_to_ins_listing",["first or next"]]],
-    "update_user_expiry" : ["description",["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]]],
-    "can_pay_installment" : ["description",["conds_pay_ins",[]]],
+    "update_nft_for_rent" : ["description",["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]]],
+    "conds_pay_ins" : ["description",["conds_pay_ins",[]]],
     "finalise_ins_pay" : ["description",["finalise_ins_pay",[]]]
 }
