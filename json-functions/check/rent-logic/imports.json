@@ -1,0 +1,8 @@
+{
+    "1" : "openzeppelin/ERC721URIStorage.sol",
+    "2" : "openzeppelin/ReentrancyGuard.sol",
+    "3" : "openzeppelin/EnumerableSet.sol",
+    "4" : "openzeppelin/IERC721.sol",
+    "5" : "openzeppelin/IERC4907.sol",
+    "6" : "openzeppelin/Counters.sol"
+}

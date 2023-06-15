@@ -1,0 +1,12 @@
+{
+    "function_name" : "rentINSNFT",
+    "input_parameters" : "address nftAddress, uint256 tokenId, uint64 numDays",
+    "visibility" : "public",
+    "state_mutability" : "payable",
+    "modifiers" : ["nonReentrant"],
+    "returns" : "string memory",
+    "requires" : [],
+    "body" : [],
+    "events" : ["InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, numDays, 1, firstIns, firstIns);"],
+    "return_line" : "'Successfully rented the nft by paying the first installment'"
+}
