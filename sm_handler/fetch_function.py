@@ -58,11 +58,11 @@ def load_function(function_path):
     modifiers_all = load_json_file('rules/modifiers.json')
     events_all = load_json_file('rules/events.json')
     requires_all = load_json_file('rules/function.json')['requires']
-
+    avaiableprocess = get_available_processes()
     function_data["modifiers"] = compare_data_one(modifiers_all,modifiers_used)
     function_data["requires"] = compare_data_two(requires_all,requires_used)
     function_data["events"] = compare_data_one(events_all,events_used)
-    function_data["body"] = [extract_process_data(process_used),get_available_processes()]
+    function_data["body"] = [extract_process_data(process_used),avaiableprocess[1]]
 
     with open("testing.json", 'w') as f:
         json.dump(function_data, f, indent=3)
@@ -71,7 +71,7 @@ def load_function(function_path):
 
 def get_available_functions(c_type):
     try:
-        return(["Success", get_file_names("json-functions/" + c_type + "-logic/functions/")])
+        return(["Success", get_file_names("json-functions/stable/" + c_type + "-logic/functions/")])
     except Exception as e:
         return (["Error", e])
 

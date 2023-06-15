@@ -10,107 +10,111 @@ def json_rule_updator(data,contract_type,check_or_deploy):
 
     for item in keys:
         if (item == 'eventsList'):
-            print("Processing Event List")
+            print("Processing Event List of contract : " + contract_type )
             rules = data['eventsList']
-            processEventList(rules,check_or_deploy)
+            processEventList(rules,check_or_deploy, contract_type)
 
         elif(item =='modifiersList'):
-            print("Processing modifiers List")
+            print("Processing modifiers List of contract : " + contract_type )
             rules = data['modifiersList']
-            processModifierList(rules,check_or_deploy)
+            processModifierList(rules,check_or_deploy, contract_type)
 
         elif(item =='errorsList'):
-            print("Processing errors List")
+            print("Processing errors List of contract : " + contract_type )
             rules = data['errorsList']
-            processErrorList(rules,check_or_deploy)
+            processErrorList(rules,check_or_deploy, contract_type)
 
         elif(item =='functionlist'):
-            print("Processing function list")
+            print("Processing function list of contract : " + contract_type )
             rules = data['functionlist']
             if bool(rules):
-                processFunctionList(rules,check_or_deploy)
+                processFunctionList(rules,check_or_deploy, contract_type)
         
         else:
             print("Unidentified type")
-         
-    return 1
 
-def processEventList(rules,check_or_deploy) :
+def processEventList(rules,check_or_deploy, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("events.json", updated_rules, "A")
-    write_to_json("events.json", rule_json, check_or_deploy)
+    write_to_json("events.json", rule_json, check_or_deploy, contract_type)
 
-def processModifierList(rules,check_or_deploy) :
+def processModifierList(rules,check_or_deploy, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("modifiers.json", updated_rules, "A")
-    write_to_json("modifiers.json", rule_json, check_or_deploy)
+    write_to_json("modifiers.json", rule_json, check_or_deploy, contract_type)
 
-def processErrorList(rules,check_or_deploy) :
+def processErrorList(rules,check_or_deploy, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("errors.json", updated_rules, "A")
-    write_to_json("errors.json", rule_json, check_or_deploy)
+    write_to_json("errors.json", rule_json, check_or_deploy, contract_type)
     
-def processFunctionList(rules, check_or_deploy) :
+def processFunctionList(rules, check_or_deploy, contract_type) :
+    print(rules)
+
+    function_file_mapping = {'listItem': "1_list_item.json",
+                              'updateListing': "2_update_listing.json",
+                              'cancelListing': "3_cancel_listing.json",
+                              'buyItem': "4_buy_item.json",
+                              'withdrawProceeds': "5_withdraw.json",
+                              'isNFT':"6_is_nft.json"
+                              }
+    
     function_name = rules['function_name']
+    file_name =  function_file_mapping[function_name]
 
-    desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns', 'return_line']
-    unchange_data = {key: rules[key] for key in desired_keys}
-
-    if (function_name == 'listItem'):
-        unchange_data['body'] = [["is_approved",["nftAddress","tokenId"]],["write_listing",["nftAddress","tokenId","price"]]]
-        processAFunction(rules, unchange_data, "functions/1_list_item.json", check_or_deploy)
-    elif (function_name == 'updateListing'):
-        unchange_data['body'] = [["update_listing",["nftAddress","tokenId","newPrice"]]]
-        processAFunction(rules, unchange_data, "functions/2_update_listing.json", check_or_deploy)
-    elif (function_name == 'cancelListing'):
-        unchange_data['body'] = [["delete_listing",["nftAddress","tokenId"]]]
-        processAFunction(rules, unchange_data, "functions/3_cancel_listing.json", check_or_deploy)
-    elif (function_name == 'buyItem'):
-        unchange_data['body'] = [["is_approved",["nftAddress","tokenId"]],["load_listing",["sell","nftAddress","tokenId"]],["is_price_met",[]],["add_proceeds",["sell"]],["delete_listing",["nftAddress","tokenId"]],["owner_transfer",["nftAddress","tokenId"]]]
-        processAFunction(rules, unchange_data, "functions/4_buy_item.json", check_or_deploy)
-    elif (function_name == 'withdrawProceeds'):
-        unchange_data['body'] = [["withdraw_proceeds",["sell"]]]
-        processAFunction(rules, unchange_data, "functions/5_withdraw.json", check_or_deploy)
-    elif (function_name == 'isNFT'):
-        unchange_data['body'] = [["isNFT", ["nftContract", "tokenId"]]]
-        processAFunction(rules, unchange_data, "functions/6_is_nft.json", check_or_deploy)
+    if not file_name:
+        print("Function is not defined or Invalid function name. Check function_file_mapping!!")
     else:
-        print("Unidentified function")
+        desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns', 'return_line']
+        unchange_data = {key: rules[key] for key in desired_keys}
 
-def processAFunction(rules, unchanged_data, filename, check_or_deploy) :
+        processAFunction(rules, unchange_data, file_name, check_or_deploy, contract_type)
 
-    keys = ['events','modifiers', 'requires']
+def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_type) :
+
+    filepath = "functions/" + filename
+    keys = ['events','modifiers', 'requires', 'body']
 
     for item in keys:
         
         if(item =='requires'):
-            print("Fucntional requires List")
-            print("-----------------------------------")
+            print("Fucntional requires List--------------------")
             require_l = rules['requires']
+            # print(require_l)
             updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
             requires_json = read_json("function.json", updated_requires, "C")
             unchanged_data["requires"] = requires_json
 
         elif(item =='modifiers'):
-            print("Fucntional modifiers List")
-            print("-----------------------------------")
+            print("Fucntional modifiers List-----------------------")
             modifiers_l = rules['modifiers']
+            # print(modifiers_l)
             updated_requires = [sublist[0] for sublist in modifiers_l if sublist[2] == 1]
             modifier_json = read_json("modifiers.json", updated_requires, "B")
             unchanged_data["modifiers"] = modifier_json
 
         elif(item =='events'):
-            print("Functional events list")
-            print("-----------------------------------")
+            print("Functional events list------------------")
             events_l = rules['events']
+            # print(events_l)
             updated_events = [sublist[0] for sublist in events_l if sublist[2] == 1]
             events_json = read_json("events.json", updated_events, "B")
             unchanged_data["events"] = events_json
+        
+        elif(item =='body'):
+            print("Functional body list----------------")
+            available_fn = rules['body'][0]
+            print(available_fn)
+            values = [item[1] for item in available_fn]
+            print(values)
+            body_json = read_json("process.json", values, "D")
+            print(body_json)
+            unchanged_data["body"] = body_json
+
         else:
             print("Unidentified type")
 
-    # print(unchanged_data)
-    write_to_json(filename, unchanged_data, check_or_deploy)
+    write_to_json(filepath, unchanged_data, check_or_deploy, contract_type)
     
 def read_json(filename, updated_list, method):
     filepath = "rules/" + filename
@@ -126,15 +130,16 @@ def read_json(filename, updated_list, method):
     if(method == "C"):
         r_list = data['requires']
         new_data = [r_list[key][1] for key in updated_list]
+    if(method == "D"):
+        new_data = [data[key][1] for key in updated_list]
     return new_data
 
-def write_to_json(filename, content, check_or_deploy):
-    filepath = "json-functions/" + check_or_deploy + "/sell-logic/" + filename
+def write_to_json(filename, content, check_or_deploy, contract_type):
+    filepath = "json-functions/" + check_or_deploy + "/"+contract_type+"-logic/" + filename
     with open(filepath, 'w') as file:
         json.dump(content, file, indent=1)
 
     print(filepath + " : Json file updated")
-
 
 def copy_stable(contract_type,check_or_deploy):
     
