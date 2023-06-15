@@ -215,7 +215,6 @@ def is_expiry_in_future(params):
 
 def rent_nft(params):
     commands = [str("uint256 rentalFee = listing.price * numDays;")]
-    commands.append(str("require(msg.value >= rentalFee,'Not enough ether to cover rental period');"))
     commands.append(str("uint64 expires = uint64(block.timestamp) + (numDays*86400);"))
     commands.append(str("IERC4907(" + params[0] + ").setUser(" + params[1] + ", msg.sender, expires);"))
     commands.append(str("listing.user = msg.sender;"))

@@ -80,9 +80,9 @@ contract AvianRentExchange is ReentrancyGuard {
         require(MarketplaceIsApproved(nftAddress, tokenId),'Marketplace is not aproved');
         require(isRentableNFT(nftAddress),'Contract is not an ERC4907');
         require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
-        require(msg.value == _listingFee,'Not enough ether for listing fee');
         require(price > 0,'Price should be greater than 0');
 
+        require(msg.value >= _listingFee,'Not enough ether for payment');
         payable(marketOwner).transfer(_listingFee);
 
         r_listings[nftAddress][tokenId] = Listing_rent(msg.sender,address(0),nftAddress,tokenId,price,0);
@@ -137,12 +137,12 @@ contract AvianRentExchange is ReentrancyGuard {
         Listing_rent memory listing = r_listings[nftAddress][tokenId];
     
         uint256 rentalFee = listing.price * numDays;
-        require(msg.value >= rentalFee,'Not enough ether to cover rental period');
         uint64 expires = uint64(block.timestamp) + (numDays*86400);
         IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
         listing.user = msg.sender;
         listing.expires = expires;
 
+        require(msg.value >= rentalFee,'Not enough ether for payment');
         payable(listing.owner).transfer(rentalFee);
 
         EnumerableSet.remove(r_address_tokens[nftAddress],tokenId);
