@@ -131,7 +131,7 @@ contract AvianRentExchange is ReentrancyGuard {
 
         Listing_rent memory listing = r_listings[nftAddress][tokenId];
     
-        uint256 rentalFee = listing.price * numDays;
+        uint256 rentalFee = listing.pricePerDay * numDays;
         uint64 expires = uint64(block.timestamp) + (numDays*86400);
         IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
         listing.user = msg.sender;
