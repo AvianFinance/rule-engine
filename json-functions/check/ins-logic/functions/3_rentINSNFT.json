@@ -5,7 +5,7 @@
     "state_mutability" : "payable",
     "modifiers" : ["nonReentrant"],
     "returns" : "string memory",
-    "requires" : [],
+    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["numDays <= _maxInstallments","Maximum of 10 rental days are allowed"],["numDays > 1","Number of installments must be greater than 1"]],
     "body" : [],
     "events" : ["InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, numDays, 1, firstIns, firstIns);"],
     "return_line" : "'Successfully rented the nft by paying the first installment'"

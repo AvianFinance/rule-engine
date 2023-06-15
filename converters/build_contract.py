@@ -109,9 +109,10 @@ def write_constructor(c_type):
 
 def write_body(c_type):
 
-    directory = './json-functions/' + c_type + '/functions/'  # Replace with the actual directory path
+    directory = './json-functions' + c_type + '/functions/'  # Replace with the actual directory path
 
     file_paths = []
+
     for filename in os.listdir(directory):
         filepath = os.path.join(directory, filename)
         if os.path.isfile(filepath):
