@@ -1,10 +1,9 @@
 {
-    "1" : "address private _marketOwner",
+    "1" : "address private marketOwner",
     "2" : "uint256 private _listingFee = .01 ether",
     "3" : "uint64 private _maxInstallments = 10",
     "4" : "mapping(address => mapping(uint256 => Listing_rent)) private r_listings",
     "5" : "mapping(address => EnumerableSet.UintSet) private r_address_tokens",
-    "6" : "EnumerableSet.AddressSet private r_address",
-    "7" : "Counters.Counter private r_listed"
+    "6" : "EnumerableSet.AddressSet private r_address"
 }
 

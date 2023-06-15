@@ -28,7 +28,7 @@ def write_listing_rental(params):
 
 def pay_listing_fee(params): 
 
-    commands = ["payable(_marketOwner).transfer(_listingFee);\n"]      
+    commands = ["payable(" + params[0] + ").transfer(" + params[1] + ");\n"]      
 
     return(commands)
 
@@ -60,7 +60,7 @@ def unlistInsNFT(params):
 
 def updateRentalList(params):
     commands = [str("Listing_rent storage listing = r_listings[" + params[0] + "][" + params[1] + "];")]
-    commands.append(str("listing.pricePerDay = pricePerDay;\n"))
+    commands.append(str("listing.pricePerDay = price;\n"))
 
     return (commands)
 
@@ -122,11 +122,11 @@ def delete_listing(params):
 def load_listing(params):
 
     if params[0] == "sell":
-        command = "Listing_sell memory listedItem = s_listings"
+        command = "Listing_sell memory listing = s_listings"
     elif params[0] == "rent":
-        command = "Listing_rent memory listedItem = r_listings"
+        command = "Listing_rent memory listing = r_listings"
     elif params[0] == "ins":
-        command = "Listing_installment memory listedItem = i_listings"
+        command = "Listing_installment memory listing = i_listings"
 
     command = command + "["+params[1]+"]["+params[2]+"];\n"
 
@@ -212,6 +212,16 @@ def is_expiry_in_future(params):
 
     return(commands)
 
+def rent_nft(params):
+    commands = [str("uint256 rentalFee = listing.price * numDays;")]
+    commands.append(str("require(msg.value >= rentalFee,'Not enough ether to cover rental period');"))
+    commands.append(str("uint64 expires = uint64(block.timestamp) + (numDays*86400);"))
+    commands.append(str("IERC4907(" + params[0] + ").setUser(" + params[1] + ", msg.sender, expires);"))
+    commands.append(str("listing.user = msg.sender;"))
+    commands.append(str("listing.expires = expires;\n"))
+
+    return(commands)
+
 function_map = {
     "is_approved" : is_approved,
     "write_listing" : write_listing,
@@ -232,7 +242,8 @@ function_map = {
     "withdraw_proceeds" : withdraw_proceeds,
     "pay_listing_fee" : pay_listing_fee,
     "is_nft_listing_rented" : is_nft_listing_rented,
-    "is_expiry_in_future" : is_expiry_in_future
+    "is_expiry_in_future" : is_expiry_in_future,
+    "rent_nft" : rent_nft
 }
 
 def build_rule(rule_name,rule_params):
