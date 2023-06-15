@@ -1,0 +1,4 @@
+{
+    "Listing_rent" : ["address owner", "address user", "address nftContract", "uint256 tokenId", "uint256 pricePerDay", "uint256 expires"]
+}
+
