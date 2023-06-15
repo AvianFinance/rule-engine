@@ -6,7 +6,7 @@
     "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)", "isInsListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [],
-    "body" : [["unlistInsNFT",["nftAddress","tokenId"]]],
+    "body" : [["unlistInsNFT",["nftAddress","tokenId","full"]]],
     "events" : ["InstNftUnlisted(msg.sender, nftAddress, tokenId)"],
     "return_line" : "'Successfully removed the listing'"
 }

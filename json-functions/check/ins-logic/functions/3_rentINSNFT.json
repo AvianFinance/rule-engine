@@ -5,8 +5,8 @@
     "state_mutability" : "payable",
     "modifiers" : ["nonReentrant"],
     "returns" : "string memory",
-    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["numDays <= _maxInstallments","Maximum of 10 rental days are allowed"],["numDays > 1","Number of installments must be greater than 1"]],
-    "body" : [],
-    "events" : ["InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, numDays, 1, firstIns, firstIns);"],
+    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["isNotRented(nftAddress, tokenId)","NFT Already rented"],["numDays <= _maxInstallments","Maximum of 10 rental days are allowed"],["numDays > 1","Number of installments must be greater than 1"]],
+    "body" : [["load_listing",["ins","nftAddress","tokenId"]],["get_ins",["first"]],["add_to_ins_listing",["first"]], ["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]],["pay_listing_fee",["listing.owner","Ins"]],["unlistInsNFT",["nftAddress","tokenId","partial"]]],
+    "events" : ["InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, numDays, 1, Ins, Ins)"],
     "return_line" : "'Successfully rented the nft by paying the first installment'"
 }

@@ -1,12 +1,12 @@
 {
     "function_name" : "payNFTIns",
-    "input_parameters" : "address nftContract, uint256 tokenId",
+    "input_parameters" : "address nftAddress, uint256 tokenId",
     "visibility" : "public",
     "state_mutability" : "payable",
     "modifiers" : ["nonReentrant"],
     "returns" : "string memory",
-    "requires" : [],
-    "body" : [],
-    "events" : ["InstNftInsPaid(IERC721(nftContract).ownerOf(tokenId), msg.sender, nftContract, tokenId, expires, listing.installmentCount, nextIndex, nextIns, totalPaid);"],
+    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"]],
+    "body" : [["load_listing",["ins","nftAddress","tokenId"]],["conds_pay_ins",[]],["get_ins",["next"]],["add_to_ins_listing",["next"]],["pay_listing_fee",["listing.owner","Ins"]],["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]],["finalise_ins_pay",[]]],
+    "events" : [],
     "return_line" : "'Successfully paid the installment'"
 }

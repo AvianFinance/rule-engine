@@ -80,9 +80,9 @@ contract AvianInsExchange is ReentrancyGuard {
         require(MarketplaceIsApproved(nftAddress, tokenId),'Marketplace is not aproved');
         require(isRentableNFT(nftAddress),'Contract is not an ERC4907');
         require(IERC721(nftAddress).ownerOf(tokenId) == msg.sender,'Not owner of nft');
-        require(msg.value == _listingFee,'Not enough ether for listing fee');
         require(price > 0,'Price should be greater than 0');
 
+        require(msg.value >= _listingFee,'Not enough ether for payment');
         payable(marketOwner).transfer(_listingFee);
 
         i_listings[nftAddress][tokenId] = Listing_installment(msg.sender,address(0),nftAddress,tokenId,price,0,0,0,0);
@@ -114,135 +114,92 @@ contract AvianInsExchange is ReentrancyGuard {
         nonReentrant 
     returns(string memory){
         require(MarketplaceIsApproved(nftAddress, tokenId),'Marketplace is not aproved');
+        require(isNotRented(nftAddress, tokenId),'NFT Already rented');
         require(numDays <= _maxInstallments,'Maximum of 10 rental days are allowed');
         require(numDays > 1,'Number of installments must be greater than 1');
 
-        Listing_installment storage listing = i_listings[nftAddress][tokenId];
+        Listing_installment memory listing = i_listings[nftAddress][tokenId];
 
-        require(listing.user == address(0) || block.timestamp > listing.expires, "NFT already rented");
+        uint256 Ins = calculateInstallment(0,numDays,listing.pricePerDay,1);
 
         uint64 expires = uint64(block.timestamp) + 86400;
-        
-        uint256 firstIns = calculateInstallment(0,numDays,listing.pricePerDay,1);
-
-        require(msg.value >= firstIns, "Not enough ether to cover rental period");
-        payable(listing.owner).transfer(firstIns);
-
-        // Update listing
-        IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
         listing.user = msg.sender;
         listing.expires = expires;
         listing.installmentCount = numDays;
         listing.installmentIndex = 1;
-        listing.paidIns = firstIns;
+        listing.paidIns = Ins;
 
-        EnumerableSet.remove(i_address_tokens[nftAddress], tokenId);
+        IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
+
+        require(msg.value >= Ins,'Not enough ether for payment');
+        payable(listing.owner).transfer(Ins);
+
+        EnumerableSet.remove(i_address_tokens[nftAddress],tokenId);
         if (EnumerableSet.length(i_address_tokens[nftAddress]) == 0) {
-            EnumerableSet.remove(i_address, nftAddress);
+            EnumerableSet.remove(i_address,nftAddress);
         }
 
-        emit NFTINSPaid(
-            IERC721(nftAddress).ownerOf(tokenId),
-            msg.sender,
-            nftAddress,
-            tokenId,
-            expires,
-            numDays,
-            1,
-            firstIns,
-            firstIns
-        );
+        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, numDays, 1, Ins, Ins);
 
-        return("Successfully rented the nft by paying the first installment");
+        return('Successfully rented the nft by paying the first installment');
     }
 
-    // installment calculation functionality
-
-    function calculateInstallment(
-        uint256 totalPaid,
-        uint256 installmentCount,
-        uint256 pricePerDay,
-        uint64 installmentIndex
-    ) public pure
-        returns (uint256) 
-    {
-        require(installmentIndex <= installmentCount, "Installment Index should be lesser than the installment count");
-        require(installmentIndex > 0, "Installment Index should be greater than 0");
+    function calculateInstallment(uint256 totalPaid, uint256 installmentCount, uint256 pricePerDay, uint64 installmentIndex) public pure
+    returns(uint256){
+        require(installmentIndex <= installmentCount,'Installment Index should be lesser than the installment count');
+        require(installmentIndex > 0,'Installment Index should be greater than 0');
 
         uint256 rentalFee = pricePerDay*installmentCount;
-
         uint256 installment_amount;
         uint sum = (installmentCount*(installmentCount+1))/2;
-
         uint256 unit_price = rentalFee/sum;
-
         if (installmentIndex<installmentCount){
             installment_amount = unit_price*(installmentCount - installmentIndex +1);
         } else if (installmentIndex==installmentCount){
             installment_amount = rentalFee - totalPaid;
         }
 
-        return installment_amount;
+        return(installment_amount);
     }
 
-    // installment payment functionality
-
-    function payNFTIns(
-        address nftAddress,
-        uint256 tokenId
-    ) public payable 
+    function payNFTIns(address nftAddress, uint256 tokenId) public payable 
         nonReentrant 
     returns(string memory){
-        require(MarketplaceIsApproved(nftAddress, tokenId),"Marketplace is not aproved");
-        Listing_installment storage listing = i_listings[nftAddress][tokenId];
+        require(MarketplaceIsApproved(nftAddress, tokenId),'Marketplace is not aproved');
 
-        require(listing.user == msg.sender, "You are not the current renter");
-        require(listing.installmentIndex < listing.installmentCount, "Rental fee is fully paid");
-        require(listing.installmentIndex >= 1, "Rental agreement not yet made");
-        require(block.timestamp < listing.expires, "NFT expired");
+        Listing_installment memory listing = i_listings[nftAddress][tokenId];
+
+        require(listing.user == msg.sender,'You are not the current renter');
+        require(listing.installmentIndex < listing.installmentCount,'Rental fee is fully paid');
+        require(listing.installmentIndex >= 1,'Rental agreement not yet made');
+        require(block.timestamp < listing.expires,'NFT expired');
+
+        uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);
 
         uint64 expires = listing.expires + 86400;
         uint64 currIndex = listing.installmentIndex;
         uint64 nextIndex = currIndex + 1;
-        
-        uint256 nextIns = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);
-
-        require(msg.value >= nextIns, "Not enough ether to cover rental period");
-        payable(listing.owner).transfer(nextIns);
-
         listing.expires = expires;
-
-        IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
-
-        uint256 totalPaid = listing.paidIns + nextIns;
-
+        uint256 totalPaid = listing.paidIns + Ins;
         listing.installmentIndex = nextIndex;
         listing.paidIns = totalPaid;
 
-        emit NFTINSPaid(
-            IERC721(nftAddress).ownerOf(tokenId),
-            msg.sender,
-            nftAddress,
-            tokenId,
-            expires,
-            listing.installmentCount,
-            nextIndex,
-            nextIns,
-            totalPaid
-        );
+        require(msg.value >= Ins,'Not enough ether for payment');
+        payable(listing.owner).transfer(Ins);
 
+        IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
+
+        emit NFTINSPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, Ins, totalPaid);
         if (listing.installmentIndex == listing.installmentCount){
             delete i_listings[nftAddress][tokenId];
         }
 
-        return("Successfully paid the installment");
+        return('Successfully paid the installment');
     }
 
+    function isRentableNFT(address nftContract) public view 
+    returns(bool){
 
-    // functions to check whether a given address, token id pair represent a valid nft
-
-
-    function isRentableNFT(address nftContract) public view returns (bool) {
         bool _isRentable = false;
         bool _isNFT = false;
         try IERC165(nftContract).supportsInterface(type(IERC4907).interfaceId) returns (bool rentable) {
@@ -255,26 +212,32 @@ contract AvianInsExchange is ReentrancyGuard {
         } catch {
             return false;
         }
-        return _isRentable && _isNFT;
+        return(_isRentable && _isNFT);
     }
 
-    function isNFT(address nftContract) public view returns (bool) {
-        bool _isNFT = false;
+    function isNFT(address nftContract) public view 
+    returns(bool){
 
+        bool _isNFT = false;
         try IERC165(nftContract).supportsInterface(type(IERC721).interfaceId) returns (bool nft) {
             _isNFT = nft;
         } catch {
             return false;
         }
-        return _isNFT;
+        return(_isNFT);
     }
 
-    function MarketplaceIsApproved(address nftAddress, uint256 tokenId) internal view returns (bool) {
+    function MarketplaceIsApproved(address nftAddress, uint256 tokenId) internal view 
+    returns(bool){
+
         IERC721 nft = IERC721(nftAddress);
         if (nft.getApproved(tokenId) != address(this)) {
             return false;
         } else {
             return true;
         }
+
     }
+
+    
 }
