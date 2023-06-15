@@ -7,10 +7,13 @@
         "nft-rentable" : ["NFT must be an ERC4907",["isRentableNFT(nftAddress)", "Contract is not an ERC4907"]],
         "sender-is-owner" : ["Only allowed for owner",["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"]], 
         "listing-fee-provided" : ["Must pay the listing fee",["msg.value == _listingFee", "Not enough ether for listing fee"]], 
-        "price-above-zero" : ["Price should be greater than zero",["price > 0", "Rental price should be greater than 0"]],
+        "price-above-zero" : ["Price should be greater than zero",["price > 0", "Price should be greater than 0"]],
         "installments-below-max-amount" : ["Number of Installment should be below 10",["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"]],
         "still-paying" : ["Payment Period",["installmentIndex <= installmentCount", "Installment Index should be lesser than the installment count"]],
-        "first-installment-paid" : ["Agreements not made",["installmentIndex > 0", "Installment Index should be greater than 0"]]
+        "first-installment-paid" : ["Agreements not made",["installmentIndex > 0", "Installment Index should be greater than 0"]],
+        "is-marketplace-approved" : ["Marketplace nneds to be approved", ["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"]],
+        "is-nft-rented" : ["Is the NFT Already rented", ["isNotRented(nftAddress, tokenId)", "NFT Already rented"]],
+        "num-days-above-one" : ["Number of days must be > 1", ["numDays > 1","Number of installments must be greater than 1"]]
 
     }
 

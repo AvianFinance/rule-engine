@@ -5,7 +5,7 @@
     "state_mutability" : "none",
     "modifiers" : ["notSListed(nftAddress, tokenId)"],
     "returns" : "string memory",
-    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["isNFT(nftAddress)", "Contract is not an ERC721"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"],["price > 0","listing price should be greater than 0"]],
+    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["isNFT(nftAddress)", "Contract is not an ERC721"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"],["price > 0","Price should be greater than 0"]],
     "body" : [["write_listing",["nftAddress","tokenId","price"]]],
     "events" : ["SellNftListed(msg.sender, nftAddress, tokenId, price)"],
     "return_line" : "'NFT Listed successfully for upright selling'"
