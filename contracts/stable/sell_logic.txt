@@ -125,11 +125,11 @@ contract AvianSellExchange is ReentrancyGuard {
 
         Listing_sell memory listing = s_listings[nftAddress][tokenId];
 
-        if (msg.value < listedItem.price) {
-            revert PriceNotMet(nftAddress, tokenId, listedItem.price);
+        if (msg.value < listing.price) {
+            revert PriceNotMet(nftAddress, tokenId, listing.price);
         }
 
-        s_proceeds[listedItem.owner] += msg.value;
+        s_proceeds[listing.owner] += msg.value;
 
         delete s_listings[nftAddress][tokenId];
         EnumerableSet.remove(s_address_tokens[nftAddress],tokenId);
@@ -137,9 +137,9 @@ contract AvianSellExchange is ReentrancyGuard {
             EnumerableSet.remove(s_address,nftAddress);
         }
 
-        IERC721(nftAddress).safeTransferFrom(listedItem.owner, msg.sender, tokenId);
+        IERC721(nftAddress).safeTransferFrom(listing.owner, msg.sender, tokenId);
 
-        emit SellNftBought(msg.sender, nftAddress, tokenId, listedItem.price);
+        emit SellNftBought(msg.sender, nftAddress, tokenId, listing.price);
 
         return('NFT successfully Bought');
     }

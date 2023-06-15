@@ -135,8 +135,8 @@ def load_listing(params):
 
 def is_price_met(params):
             
-    commands = [str("if (msg.value < listedItem.price) {")]
-    commands.append(str("revert PriceNotMet(nftAddress, tokenId, listedItem.price);"))
+    commands = [str("if (msg.value < " + params[0] + ") {")]
+    commands.append(str("revert PriceNotMet(nftAddress, tokenId, " + params[0] + ");"))
     commands.append("}\n")
 
     return(commands)
@@ -152,7 +152,7 @@ def add_proceeds(params):
     elif params[1] == "ins":
         command = "i_proceeds"
 
-    command = command + "[listedItem.owner] += msg.value;\n"
+    command = command + "[listing.owner] += msg.value;\n"
 
     return([command])
     
@@ -187,7 +187,7 @@ def withdraw_proceeds(params):
 
 def owner_transfer(params):
 
-    command = "IERC721("+ params[0] + ").safeTransferFrom(listedItem.owner, msg.sender, " + params[1] + ");\n"
+    command = "IERC721("+ params[0] + ").safeTransferFrom(listing.owner, msg.sender, " + params[1] + ");\n"
 
     return([command])
 
