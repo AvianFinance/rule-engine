@@ -13,12 +13,9 @@ def upload_contract(contract_name,check_type):
 
     upload_response = pinata.pin_file(file_path)
 
-    print(upload_response)
+    remove(file_path)
 
     if upload_response['status'] == "success":
-        remove(file_path)
         return(upload_response['data']['IpfsHash'])
     else:
         return('File upload failed ! with error')
-
-
