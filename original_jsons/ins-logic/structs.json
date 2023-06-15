@@ -1,0 +1,4 @@
+{
+    "Listing_installment" : ["address owner", "address user", "address nftContract", "uint256 tokenId", "uint256 pricePerDay", "uint64 installmentCount","uint64 expires", "uint64 installmentIndex","uint256 paidIns"]
+}
+

@@ -1,0 +1,12 @@
+{
+    "function_name" : "MarketplaceIsApproved",
+    "input_parameters" : "address nftAddress, uint256 tokenId",
+    "visibility" : "internal",
+    "state_mutability" : "view",
+    "modifiers" : [],
+    "returns" : "bool",
+    "requires" : [],
+    "body" : [["is_approved",["nftAddress","tokenId"]]],
+    "events" : "",
+    "return_line" : ""
+}

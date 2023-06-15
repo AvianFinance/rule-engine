@@ -7,14 +7,9 @@ import "openzeppelin/EnumerableSet.sol";
 import "openzeppelin/IERC721.sol";
 import "openzeppelin/IERC4907.sol";
 
-error PriceNotMet(address nftAddress, uint256 tokenId, uint256 price);
-error ItemNotForSale(address nftAddress, uint256 tokenId);
 error NotListed(address nftAddress, uint256 tokenId);
 error AlreadyListed(address nftAddress, uint256 tokenId);
-error NoProceeds();
 error NotOwner();
-error NotApprovedForMarketplace();
-error PriceMustBeAboveZero();
 
 contract AvianRentExchange is ReentrancyGuard {
     
