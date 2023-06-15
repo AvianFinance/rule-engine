@@ -64,9 +64,6 @@ def load_function(function_path):
     function_data["events"] = compare_data_one(events_all,events_used)
     function_data["body"] = [extract_process_data(process_used),avaiableprocess[1]]
 
-    with open("testing.json", 'w') as f:
-        json.dump(function_data, f, indent=3)
-
     return(function_data)
 
 def get_available_functions(c_type):

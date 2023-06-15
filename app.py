@@ -71,7 +71,6 @@ def get_contract_level_rules_individually(contract_type,rule_type):
 def get_contract_level_rules(contract_type):
     try:
         errors=fetch_rules(contract_type,"errors")
-        print('errors----------------',errors)
         events=fetch_rules(contract_type,"events")
         modifiers=fetch_rules(contract_type,"modifiers")
         response = make_response(jsonify(errors=errors,events=events,modifiers=modifiers))
