@@ -39,7 +39,7 @@ def write_upload_contract(contract_type):
         response.status_code = 400  # Set the desired status code
         return response
 
-@app.route('/deploy/<contract_type>', methods = ['POST']) # compiles the specified contract in the  "contracts/new/" folder
+@app.route('/deploy/<contract_type>', methods = ['POST']) # writes, compiles and deployes the specified contract to and in the  "contracts/pending/" folder
 def deploy_contract(contract_type):
     try:
         data = request.get_json()
@@ -63,11 +63,11 @@ def deploy_contract(contract_type):
         response.status_code = 400  # Set the desired status code
         return response
     
-@app.route('/fetch/<contract_type>/<rule_type>') # fetch contract level data
+@app.route('/fetch/<contract_type>/<rule_type>') # fetch contract level data individually
 def get_contract_level_rules_individually(contract_type,rule_type):
     return jsonify(data=fetch_rules(contract_type,rule_type))
 
-@app.route('/fetch_contract/<contract_type>') # fetch contract level data
+@app.route('/fetch_contract/<contract_type>') # fetch contract level data combined
 def get_contract_level_rules(contract_type):
     try:
         errors=fetch_rules(contract_type,"errors")
@@ -83,8 +83,7 @@ def get_contract_level_rules(contract_type):
 
 @app.route('/fetch_function/<contract_type>/<function_name>') # fetch function level data
 def get_function_level_rules(contract_type,function_name):
-    path = "json-functions/stable/" + str(contract_type) + "-logic/functions/" + str(function_name) + ".json"
-    return jsonify(data=load_function(path))
+    return jsonify(data=load_function(contract_type,function_name))
 
 @app.route('/available_function/<contract_type>') # fetch available functions for a given contract
 def get_contract_functions(contract_type):
