@@ -69,7 +69,7 @@ contract AvianSellExchange is ReentrancyGuard {
     }
 
 
-    function listItem(address nftAddress, uint256 tokenId, uint256 price) external
+    function listItem(address nftAddress, uint256 tokenId, uint256 price) external payable
         notSellListed(nftAddress, tokenId)
     returns(string memory){
         require(MarketplaceIsApproved(nftAddress, tokenId),'Marketplace is not aproved');
