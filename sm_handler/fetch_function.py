@@ -36,17 +36,18 @@ def compare_data_one(full,used,c_index):
 
     return(packet)
 
-def compare_data_two(full,used):
+def compare_data_two(full,used, c_index):
     used_identifiers = []
     packet = []
     for entry in used:
         used_identifiers.append(entry[0])
 
     for key, value in full.items():
-        if value[1][0] in used_identifiers:
-            packet.append([key, value[0], 1])
-        else:
-            packet.append([key, value[0], 0])
+        if value[2][c_index] == 1:
+            if value[1][0] in used_identifiers:
+                packet.append([key, value[0], 1])
+            else:
+                packet.append([key, value[0], 0])
 
     return(packet)
 
@@ -74,7 +75,7 @@ def load_function(contract_type, function_name):
     requires_all = load_json_file('rules/function.json')['requires']
     avaiableprocess = get_available_processes()
     function_data["modifiers"] = compare_data_one(modifiers_all,modifiers_used,c_index)
-    function_data["requires"] = compare_data_two(requires_all,requires_used)
+    function_data["requires"] = compare_data_two(requires_all,requires_used,c_index)
     function_data["events"] = compare_data_one(events_all,events_used,c_index)
     function_data["body"] = [extract_process_data(process_used),avaiableprocess[1]]
 
