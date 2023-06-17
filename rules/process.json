@@ -71,10 +71,6 @@
         ["description",
         ["withdraw_proceeds",["?"]],
         [1,1,1]],
-    "pay_listing_fee" : 
-        ["description",
-        ["pay_listing_fee",["toWhom","howmuch"]],
-        [1,1,1]],
     "is_nft_listing_rented" : 
         ["description",
         ["is_nft_listing_rented",[]],
@@ -110,5 +106,20 @@
     "finalise_ins_pay" : 
         ["description",
         ["finalise_ins_pay",[]],
-        [0,0,1]]
+        [0,0,1]],
+    "pay_market_owner" : 
+        ["description",
+        ["pay_market_owner",["marketOwner","_listingFee"]],
+        [1,1,1]],
+    "pay_rentalFee" : 
+        ["description",
+        ["pay_rentalFee",["listing.owner","rentalFee"]],
+        [0,1,1]],
+    "pay_price" : 
+        ["description",
+        ["pay_price",["listing.owner","listing.price"]],
+        [1,0,0]]
 }
+
+
+

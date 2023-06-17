@@ -115,26 +115,26 @@ contract AvianInsExchange is ReentrancyGuard {
 
         Listing_installment memory listing = i_listings[nftAddress][tokenId];
 
-        uint256 Ins = calculateInstallment(0,numDays,listing.pricePerDay,1);
+        uint256 rentalFee = calculateInstallment(0,numDays,listing.pricePerDay,1);
 
         uint64 expires = uint64(block.timestamp) + 86400;
         listing.user = msg.sender;
         listing.expires = expires;
         listing.installmentCount = numDays;
         listing.installmentIndex = 1;
-        listing.paidIns = Ins;
+        listing.paidIns = rentalFee;
 
         IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
 
-        require(msg.value >= Ins,'Not enough ether for payment');
-        payable(listing.owner).transfer(Ins);
+        require(msg.value >= rentalFee,'Not enough ether for payment');
+        payable(listing.owner).transfer(rentalFee);
 
         EnumerableSet.remove(i_address_tokens[nftAddress],tokenId);
         if (EnumerableSet.length(i_address_tokens[nftAddress]) == 0) {
             EnumerableSet.remove(i_address,nftAddress);
         }
 
-        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, numDays, 1, Ins, Ins);
+        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, numDays, 1, rentalFee, rentalFee);
 
         return('Successfully rented the nft by paying the first installment');
     }
@@ -173,17 +173,17 @@ contract AvianInsExchange is ReentrancyGuard {
         uint64 currIndex = listing.installmentIndex;
         uint64 nextIndex = currIndex + 1;
         listing.expires = expires;
-        uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);
-        uint256 totalPaid = listing.paidIns + Ins;
+        uint256 rentalFee = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);
+        uint256 totalPaid = listing.paidIns + rentalFee;
         listing.installmentIndex = nextIndex;
         listing.paidIns = totalPaid;
 
-        require(msg.value >= Ins,'Not enough ether for payment');
-        payable(listing.owner).transfer(Ins);
+        require(msg.value >= rentalFee,'Not enough ether for payment');
+        payable(listing.owner).transfer(rentalFee);
 
         IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
 
-        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, Ins, totalPaid);
+        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, rentalFee, totalPaid);
         if (listing.installmentIndex == listing.installmentCount){
             delete i_listings[nftAddress][tokenId];
         }

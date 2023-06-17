@@ -6,7 +6,7 @@
     "modifiers" : ["nonReentrant","isRentListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["numDays <= _maxInstallments", "Maximum of 10 rental days are allowed"],["isNotRented(nftAddress, tokenId)", "NFT Already rented"]],
-    "body" : [["load_listing",["rent","nftAddress","tokenId"]],["rent_nft",["nftAddress","tokenId"]],["pay_listing_fee",["listing.owner","rentalFee"]],["unlistNFT",["nftAddress","tokenId"]]],
+    "body" : [["load_listing",["rent","nftAddress","tokenId"]],["rent_nft",["nftAddress","tokenId"]],["pay_rentalFee",["listing.owner","rentalFee"]],["unlistNFT",["nftAddress","tokenId"]]],
     "events" : ["RentNftRented(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, rentalFee)"],
     "return_line" : "'NFT successfully rented'"
 }
