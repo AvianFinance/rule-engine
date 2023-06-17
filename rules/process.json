@@ -1,28 +1,114 @@
 {
-    "is_approved" : ["description",["is_approved",["nftAddress","tokenId"]],[1,1,1]],
-    "write_listing" : ["description",["write_listing",["nftAddress","tokenId","price"]],[1,0,0]], 
-    "update_listing" : ["description",["update_listing",["nftAddress","tokenId","newPrice"]],[1,0,0]],
-    "delete_listing" : ["description",["delete_listing",["nftAddress","tokenId"]],[1,0,0]],
-    "load_listing" : ["description",["load_listing",["contract-type","nftAddress","tokenId"]],[1,1,1]],
-    "write_listing_rental" : ["description",["write_listing_rental",["nftAddress","tokenId","pricePerDay"]],[0,1,0]],
-    "unlistNFT" : ["description",["unlistNFT",["nftAddress","tokenId"]],[0,1,0]],
-    "updateRentalList" : ["description",["updateRentalList",["nftAddress","tokenId"]],[0,1,0]],
-    "isRentableNFT" : ["description",["isRentableNFT", ["nftContract", "tokenId"]],[1,1,1]],
-    "isNFT" : ["description",["isNFT", ["nftContract", "tokenId"]],[1,1,1]],
-    "write_listing_installment" : ["description",["write_listing_installment",["nftAddress","tokenId","pricePerDay"]],[0,0,1]],
-    "unlistInsNFT" : ["description",["unlistInsNFT",["nftAddress","tokenId","full or partial"]],[0,0,1]],
-    "calculateInstallmentNFT" : ["description",["calculateInstallmentNFT", ["totalPaid", "installmentCount", "pricePerDay", "installmentIndex"]],[0,0,1]],
-    "is_price_met" : ["description",["is_price_met",[]],[1,1,1]],
-    "add_proceeds" : ["description",["add_proceeds",["sell"]],[1,1,1]],
-    "owner_transfer" : ["description",["owner_transfer",["nftAddress","tokenId"]],[1,1,1]],
-    "withdraw_proceeds" : ["description",["withdraw_proceeds",["sell"]],[1,1,1]],
-    "pay_listing_fee" : ["description",["pay_listing_fee",["toWhom","howmuch"]],[1,1,1]],
-    "is_nft_listing_rented" : ["description",["is_nft_listing_rented",[]],[1,1,1]],
-    "is_expiry_in_future" : ["description",["is_expiry_in_future",["nftAddress","tokenId"]],[1,1,1]],
-    "rent_nft" : ["description",["rent_nft",["nftAddress","tokenId"]],[0,1,0]],
-    "get_ins" : ["description",["get_ins",["first or next"]],[0,0,1]],
-    "add_to_ins_listing" : ["description",["add_to_ins_listing",["first or next"]],[0,0,1]],
-    "update_nft_for_rent" : ["description",["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]],[0,1,1]],
-    "conds_pay_ins" : ["description",["conds_pay_ins",[]],[0,0,1]],
-    "finalise_ins_pay" : ["description",["finalise_ins_pay",[]],[0,0,1]]
+    "is_approved" : 
+        ["description",
+        ["is_approved",["nftAddress","tokenId"]],
+        [1,1,1]],
+    "write_listing" : 
+        ["description",
+        ["write_listing",["nftAddress","tokenId","price"]],
+        [1,0,0]], 
+    "update_listing" : 
+        ["description",
+        ["update_listing",["nftAddress","tokenId","newPrice"]],
+        [1,0,0]],
+    "delete_listing" : 
+        ["description",
+        ["delete_listing",["nftAddress","tokenId"]],
+        [1,0,0]],
+    "load_listing" : 
+        ["description",
+        ["load_listing",["?","nftAddress","tokenId"]],
+        [1,1,1]],
+    "write_listing_rental" : 
+        ["description",
+        ["write_listing_rental",["nftAddress","tokenId","pricePerDay"]],
+        [0,1,0]],
+    "unlistNFT" : 
+        ["description",
+        ["unlistNFT",["nftAddress","tokenId"]],
+        [0,1,0]],
+    "updateRentalList" : 
+        ["description",
+        ["updateRentalList",["nftAddress","tokenId"]],
+        [0,1,0]],
+    "isRentableNFT" : 
+        ["description",
+        ["isRentableNFT", ["nftContract", "tokenId"]],
+        [1,1,1]],
+    "isNFT" : 
+        ["description",
+        ["isNFT", ["nftContract", "tokenId"]],
+        [1,1,1]],
+    "write_listing_installment" : 
+        ["description",
+        ["write_listing_installment",["nftAddress","tokenId","pricePerDay"]],
+        [0,0,1]],
+    "unlistInsFull" : 
+        ["description",
+        ["unlistInsFull",["nftAddress","tokenId","full"]],
+        [0,0,1]],
+    "unlistInsPartial" : 
+        ["description",
+        ["unlistInsPartial",["nftAddress","tokenId","partial"]],
+        [0,0,1]],
+    "calculateInstallmentNFT" : 
+        ["description",
+        ["calculateInstallmentNFT", ["totalPaid", "installmentCount", "pricePerDay", "installmentIndex"]],
+        [0,0,1]],
+    "is_price_met" : 
+        ["description",
+        ["is_price_met",[]],
+        [1,1,1]],
+    "add_proceeds" : 
+        ["description",
+        ["add_proceeds",["sell"]],
+        [1,1,1]],
+    "owner_transfer" : 
+        ["description",
+        ["owner_transfer",["nftAddress","tokenId"]],
+        [1,1,1]],
+    "withdraw_proceeds" : 
+        ["description",
+        ["withdraw_proceeds",["?"]],
+        [1,1,1]],
+    "pay_listing_fee" : 
+        ["description",
+        ["pay_listing_fee",["toWhom","howmuch"]],
+        [1,1,1]],
+    "is_nft_listing_rented" : 
+        ["description",
+        ["is_nft_listing_rented",[]],
+        [1,1,1]],
+    "is_expiry_in_future" : 
+        ["description",
+        ["is_expiry_in_future",["nftAddress","tokenId"]],
+        [1,1,1]],
+    "rent_nft" : 
+        ["description",
+        ["rent_nft",["nftAddress","tokenId"]],
+        [0,1,0]],
+    "get_ins" : 
+        ["description",
+        ["get_ins",["first"]],
+        [0,0,1]],
+    "update_first_ins_listing" : 
+        ["description",
+        ["update_first_ins_listing",["first"]],
+        [0,0,1]],
+    "update_next_ins_listing" : 
+        ["description",
+        ["add_to_ins_listing",["next"]],
+        [0,0,1]],
+    "update_nft_for_rent" : 
+        ["description",
+        ["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]],
+        [0,1,1]],
+    "conds_pay_ins" : 
+        ["description",
+        ["conds_pay_ins",[]],
+        [0,0,1]],
+    "finalise_ins_pay" : 
+        ["description",
+        ["finalise_ins_pay",[]],
+        [0,0,1]]
 }

@@ -3,7 +3,7 @@
     "input_parameters" : "address nftAddress, uint256 tokenId, uint256 price",
     "visibility" : "external",
     "state_mutability" : "payable",
-    "modifiers" : ["notSListed(nftAddress, tokenId)"],
+    "modifiers" : ["notSellListed(nftAddress, tokenId)"],
     "returns" : "string memory",
     "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["isNFT(nftAddress)", "Contract is not an ERC721"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"],["price > 0","Price should be greater than 0"]],
     "body" : [["write_listing",["nftAddress","tokenId","price"]]],

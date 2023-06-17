@@ -3,10 +3,10 @@
     "input_parameters" : "address nftAddress, uint256 tokenId",
     "visibility" : "external",
     "state_mutability" : "payable",
-    "modifiers" : ["isSListed(nftAddress, tokenId)","nonReentrant"],
+    "modifiers" : ["isSellListed(nftAddress, tokenId)","nonReentrant"],
     "returns" : "string memory",
     "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["isNotRented(nftAddress, tokenId)", "NFT Already rented"]],
-    "body" : [["load_listing",["sell","nftAddress","tokenId"]],["is_price_met",[]],["add_proceeds",["sell"]],["delete_listing",["nftAddress","tokenId"]],["owner_transfer",["nftAddress","tokenId"]]],
-    "events" : ["SellNftBought(msg.sender, nftAddress, tokenId, listedItem.price)"],
+    "body" : [["load_listing",["sell","nftAddress","tokenId"]],["is_price_met",["listing.price"]],["add_proceeds",["sell"]],["delete_listing",["nftAddress","tokenId"]],["owner_transfer",["nftAddress","tokenId"]]],
+    "events" : ["SellNftBought(msg.sender, nftAddress, tokenId, listing.price)"],
     "return_line" : "'NFT successfully Bought'"
 }

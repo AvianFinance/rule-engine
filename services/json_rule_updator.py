@@ -198,3 +198,12 @@ def copy_stable(contract_type,check_or_pending):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
+def partially_def_rules(rule_name,expr,c_name):
+    if (rule_name == "load_listing"):
+        ind = expr[1].index("?")
+        expr[1][ind] = '"' + str(c_name) + '"'
+        return expr
+    elif (rule_name == "withdraw_proceeds"):
+        expr[1][0] = '"' + str(c_name) + '"'
+        return expr
+

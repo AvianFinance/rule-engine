@@ -297,7 +297,8 @@ function_map = {
     "is_expiry_in_future" : is_expiry_in_future,
     "rent_nft" : rent_nft,
     "get_ins" : get_ins,
-    "add_to_ins_listing" : add_to_ins_listing,
+    "update_next_ins_listing" : add_to_ins_listing,
+    "update_first_ins_listing" : add_to_ins_listing,
     "update_nft_for_rent" : update_nft_for_rent,
     "conds_pay_ins" : conds_pay_ins,
     "finalise_ins_pay" : finalise_ins_pay
