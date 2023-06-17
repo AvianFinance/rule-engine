@@ -1,0 +1,12 @@
+{
+    "function_name" : "withdrawProceeds",
+    "input_parameters" : "",
+    "visibility" : "external",
+    "state_mutability" : "",
+    "modifiers" : [],
+    "returns" : "string memory",
+    "requires" : [],
+    "body" : [["withdraw_proceeds",["sell"]]],
+    "events" : "",
+    "return_line" : "'Successfully transferred the proceeds'"
+}

@@ -55,9 +55,9 @@
         ["description",
         ["calculateInstallmentNFT", ["totalPaid", "installmentCount", "pricePerDay", "installmentIndex"]],
         [0,0,1]],
-    "is_price_met" : 
+    "is_listing_fee_met" : 
         ["description",
-        ["is_price_met",[]],
+        ["is_listing_fee_met",["listing.price"]],
         [1,1,1]],
     "add_proceeds" : 
         ["description",

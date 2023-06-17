@@ -133,7 +133,7 @@ def load_listing(params):
 
     return([command])
 
-def is_price_met(params):
+def is_listing_fee_met(params):
             
     commands = [str("if (msg.value < " + params[0] + ") {")]
     commands.append(str("revert PriceNotMet(nftAddress, tokenId, " + params[0] + ");"))
@@ -289,7 +289,7 @@ function_map = {
     "unlistInsFull" : unlistInsNFT,
     "unlistInsPartial" : unlistInsNFT,
     "calculateInstallmentNFT" : calculateInstallmentNFT,
-    "is_price_met" : is_price_met,
+    "is_listing_fee_met" : is_listing_fee_met,
     "add_proceeds" : add_proceeds,
     "owner_transfer" : owner_transfer,
     "withdraw_proceeds" : withdraw_proceeds,

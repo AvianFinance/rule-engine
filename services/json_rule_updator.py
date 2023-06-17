@@ -44,19 +44,19 @@ def json_rule_updator(data,contract_type,check_or_pending):
 
 def processEventList(rules,check_or_pending, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
-    rule_json = read_json("events.json", updated_rules, "A")
+    rule_json = read_json("events.json", updated_rules, "A",contract_type)
     logging.info("Writing contract level events")
     write_to_json("events.json", rule_json, check_or_pending, contract_type)
 
 def processModifierList(rules,check_or_pending, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
-    rule_json = read_json("modifiers.json", updated_rules, "A")
+    rule_json = read_json("modifiers.json", updated_rules, "A", contract_type)
     logging.info("Writing contract level modifiers")
     write_to_json("modifiers.json", rule_json, check_or_pending, contract_type)
 
 def processErrorList(rules,check_or_pending, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
-    rule_json = read_json("errors.json", updated_rules, "A")
+    rule_json = read_json("errors.json", updated_rules, "A", contract_type)
     logging.info("Writing contract level errors")
     write_to_json("errors.json", rule_json, check_or_pending, contract_type)
     
@@ -121,21 +121,21 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
             logging.info("Handling function Reqirues rules")
             require_l = rules['requires']
             updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
-            requires_json = read_json("function.json", updated_requires, "C")
+            requires_json = read_json("function.json", updated_requires, "C", contract_type)
             unchanged_data["requires"] = requires_json
 
         elif(item =='modifiers'):
             logging.info("Handling function Modifier rules")
             modifiers_l = rules['modifiers']
             updated_requires = [sublist[0] for sublist in modifiers_l if sublist[2] == 1]
-            modifier_json = read_json("modifiers.json", updated_requires, "B")
+            modifier_json = read_json("modifiers.json", updated_requires, "B", contract_type)
             unchanged_data["modifiers"] = modifier_json
 
         elif(item =='events'):
             logging.info("Handling function Event rules")
             events_l = rules['events']
             updated_events = [sublist[0] for sublist in events_l if sublist[2] == 1]
-            events_json = read_json("events.json", updated_events, "B")
+            events_json = read_json("events.json", updated_events, "B", contract_type)
             unchanged_data["events"] = events_json
         
         elif(item =='body'):
@@ -143,7 +143,7 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
             available_fn = rules['body'][0]
             values = [item[1] for item in available_fn]
             logging.info("function rules in order: %s", ', '.join(str(item) for item in values))
-            body_json = read_json("process.json", values, "D")
+            body_json = read_json("process.json", values, "D", contract_type)
             unchanged_data["body"] = body_json
 
         else:
@@ -152,7 +152,7 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
     logging.info("Writing selected function json")
     write_to_json(filepath, unchanged_data, check_or_deploy, contract_type)
     
-def read_json(filename, updated_list, method):
+def read_json(filename, updated_list, method, contract_type):
     filepath = "rules/" + filename
     with open(filepath) as file:
         data = json.load(file)
@@ -167,7 +167,10 @@ def read_json(filename, updated_list, method):
         r_list = data['requires']
         new_data = [r_list[key][1] for key in updated_list]
     if(method == "D"):
-        new_data = [data[key][1] for key in updated_list]
+        for key in  updated_list:
+            print(key)
+            partially_def_rules(key,data[key][1],contract_type)
+            new_data = [data[key][1] for key in updated_list]
     return new_data
 
 def write_to_json(filename, content, check_or_deploy, contract_type):
@@ -201,9 +204,11 @@ def copy_stable(contract_type,check_or_pending):
 def partially_def_rules(rule_name,expr,c_name):
     if (rule_name == "load_listing"):
         ind = expr[1].index("?")
-        expr[1][ind] = '"' + str(c_name) + '"'
+        expr[1][ind] = str(c_name) 
         return expr
     elif (rule_name == "withdraw_proceeds"):
-        expr[1][0] = '"' + str(c_name) + '"'
+        expr[1][0] = str(c_name) 
+        return expr
+    else:
         return expr
 
