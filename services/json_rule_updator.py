@@ -1,55 +1,66 @@
 import json
 import shutil
 import os
+import logging
 
-def json_rule_updator(data,contract_type,check_or_deploy):
+logging.basicConfig(filename='app.log', level=logging.INFO)
 
-    copy_stable(contract_type,check_or_deploy)
+def json_rule_updator(data,contract_type,check_or_pending):
+
+    copy_stable(contract_type,check_or_pending)
+
+    logging.info('User accessed the json rule updater')
 
     keys = list(data)
 
     for item in keys:
         if (item == 'eventsList'):
-            print("Processing Event List of contract : " + contract_type )
+            logging.info("Processing Event List of contract : " + contract_type )
             rules = data['eventsList']
-            processEventList(rules,check_or_deploy, contract_type)
+            logging.info("Event List provided from FE : " + str(rules) )
+            processEventList(rules,check_or_pending, contract_type)
 
         elif(item =='modifiersList'):
-            print("Processing modifiers List of contract : " + contract_type )
+            logging.info("Processing modifiers List of contract : " + contract_type )
             rules = data['modifiersList']
-            processModifierList(rules,check_or_deploy, contract_type)
+            logging.info("Modifier List provided from FE : " + str(rules) )
+            processModifierList(rules,check_or_pending, contract_type)
 
         elif(item =='errorsList'):
-            print("Processing errors List of contract : " + contract_type )
+            logging.info("Processing errors List of contract : " + contract_type )
             rules = data['errorsList']
-            processErrorList(rules,check_or_deploy, contract_type)
+            logging.info("Error List provided from FE : " + str(rules) )
+            processErrorList(rules,check_or_pending, contract_type)
 
         elif(item =='functionlist'):
-            print("Processing function list of contract : " + contract_type )
+            logging.info("Processing function list of contract : " + contract_type )
             rules = data['functionlist']
+            logging.info("Function List provided from FE : " + str(rules) )
             if bool(rules):
-                processFunctionList(rules,check_or_deploy, contract_type)
+                processFunctionList(rules,check_or_pending, contract_type)
         
         else:
             print("Unidentified type")
 
-def processEventList(rules,check_or_deploy, contract_type) :
+def processEventList(rules,check_or_pending, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("events.json", updated_rules, "A")
-    write_to_json("events.json", rule_json, check_or_deploy, contract_type)
+    logging.info("Writing contract level events")
+    write_to_json("events.json", rule_json, check_or_pending, contract_type)
 
-def processModifierList(rules,check_or_deploy, contract_type) :
+def processModifierList(rules,check_or_pending, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("modifiers.json", updated_rules, "A")
-    write_to_json("modifiers.json", rule_json, check_or_deploy, contract_type)
+    logging.info("Writing contract level modifiers")
+    write_to_json("modifiers.json", rule_json, check_or_pending, contract_type)
 
-def processErrorList(rules,check_or_deploy, contract_type) :
+def processErrorList(rules,check_or_pending, contract_type) :
     updated_rules = [sublist[0] for sublist in rules if sublist[2] == 1]
     rule_json = read_json("errors.json", updated_rules, "A")
-    write_to_json("errors.json", rule_json, check_or_deploy, contract_type)
+    logging.info("Writing contract level errors")
+    write_to_json("errors.json", rule_json, check_or_pending, contract_type)
     
-def processFunctionList(rules, check_or_deploy, contract_type) :
-    print(rules)
+def processFunctionList(rules, check_or_pending, contract_type) :
 
     sell_function_file_mapping = {'listItem': "1_list_item.json",
                               'updateListing': "2_update_listing.json",
@@ -83,6 +94,7 @@ def processFunctionList(rules, check_or_deploy, contract_type) :
                               }
     
     function_name = rules['function_name']
+
     if (contract_type == "sell"):
         file_name =  sell_function_file_mapping[function_name]
     if (contract_type == "rent"):
@@ -96,7 +108,7 @@ def processFunctionList(rules, check_or_deploy, contract_type) :
         desired_keys = ['function_name', 'input_parameters', 'visibility','state_mutability', 'returns', 'return_line']
         unchange_data = {key: rules[key] for key in desired_keys}
 
-        processAFunction(rules, unchange_data, file_name, check_or_deploy, contract_type)
+        processAFunction(rules, unchange_data, file_name, check_or_pending, contract_type)
 
 def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_type) :
 
@@ -106,42 +118,38 @@ def processAFunction(rules, unchanged_data, filename, check_or_deploy, contract_
     for item in keys:
         
         if(item =='requires'):
-            print("Fucntional requires List--------------------")
+            logging.info("Handling function Reqirues rules")
             require_l = rules['requires']
-            # print(require_l)
             updated_requires = [sublist[0] for sublist in require_l if sublist[2] == 1]
             requires_json = read_json("function.json", updated_requires, "C")
             unchanged_data["requires"] = requires_json
 
         elif(item =='modifiers'):
-            print("Fucntional modifiers List-----------------------")
+            logging.info("Handling function Modifier rules")
             modifiers_l = rules['modifiers']
-            # print(modifiers_l)
             updated_requires = [sublist[0] for sublist in modifiers_l if sublist[2] == 1]
             modifier_json = read_json("modifiers.json", updated_requires, "B")
             unchanged_data["modifiers"] = modifier_json
 
         elif(item =='events'):
-            print("Functional events list------------------")
+            logging.info("Handling function Event rules")
             events_l = rules['events']
-            # print(events_l)
             updated_events = [sublist[0] for sublist in events_l if sublist[2] == 1]
             events_json = read_json("events.json", updated_events, "B")
             unchanged_data["events"] = events_json
         
         elif(item =='body'):
-            print("Functional body list----------------")
+            logging.info("Handling function body rules")
             available_fn = rules['body'][0]
-            print(available_fn)
             values = [item[1] for item in available_fn]
-            print(values)
+            logging.info("function rules in order: %s", ', '.join(str(item) for item in values))
             body_json = read_json("process.json", values, "D")
-            print(body_json)
             unchanged_data["body"] = body_json
 
         else:
             print("Unidentified type")
 
+    logging.info("Writing selected function json")
     write_to_json(filepath, unchanged_data, check_or_deploy, contract_type)
     
 def read_json(filename, updated_list, method):
@@ -165,14 +173,15 @@ def read_json(filename, updated_list, method):
 def write_to_json(filename, content, check_or_deploy, contract_type):
     filepath = "json-functions/" + check_or_deploy + "/"+contract_type+"-logic/" + filename
     with open(filepath, 'w') as file:
-        json.dump(content, file, indent=1)
+        json.dump(content, file, indent=2)
+        
 
     print(filepath + " : Json file updated")
 
-def copy_stable(contract_type,check_or_deploy):
+def copy_stable(contract_type,check_or_pending):
     
     source_folder = 'json-functions/stable/' + contract_type + "-logic"
-    destination_folder = 'json-functions/' + check_or_deploy + '/' + contract_type + "-logic"
+    destination_folder = 'json-functions/' + check_or_pending + '/' + contract_type + "-logic"
 
     if os.path.exists(destination_folder):
         try:

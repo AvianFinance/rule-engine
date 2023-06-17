@@ -73,7 +73,8 @@ def load_function(contract_type, function_name):
     modifiers_all = load_json_file('rules/modifiers.json')
     events_all = load_json_file('rules/events.json')
     requires_all = load_json_file('rules/function.json')['requires']
-    avaiableprocess = get_available_processes()
+    avaiableprocess = get_available_processes(c_index)
+
     function_data["modifiers"] = compare_data_one(modifiers_all,modifiers_used,c_index)
     function_data["requires"] = compare_data_two(requires_all,requires_used,c_index)
     function_data["events"] = compare_data_one(events_all,events_used,c_index)
@@ -87,12 +88,13 @@ def get_available_functions(c_type):
     except Exception as e:
         return (["Error", e])
 
-def get_available_processes():
+def get_available_processes(c_index):
     try:
         full_processes = load_json_file('rules/process.json')
         packet = []
         for key, value in full_processes.items():
-            packet.append([key, value[0]])
+            if value[2][c_index] == 1:
+                packet.append([key, value[0]])
         return (["Success",packet])
     except Exception as e:
         return (["Error", e])

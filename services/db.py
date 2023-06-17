@@ -51,7 +51,6 @@ def getlattest(contract_type):
         lattestcontract = collection.find({"contract_name": contract_type,"status": "upgraded"},{"_id": 0} ).limit(1);
         upgradedcontracts = []
         for contract in lattestcontract:
-            print(contract)
             upgradedcontracts.append(contract)
         return (["Success",upgradedcontracts])
     except Exception as e:
@@ -62,9 +61,7 @@ def update_collections(contract_address):
         client = MongoClient("mongodb+srv://avfx_root:irmiot4462281@avianfinance.qc7bqtj.mongodb.net/?retryWrites=true&w=majority")
         db = client["AVFX"]
         collection = db["upgraded-contracts"]
-        print(contract_address)
         collection.update_one({"contract_address": contract_address}, {"$set": {"status": "pending"}})
-        print("updated")
         return("Success")
     except Exception as e:
         return(e)

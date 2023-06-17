@@ -124,7 +124,6 @@ def get_upgraded_contracts():
 @app.route('/lattestcontract/<contract_type>') # fetch available functions for a given contract
 def get_lattest_contract(contract_type):
     data=getlattest(contract_type)
-    print('data-----------------------',data)
     if(data[0]=="Success"):
         response = make_response(jsonify(data=data[1]))
         response.status_code = 200  # Set the desired status code
