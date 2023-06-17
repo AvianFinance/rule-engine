@@ -19,7 +19,7 @@ contract AvianInsExchange is ReentrancyGuard {
 	struct Listing_installment {address owner;address user;address nftContract;uint256 tokenId;uint256 pricePerDay;uint64 installmentCount;uint64 expires;uint64 installmentIndex;uint256 paidIns;}
 
 	event InstNftListed(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint256 pricePerDay);
-	event InstNftInsPaid(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint64 expires,uint64 insCount,uint64 insIndex,uint256 insAmount,uint256 totalPaid);
+	event InstNftInsPaid(address indexed owner,address indexed user,address indexed nftContract,uint256 tokenId,uint64 expires,uint64 insCount,uint64 insIndex,uint256 insAmount);
 	event InstNftUnlisted(address indexed unlistSender,address indexed nftContract,uint256 indexed tokenId);
 
     modifier notInsListed(address nftAddress, uint256 tokenId) {
@@ -134,7 +134,7 @@ contract AvianInsExchange is ReentrancyGuard {
             EnumerableSet.remove(i_address,nftAddress);
         }
 
-        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, numDays, 1, rentalFee, rentalFee);
+        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, numDays, 1, rentalFee);
 
         return('Successfully rented the nft by paying the first installment');
     }
@@ -183,7 +183,7 @@ contract AvianInsExchange is ReentrancyGuard {
 
         IERC4907(nftAddress).setUser(tokenId, msg.sender, expires);
 
-        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, rentalFee, totalPaid);
+        emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, rentalFee);
         if (listing.installmentIndex == listing.installmentCount){
             delete i_listings[nftAddress][tokenId];
         }

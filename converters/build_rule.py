@@ -224,9 +224,9 @@ def rent_nft(params):
 
 def get_ins(params):
     if params[0] == "first":
-        command = ["uint256 Ins = calculateInstallment(0,numDays,listing.pricePerDay,1);\n"]
+        command = ["uint256 rentalFee = calculateInstallment(0,numDays,listing.pricePerDay,1);\n"]
     elif params[0] == "next":
-        command = ["uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);"]
+        command = ["uint256 rentalFee = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);"]
 
     return(command)
 
@@ -238,14 +238,14 @@ def add_to_ins_listing(params):
         commands.append("listing.expires = expires;")
         commands.append("listing.installmentCount = numDays;")
         commands.append("listing.installmentIndex = 1;")
-        commands.append("listing.paidIns = Ins;\n")
+        commands.append("listing.paidIns = rentalFee;\n")
     elif params[0] == "next":
         commands.append("uint64 expires = listing.expires + 86400;")
         commands.append("uint64 currIndex = listing.installmentIndex;")
         commands.append("uint64 nextIndex = currIndex + 1;")
         commands.append("listing.expires = expires;")
-        commands.append("uint256 Ins = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);")
-        commands.append("uint256 totalPaid = listing.paidIns + Ins;")
+        commands.append("uint256 rentalFee = calculateInstallment(listing.paidIns,listing.installmentCount,listing.pricePerDay,nextIndex);")
+        commands.append("uint256 totalPaid = listing.paidIns + rentalFee;")
         commands.append("listing.installmentIndex = nextIndex;")
         commands.append("listing.paidIns = totalPaid;\n")
 
@@ -267,7 +267,7 @@ def conds_pay_ins(params):
 def finalise_ins_pay(params):
     commands = []
 
-    commands.append("emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, Ins, totalPaid);")
+    commands.append("emit InstNftInsPaid(IERC721(nftAddress).ownerOf(tokenId), msg.sender, nftAddress, tokenId, expires, listing.installmentCount, nextIndex, rentalFee);")
     commands.append("if (listing.installmentIndex == listing.installmentCount){")
     commands.append("   delete i_listings[nftAddress][tokenId];")
     commands.append("}\n")
@@ -286,7 +286,8 @@ function_map = {
     "isRentableNFT" : isRentableNFT,
     "isNFT" : isNFT,
     "write_listing_installment" : write_listing_installment,
-    "unlistInsNFT" : unlistInsNFT,
+    "unlistInsFull" : unlistInsNFT,
+    "unlistInsPartial" : unlistInsNFT,
     "calculateInstallmentNFT" : calculateInstallmentNFT,
     "is_price_met" : is_price_met,
     "add_proceeds" : add_proceeds,
