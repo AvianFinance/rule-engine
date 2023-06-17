@@ -1,0 +1,12 @@
+{
+    "function_name" : "listInsBasedNFT",
+    "input_parameters" : "address nftAddress, uint256 tokenId, uint256 price",
+    "visibility" : "public",
+    "state_mutability" : "payable",
+    "modifiers" : ["nonReentrant", "notInsListed(nftAddress, tokenId)"],
+    "returns" : "string memory",
+    "requires" : [["MarketplaceIsApproved(nftAddress, tokenId)","Marketplace is not aproved"],["isRentableNFT(nftAddress)", "Contract is not an ERC4907"],["IERC721(nftAddress).ownerOf(tokenId) == msg.sender","Not owner of nft"],["price > 0", "Price should be greater than 0"]],
+    "body" : [["pay_market_owner",["marketOwner","_listingFee"]],["write_listing_installment",["nftAddress","tokenId","price"]]],
+    "events" : ["InstNftListed(IERC721(nftAddress).ownerOf(tokenId), address(0), nftAddress, tokenId, price)"],
+    "return_line" : "'Successfully listed the NFT for installment based rentals'"
+}

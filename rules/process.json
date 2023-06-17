@@ -93,7 +93,7 @@
         [0,0,1]],
     "update_next_ins_listing" : 
         ["description",
-        ["add_to_ins_listing",["next"]],
+        ["update_next_ins_listing",["next"]],
         [0,0,1]],
     "update_nft_for_rent" : 
         ["description",

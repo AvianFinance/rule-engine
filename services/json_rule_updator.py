@@ -69,7 +69,7 @@ def processFunctionList(rules, check_or_pending, contract_type) :
                               'withdrawProceeds': "5_withdraw.json",
                               'isNFT':"6_is_nft.json",
                               'isRentableNFT':"7_is_rentable_nft.json",
-                              'isNotRented':"8_marketplace_approved.json",
+                              'MarketplaceIsApproved':"8_marketplace_approved.json",
                               'isNotRented':"9_is_not_rented.json"
                               }
     
@@ -90,7 +90,8 @@ def processFunctionList(rules, check_or_pending, contract_type) :
                               'payNFTIns': "5_payNFTIns.json",
                               'isRentableNFT':"6_isRentableNFT.json",
                               'isNFT': "7_isNFT.json",
-                              'MarketplaceIsApproved' : "8_marketplace_approved.json"
+                              'MarketplaceIsApproved' : "8_marketplace_approved.json",
+                              'isNotRented' : "9_is_not_rented.json"
                               }
     
     function_name = rules['function_name']

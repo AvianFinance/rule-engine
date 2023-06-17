@@ -1,0 +1,5 @@
+{
+  "nft-not-listed": "NotListed(address nftAddress, uint256 tokenId)",
+  "nft-already-listed": "AlreadyListed(address nftAddress, uint256 tokenId)",
+  "not-owner": "NotOwner()"
+}

@@ -1,5 +1,5 @@
 {
-  "function_name": "MarketplaceIsApproved",
+  "function_name": "isNotRented",
   "input_parameters": "address nftAddress, uint256 tokenId",
   "visibility": "internal",
   "state_mutability": "view",
@@ -10,7 +10,7 @@
   "requires": [],
   "body": [
     [
-      "is_approved",
+      "is_expiry_in_future",
       [
         "nftAddress",
         "tokenId"
