@@ -11,7 +11,7 @@ def upload_contract(contract_name,check_type):
 
     file_path = "contracts/" + check_type + "/" + contract_name + "_logic.txt"
 
-    upload_response = {"status":"success","data":{"IpfsHash":"QmajLeFicAfU2DQGG7MZ9DGUQQgQWXadiG5zsccvi2obEK"}}#pinata.pin_file(file_path)
+    upload_response = pinata.pin_file(file_path)
 
     remove(file_path)
 
