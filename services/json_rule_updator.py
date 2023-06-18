@@ -3,7 +3,7 @@ import shutil
 import os
 import logging
 
-logging.basicConfig(filename='app.log', level=logging.INFO)
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s : %(message)s')
 
 def json_rule_updator(data,contract_type,check_or_pending):
 
