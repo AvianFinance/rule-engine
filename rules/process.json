@@ -1,122 +1,122 @@
 {
     "is_approved" : 
-        ["description",
+        ["Check NFT is approved",
         ["is_approved",["nftAddress","tokenId"]],
         [1,1,1]],
     "write_listing" : 
-        ["description",
+        ["Create a sell listing",
         ["write_listing",["nftAddress","tokenId","price"]],
         [1,0,0]], 
     "update_listing" : 
-        ["description",
+        ["Update an existing sell listing",
         ["update_listing",["nftAddress","tokenId","newPrice"]],
         [1,0,0]],
     "delete_listing" : 
-        ["description",
+        ["Remove a sell listing",
         ["delete_listing",["nftAddress","tokenId"]],
         [1,0,0]],
     "load_listing" : 
-        ["description",
+        ["Load sell listings",
         ["load_listing",["?","nftAddress","tokenId"]],
         [1,1,1]],
     "write_listing_rental" : 
-        ["description",
+        ["Create a rental listing",
         ["write_listing_rental",["nftAddress","tokenId","pricePerDay"]],
         [0,1,0]],
     "unlistNFT" : 
-        ["description",
+        ["Remove a rental listing",
         ["unlistNFT",["nftAddress","tokenId"]],
         [0,1,0]],
     "updateRentalList" : 
-        ["description",
+        ["Update a rental listing",
         ["updateRentalList",["nftAddress","tokenId"]],
         [0,1,0]],
     "isRentableNFT" : 
-        ["description",
+        ["Check if NFT is rentable",
         ["isRentableNFT", ["nftContract", "tokenId"]],
         [1,1,1]],
     "isNFT" : 
-        ["description",
+        ["Check if given NFT is valid",
         ["isNFT", ["nftContract", "tokenId"]],
         [1,1,1]],
     "write_listing_installment" : 
-        ["description",
+        ["Create a installment rental listing",
         ["write_listing_installment",["nftAddress","tokenId","pricePerDay"]],
         [0,0,1]],
     "unlistInsFull" : 
-        ["description",
+        ["Remove a installment rental listing",
         ["unlistInsFull",["nftAddress","tokenId","full"]],
         [0,0,1]],
     "unlistInsPartial" : 
-        ["description",
+        ["Remove a installment rental listing",
         ["unlistInsPartial",["nftAddress","tokenId","partial"]],
         [0,0,1]],
     "calculateInstallmentNFT" : 
-        ["description",
+        ["Calculate rental installment",
         ["calculateInstallmentNFT", ["totalPaid", "installmentCount", "pricePerDay", "installmentIndex"]],
         [0,0,1]],
     "is_listing_fee_met" : 
-        ["description",
+        ["Check if payment meets listing price",
         ["is_listing_fee_met",["listing.price"]],
         [1,1,1]],
     "add_proceeds" : 
-        ["description",
+        ["Add proceeds",
         ["add_proceeds",["sell"]],
         [1,1,1]],
     "owner_transfer" : 
-        ["description",
+        ["Transfer ownership of NFT to buyer",
         ["owner_transfer",["nftAddress","tokenId"]],
         [1,1,1]],
     "withdraw_proceeds" : 
-        ["description",
+        ["Withdraw proceeds",
         ["withdraw_proceeds",["?"]],
         [1,1,1]],
     "is_nft_listing_rented" : 
-        ["description",
+        ["Check if NFT is already rented",
         ["is_nft_listing_rented",[]],
         [1,1,1]],
     "is_expiry_in_future" : 
-        ["description",
+        ["Check if NFT is not expired",
         ["is_expiry_in_future",["nftAddress","tokenId"]],
         [1,1,1]],
     "rent_nft" : 
-        ["description",
+        ["Rent a NFT",
         ["rent_nft",["nftAddress","tokenId"]],
         [0,1,0]],
     "get_ins" : 
-        ["description",
+        ["Get first installment fee",
         ["get_ins",["first"]],
         [0,0,1]],
     "update_first_ins_listing" : 
-        ["description",
+        ["Update first installment listing",
         ["update_first_ins_listing",["first"]],
         [0,0,1]],
     "update_next_ins_listing" : 
-        ["description",
+        ["Update next installment listing",
         ["update_next_ins_listing",["next"]],
         [0,0,1]],
     "update_nft_for_rent" : 
-        ["description",
+        ["Update user role of NFT",
         ["update_nft_for_rent",["nftAddress","tokenId","msg.sender","expires"]],
         [0,1,1]],
     "conds_pay_ins" : 
-        ["description",
+        ["Check conditions for installment payment",
         ["conds_pay_ins",[]],
         [0,0,1]],
     "finalise_ins_pay" : 
-        ["description",
+        ["Complete final installment payment",
         ["finalise_ins_pay",[]],
         [0,0,1]],
     "pay_market_owner" : 
-        ["description",
+        ["Pay listing fee to market owner",
         ["pay_market_owner",["marketOwner","_listingFee"]],
         [1,1,1]],
     "pay_rentalFee" : 
-        ["description",
+        ["Pay rental fee to NFT owner",
         ["pay_rentalFee",["listing.owner","rentalFee"]],
         [0,1,1]],
     "pay_price" : 
-        ["description",
+        ["Pay NFT price",
         ["pay_price",["listing.owner","listing.price"]],
         [1,0,0]]
 }
