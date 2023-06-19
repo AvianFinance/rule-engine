@@ -1,0 +1,49 @@
+{
+  "function_name": "listItem",
+  "input_parameters": "address nftAddress, uint256 tokenId, uint256 price",
+  "visibility": "external",
+  "state_mutability": "payable",
+  "returns": "string memory",
+  "return_line": "'NFT Listed successfully for upright selling'",
+  "events": [
+    "SellNftListed(msg.sender, nftAddress, tokenId, price)"
+  ],
+  "modifiers": [
+    "notSellListed(nftAddress, tokenId)"
+  ],
+  "requires": [
+    [
+      "isNFT(nftAddress)",
+      "Contract is not an ERC721"
+    ],
+    [
+      "IERC721(nftAddress).ownerOf(tokenId) == msg.sender",
+      "Not owner of nft"
+    ],
+    [
+      "price > 0",
+      "Price should be greater than 0"
+    ],
+    [
+      "MarketplaceIsApproved(nftAddress, tokenId)",
+      "Marketplace is not aproved"
+    ]
+  ],
+  "body": [
+    [
+      "write_listing",
+      [
+        "nftAddress",
+        "tokenId",
+        "price"
+      ]
+    ],
+    [
+      "pay_market_owner",
+      [
+        "marketOwner",
+        "_listingFee"
+      ]
+    ]
+  ]
+}

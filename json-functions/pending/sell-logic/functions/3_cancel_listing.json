@@ -1,0 +1,12 @@
+{
+    "function_name" : "cancelListing",
+    "input_parameters" : "address nftAddress, uint256 tokenId",
+    "visibility" : "external",
+    "state_mutability" : "none",
+    "modifiers" : ["isOwner(nftAddress, tokenId, msg.sender)","isSellListed(nftAddress, tokenId)"],
+    "returns" : "string memory",
+    "requires" : [],
+    "body" : [["delete_listing",["nftAddress","tokenId"]]],
+    "events" : ["SellNftUnlisted(msg.sender, nftAddress, tokenId)"],
+    "return_line" : "'NFT unlisted successfully'"
+}
